@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>co.edu.udistrital.mdp</groupId>
-	<artifactId>MP_202630_G81_E3_Back</artifactId>
+	<artifactId>MP_202630_G81_E4_Back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>MP_202630_G81_E3_Back</name>
+	<name>MP_202630_G81_E4_Back</name>
 	<description>Demo project for Spring Boot</description>
 	<packaging>jar</packaging>
 	<properties>
