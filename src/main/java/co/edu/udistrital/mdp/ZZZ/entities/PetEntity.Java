@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class PetEntity extends BaseEntity {
-    
+    private String name;
     // Aquí van tus atributos específicos, por ejemplo:
     // private String name;
     // private String species;
