@@ -24,8 +24,4 @@ public class ShelterEventEntity extends BaseEntity {
     @PodamExclude
     @ManyToOne
     private ShelterEntity shelter;
-
-    @PodamExclude
-    @ManyToOne
-    private VeterinarianEntity veterinarian;
 }
