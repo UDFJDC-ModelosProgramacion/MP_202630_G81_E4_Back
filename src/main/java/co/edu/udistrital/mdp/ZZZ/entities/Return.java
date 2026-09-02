@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class Return extends BaseEntity {
+public class ReturnEntity extends BaseEntity {
     private String returnType;
     private String description;
     private String date;
