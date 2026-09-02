@@ -11,5 +11,7 @@ public class ReturnEntity extends BaseEntity {
     private String returnType;
     private String description;
     private String date;
-    
+
+    @OneToOne
+    private TrialRequestEntity trialRequest;
 }
