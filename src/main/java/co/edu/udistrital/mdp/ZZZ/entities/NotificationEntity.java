@@ -6,7 +6,8 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
-//@EqualsAndHashCode(callSuper = true)
-public class Notification { //extends Communication
+@EqualsAndHashCode(callSuper = true)
+public class Notification extends CommunicationEntity{
+
     
 }
