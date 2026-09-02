@@ -1,4 +1,4 @@
-package co.edu.udistrital.mdp.pets.entities;
+package co.edu.udistrital.mdp.ZZZ.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ public class ShelterEntity extends BaseEntity {
     private String photo;
     private String video;
 
-    @PodamExclude
-    @OneToMany(mappedBy = "shelter", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<PetEntity> pets = new ArrayList<>();
+    //@PodamExclude
+    //@OneToMany(mappedBy = "shelter", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    //private List<PetEntity> pets = new ArrayList<>();
 
     @PodamExclude
     @OneToMany(mappedBy = "shelter", cascade = CascadeType.PERSIST, orphanRemoval = true)
