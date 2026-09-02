@@ -7,8 +7,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class Review extends BaseEntity {
+public class ReviewEntity extends BaseEntity {
     private Integer rating;
-    private String comment;
-    String date;
+    private String comment, date;
+
+    @ManyToOne
+    private PetEntity pet;
 }
