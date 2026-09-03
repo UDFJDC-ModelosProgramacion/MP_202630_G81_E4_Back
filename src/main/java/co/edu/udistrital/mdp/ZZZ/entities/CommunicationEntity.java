@@ -4,7 +4,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
 @Data
-@MappedSuperClass
+@MappedSuperclass
 public abstract class CommunicationEntity extends BaseEntity{
   protected String content, date;
   protected boolean read;
