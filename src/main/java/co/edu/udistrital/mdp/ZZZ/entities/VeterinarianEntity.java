@@ -21,7 +21,5 @@ public class VeterinarianEntity extends BaseEntity {
     @ManyToOne
     private ShelterEntity shelter;
 
-    @PodamExclude
-    @OneToMany(mappedBy = "veterinarian", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ShelterEventEntity> shelterEvents = new ArrayList<>();
+    
 }

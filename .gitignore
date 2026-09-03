@@ -34,3 +34,5 @@ build/
 
 ### MAC OS ###
 .DS_Store
+
+it/
