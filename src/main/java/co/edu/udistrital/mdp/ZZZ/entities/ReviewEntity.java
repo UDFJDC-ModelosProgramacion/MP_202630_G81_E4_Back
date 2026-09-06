@@ -1,6 +1,7 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import uk.co.jemos.podam.common.PodamExclude;
