@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
-//@EqualsAndHashCode(callSuper = true)
-public class MessageEntity { //extends Communication
-    
+public class MessageEntity extends CommunicationEntity {
+    // Aquí van los atributos propios de MessageEntity, además de
+    // content, date y read que ya heredas de CommunicationEntity
 }
