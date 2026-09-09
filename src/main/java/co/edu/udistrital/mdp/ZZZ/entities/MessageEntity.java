@@ -1,6 +1,8 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,6 +10,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class MessageEntity extends CommunicationEntity {
-    // Aquí van los atributos propios de MessageEntity, además de
-    // content, date y read que ya heredas de CommunicationEntity
+
+    @ManyToOne
+    private UserEntity sender;
+
+    @ManyToOne
+    private UserEntity receiver;
 }
