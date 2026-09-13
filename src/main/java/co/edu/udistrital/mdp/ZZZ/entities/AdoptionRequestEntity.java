@@ -20,7 +20,7 @@ public class AdoptionRequestEntity extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date dateRequest;
 
-	private Boolean status;
+	private String status;
 
 	private String description;
 

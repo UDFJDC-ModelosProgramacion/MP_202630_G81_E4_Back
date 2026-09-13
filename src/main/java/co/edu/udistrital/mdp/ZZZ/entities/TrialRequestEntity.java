@@ -32,4 +32,8 @@ public class TrialRequestEntity extends BaseEntity {
 	@ManyToOne
 	private ShelterEntity shelter;
 
+	@PodamExclude
+	@ManyToOne
+	private PetEntity pet;
+
 }
