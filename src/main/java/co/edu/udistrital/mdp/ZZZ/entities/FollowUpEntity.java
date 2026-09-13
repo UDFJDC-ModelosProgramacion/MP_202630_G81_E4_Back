@@ -28,5 +28,13 @@ public class FollowUpEntity extends BaseEntity {
 	@PodamExclude
 	@ManyToOne
 	private VeterinarianEntity veterinarian;
+
+	@PodamExclude
+	@ManyToOne
+	private AdoptionEntity adoption;
+
+	@PodamExclude
+	@ManyToOne
+	private PetEntity pet;
  
 }

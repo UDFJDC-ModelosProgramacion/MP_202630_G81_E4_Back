@@ -4,6 +4,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -36,4 +37,8 @@ public class PetEntity extends BaseEntity {
     @PodamExclude
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PetEventEntity> events = new ArrayList<>();
+
+    @PodamExclude
+    @ManyToOne
+    private ShelterEntity shelter;
 }
