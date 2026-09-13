@@ -29,8 +29,8 @@ public class AdoptionEntity extends BaseEntity {
 
 	
 	@PodamExclude
-	@OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private FollowUpEntity followUp;
+	@OneToMany(mappedBy = "adoption", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	private List<FollowUpEntity> followUps = new ArrayList<>();
 
 	
 	@PodamExclude
