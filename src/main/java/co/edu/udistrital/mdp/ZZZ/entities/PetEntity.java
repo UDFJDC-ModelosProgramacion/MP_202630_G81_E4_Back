@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import uk.co.jemos.podam.common.PodamExclude;
+import jakarta.persistence.ManyToOne;
 
 import java.util.ArrayList;
 import java.util.List;

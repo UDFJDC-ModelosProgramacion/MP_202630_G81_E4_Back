@@ -11,6 +11,8 @@ import uk.co.jemos.podam.common.PodamExclude;
 @EqualsAndHashCode(callSuper = true)
 public class NotificationEntity extends CommunicationEntity{
 
+    private String channel;
+
     @PodamExclude
     @ManyToOne
     private UserEntity user;

@@ -16,4 +16,8 @@ public class ReviewEntity extends BaseEntity {
     @PodamExclude
     @ManyToOne
     private PetEntity pet;
+
+    @PodamExclude
+    @ManyToOne
+    private AdopterEntity adopter;
 }
