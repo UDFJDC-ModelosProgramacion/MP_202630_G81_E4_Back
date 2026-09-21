@@ -1,0 +1,674 @@
+{
+  "info": {
+    "_postman_id": "cfe9540e-182b-4c0d-856a-b68145c76728",
+    "name": "Return",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Registrar la devolución de una convivencia de prueba",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialrequests",
+            "{{trial_request_id_1}}",
+            "return"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Registrar la devolución de una convivencia de prueba",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "{{trial_request_id_1}}",
+                "return"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\",\n    \"trialRequestId\": 7\n}"
+        }
+      ]
+    },
+    {
+      "name": "Registrar una devolución sobre una convivencia que no existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialrequests/0/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialrequests",
+            "0",
+            "return"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Registrar una devolución sobre una convivencia que no existe",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/0/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "0",
+                "return"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Trial request does not exist\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Registrar una devolución sin descripción",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialrequests",
+            "{{trial_request_id_1}}",
+            "return"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"\",\n    \"date\": \"2026-09-18\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Registrar una devolución sin descripción",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "{{trial_request_id_1}}",
+                "return"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"\",\n    \"date\": \"2026-09-18\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Description cannot be null or empty\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Registrar una devolución sin tipo",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialrequests",
+            "{{trial_request_id_1}}",
+            "return"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"returnType\": \"\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Registrar una devolución sin tipo",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "{{trial_request_id_1}}",
+                "return"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"returnType\": \"\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Return type cannot be null or empty\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Registrar una devolución sobre una convivencia que ya tiene devolución",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialrequests",
+            "{{trial_request_id_1}}",
+            "return"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Registrar una devolución sobre una convivencia que ya tiene devolución",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "{{trial_request_id_1}}",
+                "return"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The trial request already has a return registered\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener todas las devoluciones",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/returns",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "returns"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener todas las devoluciones",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/returns",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "returns"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n    {\n        \"id\": 1,\n        \"returnType\": \"INCOMPATIBILIDAD\",\n        \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n        \"date\": \"2026-09-18\",\n        \"trialRequest\": {\n            \"id\": 7,\n            \"startDate\": \"2026-08-20\",\n            \"endDate\": \"2026-09-19\"\n        }\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Obtener una devolución",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/returns/{{return_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "returns",
+            "{{return_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener una devolución",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/returns/{{return_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "returns",
+                "{{return_id_1}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\",\n    \"trialRequest\": {\n        \"id\": 7,\n        \"startDate\": \"2026-08-20\",\n        \"endDate\": \"2026-09-19\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener una devolución que no existe",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/returns/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "returns",
+            "0"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener una devolución que no existe",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/returns/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "returns",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The return with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Asociaciones",
+      "item": [
+        {
+          "name": "Obtener la devolución de una convivencia de prueba",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "{{trial_request_id_1}}",
+                "return"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener la devolución de una convivencia de prueba",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_1}}/return",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "trialrequests",
+                    "{{trial_request_id_1}}",
+                    "return"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"id\": 1,\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\",\n    \"trialRequest\": {\n        \"id\": 7,\n        \"startDate\": \"2026-08-20\",\n        \"endDate\": \"2026-09-19\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener la devolución de una convivencia que no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/0/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "0",
+                "return"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener la devolución de una convivencia que no existe",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/trialrequests/0/return",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "trialrequests",
+                    "0",
+                    "return"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The trial request with the given id was not found\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener la devolución de una convivencia que no ha sido devuelta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_2}}/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "{{trial_request_id_2}}",
+                "return"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener la devolución de una convivencia que no ha sido devuelta",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_2}}/return",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "trialrequests",
+                    "{{trial_request_id_2}}",
+                    "return"
+                  ]
+                }
+              },
+              "status": "Precondition Failed",
+              "code": 412,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The trial request does not have a return registered\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
