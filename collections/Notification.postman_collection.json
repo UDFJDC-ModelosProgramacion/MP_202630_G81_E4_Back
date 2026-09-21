@@ -1,0 +1,1060 @@
+{
+  "info": {
+    "_postman_id": "3f23521f-6875-47e2-9469-710f03fca505",
+    "name": "Notification",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Crear una notificación",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una notificación",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"read\": false,\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear una notificación sin contenido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una notificación sin contenido",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification content cannot be null or empty\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear una notificación con canal inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"FAX\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una notificación con canal inválido",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"FAX\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification channel is not valid or not supported\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener todas las notificaciones",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener todas las notificaciones",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n    {\n        \"id\": 1,\n        \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n        \"date\": \"2026-09-20T10:00:00-05:00\",\n        \"read\": false,\n        \"channel\": \"EMAIL\",\n        \"user\": {\n            \"id\": 3,\n            \"name\": \"Laura Gómez\"\n        },\n        \"adoption\": {\n            \"id\": 5,\n            \"date\": \"2026-09-10\"\n        },\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        }\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Obtener una notificación",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/{{notification_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notification_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener una notificación",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/{{notification_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notification_id_1}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"read\": false,\n    \"channel\": \"EMAIL\",\n    \"user\": {\n        \"id\": 3,\n        \"name\": \"Laura Gómez\"\n    },\n    \"adoption\": {\n        \"id\": 5,\n        \"date\": \"2026-09-10\"\n    },\n    \"pet\": {\n        \"id\": 2,\n        \"name\": \"Firulais\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener una notificación que no existe",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "0"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener una notificación que no existe",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The notification with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Marcar una notificación como leída",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{user_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notification_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Marcar una notificación como leída",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{user_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notification_id_1}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"read\": true,\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}"
+        }
+      ]
+    },
+    {
+      "name": "Marcar como leída una notificación que no existe",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/0?userId={{user_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "0"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Marcar como leída una notificación que no existe",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/0?userId={{user_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "0"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification does not exist\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Marcar como leída una notificación que no es del usuario",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{other_user_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notification_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Marcar como leída una notificación que no es del usuario",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{other_user_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notification_id_1}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"User is not authorized to update this notification\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar una notificación leída",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{user_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notification_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una notificación leída",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{user_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notification_id_1}}"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "null"
+        }
+      ]
+    },
+    {
+      "name": "Borrar una notificación que no existe",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/0?userId={{user_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "0"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una notificación que no existe",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/0?userId={{user_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification does not exist\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar una notificación de otro usuario",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{other_user_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notification_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una notificación de otro usuario",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{other_user_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notification_id_1}}"
+              ]
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"User is not authorized to delete this notification\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar una notificación no leída",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/{{notification_id_2}}?userId={{user_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notification_id_2}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una notificación no leída",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/{{notification_id_2}}?userId={{user_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notification_id_2}}"
+              ]
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification must be read before deletion\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Asociaciones",
+      "item": [
+        {
+          "name": "Obtener las notificaciones de un usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{user_id_1}}/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{user_id_1}}",
+                "notifications"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las notificaciones de un usuario",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/users/{{user_id_1}}/notifications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "{{user_id_1}}",
+                    "notifications"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n    {\n        \"id\": 1,\n        \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n        \"date\": \"2026-09-20T10:00:00-05:00\",\n        \"read\": false,\n        \"channel\": \"EMAIL\",\n        \"user\": {\n            \"id\": 3,\n            \"name\": \"Laura Gómez\"\n        },\n        \"adoption\": {\n            \"id\": 5,\n            \"date\": \"2026-09-10\"\n        },\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener las notificaciones de un usuario que no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/0/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "0",
+                "notifications"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las notificaciones de un usuario que no existe",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/users/0/notifications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "0",
+                    "notifications"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The user with the given id was not found\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener las notificaciones de una adopción",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id_1}}/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "adoptions",
+                "{{adoption_id_1}}",
+                "notifications"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las notificaciones de una adopción",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/adoptions/{{adoption_id_1}}/notifications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "adoptions",
+                    "{{adoption_id_1}}",
+                    "notifications"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n    {\n        \"id\": 1,\n        \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n        \"date\": \"2026-09-20T10:00:00-05:00\",\n        \"read\": false,\n        \"channel\": \"EMAIL\",\n        \"user\": {\n            \"id\": 3,\n            \"name\": \"Laura Gómez\"\n        },\n        \"adoption\": {\n            \"id\": 5,\n            \"date\": \"2026-09-10\"\n        },\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener las notificaciones de una adopción que no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/adoptions/0/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "adoptions",
+                "0",
+                "notifications"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las notificaciones de una adopción que no existe",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/adoptions/0/notifications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "adoptions",
+                    "0",
+                    "notifications"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The adoption with the given id was not found\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener las notificaciones de una mascota",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id_1}}/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id_1}}",
+                "notifications"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las notificaciones de una mascota",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/pets/{{pet_id_1}}/notifications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pets",
+                    "{{pet_id_1}}",
+                    "notifications"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n    {\n        \"id\": 1,\n        \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n        \"date\": \"2026-09-20T10:00:00-05:00\",\n        \"read\": false,\n        \"channel\": \"EMAIL\",\n        \"user\": {\n            \"id\": 3,\n            \"name\": \"Laura Gómez\"\n        },\n        \"adoption\": {\n            \"id\": 5,\n            \"date\": \"2026-09-10\"\n        },\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener las notificaciones de una mascota que no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/0/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "0",
+                "notifications"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las notificaciones de una mascota que no existe",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/pets/0/notifications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pets",
+                    "0",
+                    "notifications"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
