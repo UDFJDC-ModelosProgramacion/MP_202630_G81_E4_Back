@@ -1,0 +1,1062 @@
+{
+  "info": {
+    "_postman_id": "5dd7ea61-cf5e-4c0f-ae1b-c8293456b7f2",
+    "name": "Review",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Crear una reseña",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una reseña",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear una reseña con mascota que no existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 0,\n    \"adopterId\": 4\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una reseña con mascota que no existe",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 0,\n    \"adopterId\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Pet does not exist\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear una reseña con adoptante que no existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una reseña con adoptante que no existe",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Adopter does not exist\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear una reseña con rating inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una reseña con rating inválido",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Rating must be between 1 and 5\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear una reseña sin comentario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una reseña sin comentario",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Comment cannot be null or empty\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener todas las reseñas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener todas las reseñas",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "[\n    {\n        \"id\": 1,\n        \"rating\": 5,\n        \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n        \"date\": \"2026-09-15\",\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        },\n        \"adopter\": {\n            \"id\": 4,\n            \"name\": \"Carlos Ruiz\"\n        }\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Obtener una reseña",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{review_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "{{review_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener una reseña",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/{{review_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{review_id_1}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": 2,\n        \"name\": \"Firulais\"\n    },\n    \"adopter\": {\n        \"id\": 4,\n        \"name\": \"Carlos Ruiz\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener una reseña que no existe",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "0"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener una reseña que no existe",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The review with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Actualizar una reseña",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "{{review_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Actualizar una reseña",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{review_id_1}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}"
+        }
+      ]
+    },
+    {
+      "name": "Actualizar una reseña que no existe",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/0?userId={{adopter_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "0"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 4,\n    \"comment\": \"...\",\n    \"date\": \"2026-09-16\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Actualizar una reseña que no existe",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/0?userId={{adopter_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "0"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 4,\n    \"comment\": \"...\",\n    \"date\": \"2026-09-16\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Review does not exist\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Actualizar una reseña de otro adoptante",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{other_adopter_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "{{review_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 4,\n    \"comment\": \"...\",\n    \"date\": \"2026-09-16\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Actualizar una reseña de otro adoptante",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{other_adopter_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{review_id_1}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 4,\n    \"comment\": \"...\",\n    \"date\": \"2026-09-16\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"User is not authorized to update this review\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar una reseña",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "{{review_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una reseña",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{review_id_1}}"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "null"
+        }
+      ]
+    },
+    {
+      "name": "Borrar una reseña que no existe",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/0?userId={{adopter_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "0"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una reseña que no existe",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/0?userId={{adopter_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Review does not exist\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar una reseña de otro adoptante",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{other_adopter_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "{{review_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una reseña de otro adoptante",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{other_adopter_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{review_id_1}}"
+              ]
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"User is not authorized to delete this review\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Asociaciones",
+      "item": [
+        {
+          "name": "Obtener las reseñas de una mascota",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id_1}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id_1}}",
+                "reviews"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las reseñas de una mascota",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/pets/{{pet_id_1}}/reviews",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pets",
+                    "{{pet_id_1}}",
+                    "reviews"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n    {\n        \"id\": 1,\n        \"rating\": 5,\n        \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n        \"date\": \"2026-09-15\",\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        },\n        \"adopter\": {\n            \"id\": 4,\n            \"name\": \"Carlos Ruiz\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener las reseñas de una mascota que no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/0/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "0",
+                "reviews"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las reseñas de una mascota que no existe",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/pets/0/reviews",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pets",
+                    "0",
+                    "reviews"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Obtener las reseñas de un adoptante",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/adopters/{{adopter_id_1}}/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "adopters",
+                "{{adopter_id_1}}",
+                "reviews"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las reseñas de un adoptante",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/adopters/{{adopter_id_1}}/reviews",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "adopters",
+                    "{{adopter_id_1}}",
+                    "reviews"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n    {\n        \"id\": 1,\n        \"rating\": 5,\n        \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n        \"date\": \"2026-09-15\",\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        },\n        \"adopter\": {\n            \"id\": 4,\n            \"name\": \"Carlos Ruiz\"\n        }\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Obtener las reseñas de un adoptante que no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/adopters/0/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "adopters",
+                "0",
+                "reviews"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Obtener las reseñas de un adoptante que no existe",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/adopters/0/reviews",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "adopters",
+                    "0",
+                    "reviews"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The adopter with the given id was not found\"\n    }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
