@@ -22,6 +22,9 @@ public class ShelterEventService {
 
     private static final Logger log = LoggerFactory.getLogger(ShelterEventService.class);
 
+    private static final String EVENT_NOT_FOUND = "El evento con el id dado no fue encontrado";
+    private static final String SHELTER_NOT_FOUND = "El shelter con el id dado no fue encontrado";
+
     private final ShelterEventRepository shelterEventRepository;
     private final ShelterRepository shelterRepository;
 
@@ -32,7 +35,7 @@ public class ShelterEventService {
 
         Optional<ShelterEntity> shelterEntity = shelterRepository.findById(shelterId);
         if (shelterEntity.isEmpty()) {
-            throw new EntityNotFoundException("El shelter con el id dado no fue encontrado");
+            throw new EntityNotFoundException(SHELTER_NOT_FOUND);
         }
 
         if (shelterEventEntity.getDate() == null) {
@@ -56,44 +59,44 @@ public class ShelterEventService {
 
     @Transactional(rollbackFor = { EntityNotFoundException.class })
     public ShelterEventEntity getShelterEvent(Long shelterEventId) throws EntityNotFoundException {
-        log.info("Inicia proceso de consultar el evento con id = " + shelterEventId);
+        log.info("Inicia proceso de consultar el evento con id = {}", shelterEventId);
         Optional<ShelterEventEntity> shelterEventEntity = shelterEventRepository.findById(shelterEventId);
         if (shelterEventEntity.isEmpty()) {
-            throw new EntityNotFoundException("El evento con el id dado no fue encontrado");
+            throw new EntityNotFoundException(EVENT_NOT_FOUND);
         }
-        log.info("Termina proceso de consultar el evento con id = " + shelterEventId);
+        log.info("Termina proceso de consultar el evento con id = {}", shelterEventId);
         return shelterEventEntity.get();
     }
 
     @Transactional(rollbackFor = { EntityNotFoundException.class, IllegalOperationException.class })
     public ShelterEventEntity updateShelterEvent(Long shelterEventId, ShelterEventEntity shelterEvent)
             throws EntityNotFoundException, IllegalOperationException {
-        log.info("Inicia proceso de actualizar el evento con id = " + shelterEventId);
+        log.info("Inicia proceso de actualizar el evento con id = {}", shelterEventId);
         Optional<ShelterEventEntity> shelterEventEntity = shelterEventRepository.findById(shelterEventId);
         if (shelterEventEntity.isEmpty()) {
-            throw new EntityNotFoundException("El evento con el id dado no fue encontrado");
+            throw new EntityNotFoundException(EVENT_NOT_FOUND);
         }
 
         if (shelterEvent.getShelter() != null) {
             Optional<ShelterEntity> shelterEntity = shelterRepository.findById(shelterEvent.getShelter().getId());
             if (shelterEntity.isEmpty()) {
-                throw new IllegalOperationException("El shelter dado no fue encontrado");
+                throw new IllegalOperationException(SHELTER_NOT_FOUND);
             }
         }
 
         shelterEvent.setId(shelterEventId);
-        log.info("Termina proceso de actualizar el evento con id = " + shelterEventId);
+        log.info("Termina proceso de actualizar el evento con id = {}", shelterEventId);
         return shelterEventRepository.save(shelterEvent);
     }
 
     @Transactional(rollbackFor = { EntityNotFoundException.class })
     public void deleteShelterEvent(Long shelterEventId) throws EntityNotFoundException {
-        log.info("Inicia proceso de borrar el evento con id = " + shelterEventId);
+        log.info("Inicia proceso de borrar el evento con id = {}", shelterEventId);
         Optional<ShelterEventEntity> shelterEventEntity = shelterEventRepository.findById(shelterEventId);
         if (shelterEventEntity.isEmpty()) {
-            throw new EntityNotFoundException("El evento con el id dado no fue encontrado");
+            throw new EntityNotFoundException(EVENT_NOT_FOUND);
         }
         shelterEventRepository.deleteById(shelterEventId);
-        log.info("Termina proceso de borrar el evento con id = " + shelterEventId);
+        log.info("Termina proceso de borrar el evento con id = {}", shelterEventId);
     }
 }
