@@ -6,6 +6,7 @@ import lombok.Data;
  
 @Data
 public class TrialRequestDTO {
+    
 	private Long id;
 	private String trialId;
 	private Date date;
