@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @MappedSuperclass
 public abstract class CommunicationEntity extends BaseEntity{
-  protected String content, date;
+  protected String content;
+  protected String date;
   protected boolean read;
 }
