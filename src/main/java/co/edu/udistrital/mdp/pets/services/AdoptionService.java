@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +20,7 @@ import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.TrialRequestRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,26 +29,23 @@ import lombok.extern.slf4j.Slf4j;
  * Posibles valores del atributo "status": "ACTIVA", "FINALIZADA", "CANCELADA".
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class AdoptionService {
 
 	public static final String ACTIVA = "ACTIVA";
 	public static final String FINALIZADA = "FINALIZADA";
+	public static final String ADOPTION_NOT_FOUND = "Adoption not found";
 
-	@Autowired
-	private AdoptionRepository adoptionRepository;
+	private final AdoptionRepository adoptionRepository;
 
-	@Autowired
-	private AdopterRepository adopterRepository;
+	private final AdopterRepository adopterRepository;
 
-	@Autowired
-	private PetRepository petRepository;
+	private final PetRepository petRepository;
 
-	@Autowired
-	private AdoptionRequestRepository adoptionRequestRepository;
+	private final AdoptionRequestRepository adoptionRequestRepository;
 
-	@Autowired
-	private TrialRequestRepository trialRequestRepository;
+	private final TrialRequestRepository trialRequestRepository;
 
 	/**
 	 * Crea una nueva Adoption.
@@ -57,6 +54,18 @@ public class AdoptionService {
 	public AdoptionEntity createAdoption(AdoptionEntity adoption) throws IllegalOperationException {
 		log.info("Inicia proceso de creación de la adopción");
 
+		AdopterEntity adopter = validateAdopter(adoption);
+		PetEntity pet = validatePet(adoption);
+
+		validatePetHasNoActiveAdoption(pet.getId());
+		validateApprovedAdoptionRequestExists(adopter.getId(), pet.getId());
+		validateNoActiveTrialForPet(adopter.getId(), pet.getId());
+
+		log.info("Termina proceso de creación de la adopción");
+		return adoptionRepository.save(adoption);
+	}
+
+	private AdopterEntity validateAdopter(AdoptionEntity adoption) throws IllegalOperationException {
 		if (adoption.getAdopter() == null || adoption.getAdopter().getId() == null)
 			throw new IllegalOperationException("Adopter is not valid");
 
@@ -64,6 +73,10 @@ public class AdoptionService {
 		if (adopter.isEmpty())
 			throw new IllegalOperationException("Adopter is not valid");
 
+		return adopter.get();
+	}
+
+	private PetEntity validatePet(AdoptionEntity adoption) throws IllegalOperationException {
 		if (adoption.getPet() == null || adoption.getPet().getId() == null)
 			throw new IllegalOperationException("Pet is not valid");
 
@@ -71,14 +84,19 @@ public class AdoptionService {
 		if (pet.isEmpty())
 			throw new IllegalOperationException("Pet is not valid");
 
-		List<AdoptionEntity> petAdoptions = adoptionRepository.findByPetId(pet.get().getId());
+		return pet.get();
+	}
+
+	private void validatePetHasNoActiveAdoption(Long petId) throws IllegalOperationException {
+		List<AdoptionEntity> petAdoptions = adoptionRepository.findByPetId(petId);
 		for (AdoptionEntity existing : petAdoptions) {
 			if (ACTIVA.equals(existing.getStatus()))
 				throw new IllegalOperationException("Unable to create Adoption, the pet already has an active Adoption");
 		}
+	}
 
-		List<AdoptionRequestEntity> requests = adoptionRequestRepository
-				.findByAdopterIdAndPetId(adopter.get().getId(), pet.get().getId());
+	private void validateApprovedAdoptionRequestExists(Long adopterId, Long petId) throws IllegalOperationException {
+		List<AdoptionRequestEntity> requests = adoptionRequestRepository.findByAdopterIdAndPetId(adopterId, petId);
 		boolean approvedFound = false;
 		for (AdoptionRequestEntity req : requests) {
 			if ("APROBADO".equals(req.getStatus()))
@@ -87,18 +105,16 @@ public class AdoptionService {
 		if (!approvedFound)
 			throw new IllegalOperationException(
 					"Unable to create Adoption, there is no approved AdoptionRequest for this adopter and pet");
+	}
 
-		List<TrialRequestEntity> trialRequests = trialRequestRepository
-				.findByAdopterId(adopter.get().getId());
+	private void validateNoActiveTrialForPet(Long adopterId, Long petId) throws IllegalOperationException {
+		List<TrialRequestEntity> trialRequests = trialRequestRepository.findByAdopterId(adopterId);
 		for (TrialRequestEntity trial : trialRequests) {
-			if (trial.getPet() != null && pet.get().getId().equals(trial.getPet().getId())
-					&& "ACTIVA".equals(trial.getStatus()))
+			if (trial.getPet() != null && petId.equals(trial.getPet().getId())
+					&& ACTIVA.equals(trial.getStatus()))
 				throw new IllegalOperationException(
 						"Unable to create Adoption, the adopter has an active TrialRequest for this pet");
 		}
-
-		log.info("Termina proceso de creación de la adopción");
-		return adoptionRepository.save(adoption);
 	}
 
 	/**
@@ -118,7 +134,7 @@ public class AdoptionService {
 		log.info("Inicia proceso de consultar la adopción con id = {}", id);
 		Optional<AdoptionEntity> adoption = adoptionRepository.findById(id);
 		if (adoption.isEmpty())
-			throw new EntityNotFoundException("Adoption not found");
+			throw new EntityNotFoundException(ADOPTION_NOT_FOUND);
 		return adoption.get();
 	}
 
@@ -132,7 +148,7 @@ public class AdoptionService {
 
 		Optional<AdoptionEntity> current = adoptionRepository.findById(id);
 		if (current.isEmpty())
-			throw new EntityNotFoundException("Adoption not found");
+			throw new EntityNotFoundException(ADOPTION_NOT_FOUND);
 
 		if (FINALIZADA.equals(current.get().getStatus())
 				&& adoption.getStatus() != null && !adoption.getStatus().equals(current.get().getStatus()))
@@ -159,7 +175,7 @@ public class AdoptionService {
 
 		Optional<AdoptionEntity> current = adoptionRepository.findById(id);
 		if (current.isEmpty())
-			throw new EntityNotFoundException("Adoption not found");
+			throw new EntityNotFoundException(ADOPTION_NOT_FOUND);
 
 		List<FollowUpEntity> followUps = current.get().getFollowUps();
 		if (followUps != null) {
