@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PetEventService {
@@ -25,17 +24,15 @@ public class PetEventService {
 
     @Transactional
     public PetEventEntity createPetEvent(Long petId, PetEventEntity event) {
-        Optional<PetEntity> petOpt = petRepository.findById(petId);
-        if (petOpt.isEmpty()) {
-            throw new EntityNotFoundException("La mascota con ID " + petId + " no existe.");
-        }
-        
-        PetEntity pet = petOpt.get();
+        PetEntity pet = petRepository.findById(petId)
+                .orElseThrow(() -> new EntityNotFoundException("La mascota con ID " + petId + " no existe."));
+
         if ("Fallecido".equalsIgnoreCase(pet.getHealthStatus())) {
             throw new BusinessLogicException("No se pueden asociar eventos a una mascota fallecida.");
         }
 
         validateEventData(event);
+        event.setPet(pet);
         return eventRepository.save(event);
     }
 
@@ -44,25 +41,22 @@ public class PetEventService {
     }
 
     public PetEventEntity getPetEvent(Long id) {
-        Optional<PetEventEntity> event = eventRepository.findById(id);
-        if (event.isEmpty()) {
-            throw new EntityNotFoundException("El evento con ID " + id + " no existe.");
-        }
-        return event.get();
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("El evento con ID " + id + " no existe."));
     }
 
     @Transactional
     public PetEventEntity updatePetEvent(Long id, PetEventEntity event) {
-        getPetEvent(id); // Valida que exista
+        PetEventEntity existingEvent = getPetEvent(id);
         validateEventData(event);
-        
         event.setId(id);
+        event.setPet(existingEvent.getPet());
         return eventRepository.save(event);
     }
 
     @Transactional
     public void deletePetEvent(Long id) {
-        getPetEvent(id); // Valida que exista
+        getPetEvent(id);
         eventRepository.deleteById(id);
     }
 

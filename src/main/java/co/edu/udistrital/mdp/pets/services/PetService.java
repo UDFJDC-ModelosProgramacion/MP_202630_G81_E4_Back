@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PetService {
@@ -30,22 +29,17 @@ public class PetService {
     }
 
     public PetEntity getPet(Long id) {
-        Optional<PetEntity> pet = petRepository.findById(id);
-        if (pet.isEmpty()) {
-            throw new EntityNotFoundException("La mascota con ID " + id + " no existe.");
-        }
-        return pet.get();
+        return petRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("La mascota con ID " + id + " no existe."));
     }
 
     @Transactional
     public PetEntity updatePet(Long id, PetEntity pet) {
-        PetEntity existingPet = getPet(id); // Valida si existe, si no lanza excepción
-        
+        PetEntity existingPet = getPet(id);
         validatePetIntegrity(pet);
         validateAdmissionDate(pet.getAdmissionDate());
 
-        // Regla de Negocio: No pasar a "Disponible" si está "Enfermo"
-        if ("Disponible".equalsIgnoreCase(pet.getAdoptionStatus()) && 
+        if ("Disponible".equalsIgnoreCase(pet.getAdoptionStatus()) &&
             ("Enfermo".equalsIgnoreCase(existingPet.getHealthStatus()) || "En tratamiento".equalsIgnoreCase(existingPet.getHealthStatus()))) {
             throw new BusinessLogicException("No se puede marcar como Disponible a una mascota enferma o en tratamiento.");
         }
@@ -56,17 +50,12 @@ public class PetService {
 
     @Transactional
     public void deletePet(Long id) {
-        PetEntity pet = getPet(id); // Valida si existe
-        
-        // Regla de Negocio: No eliminar si está Adoptado
+        PetEntity pet = getPet(id);
         if ("Adoptado".equalsIgnoreCase(pet.getAdoptionStatus())) {
             throw new BusinessLogicException("No se puede eliminar una mascota que ya ha sido adoptada.");
         }
-        
         petRepository.deleteById(id);
     }
-
-    // --- Métodos Privados de Validación ---
 
     private void validatePetIntegrity(PetEntity pet) {
         if (pet.getName() == null || pet.getName().trim().isEmpty() ||
@@ -75,11 +64,9 @@ public class PetService {
             pet.getAdoptionStatus() == null || pet.getAdoptionStatus().trim().isEmpty()) {
             throw new BusinessLogicException("Los campos nombre, especie, raza y estado de adopción son obligatorios.");
         }
-        
         if (pet.getAge() == null || pet.getAge() < 0) {
             throw new BusinessLogicException("La edad debe ser un número entero mayor o igual a 0.");
         }
-        
         if (pet.getWeight() == null || pet.getWeight() <= 0) {
             throw new BusinessLogicException("El peso debe ser mayor a 0.");
         }
