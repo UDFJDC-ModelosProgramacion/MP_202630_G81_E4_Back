@@ -11,7 +11,8 @@ import uk.co.jemos.podam.common.PodamExclude;
 @EqualsAndHashCode(callSuper = true)
 public class ReviewEntity extends BaseEntity {
     private Integer rating;
-    private String comment, date;
+    private String comment;
+    private String date;
 
     @PodamExclude
     @ManyToOne

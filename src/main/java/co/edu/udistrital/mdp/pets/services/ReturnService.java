@@ -1,22 +1,21 @@
 package co.edu.udistrital.mdp.pets.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
 import co.edu.udistrital.mdp.pets.repositories.ReturnRepository;
 import co.edu.udistrital.mdp.pets.repositories.TrialRequestRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j 
-@Service 
+@Service
+@RequiredArgsConstructor 
 public class ReturnService {
 
-    @Autowired
-    private ReturnRepository returnRepository;
-    @Autowired
-    private TrialRequestRepository trialRequestRepository;
+    private final ReturnRepository returnRepository;
+    private final TrialRequestRepository trialRequestRepository;
 
     @Transactional
     public ReturnEntity createReturn(ReturnEntity returnEntity) {

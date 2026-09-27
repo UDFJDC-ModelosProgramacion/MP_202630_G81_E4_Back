@@ -21,10 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.udistrital.mdp.pets.entities.NotificationEntity;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
-import co.edu.udistrital.mdp.pets.services.notification.EmailNotificationStrategy;
-import co.edu.udistrital.mdp.pets.services.notification.NotificationService;
-import co.edu.udistrital.mdp.pets.services.notification.PushNotificationStrategy;
-import co.edu.udistrital.mdp.pets.services.notification.SMSNotificationStrategy;
+import co.edu.udistrital.mdp.pets.entities.EmailNotificationStrategy;
+import co.edu.udistrital.mdp.pets.entities.PushNotificationStrategy;
+import co.edu.udistrital.mdp.pets.entities.SMSNotificationStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
