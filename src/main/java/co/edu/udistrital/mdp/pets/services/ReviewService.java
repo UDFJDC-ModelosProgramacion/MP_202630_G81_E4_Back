@@ -1,10 +1,12 @@
 package co.edu.udistrital.mdp.pets.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.ReviewEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,19 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     
     private final PetRepository petRepository;
+
+    @Transactional(readOnly = true)
+    public List<ReviewEntity> getReviews() {
+        log.info("Inicia proceso de consulta de todas las reseñas");
+        return reviewRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewEntity getReview(Long reviewId) throws EntityNotFoundException {
+        log.info("Inicia proceso de consulta de la reseña con id = {}", reviewId);
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("Review does not exist"));
+    }
 
     @Transactional
     public ReviewEntity createReview(ReviewEntity review) {
@@ -58,4 +73,3 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 }
-

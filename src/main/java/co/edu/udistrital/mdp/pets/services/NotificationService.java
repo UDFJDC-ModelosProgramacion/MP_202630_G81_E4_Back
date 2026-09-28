@@ -1,13 +1,14 @@
 package co.edu.udistrital.mdp.pets.services;
 
+import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.NotificationEntity;
 import co.edu.udistrital.mdp.pets.entities.NotificationStrategy;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.pets.repositories.NotificationRepository;
@@ -31,6 +32,18 @@ public class NotificationService {
 
     private final Map<String, NotificationStrategy> strategies;
 
+    @Transactional(readOnly = true)
+    public List<NotificationEntity> getNotifications() {
+        log.info("Inicia proceso de consulta de todas las notificaciones");
+        return notificationRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public NotificationEntity getNotification(Long notificationId) throws EntityNotFoundException {
+        log.info("Inicia proceso de consulta de la notificación con id = {}", notificationId);
+        return notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new EntityNotFoundException("Notification does not exist"));
+    }
     
     @Transactional
     public NotificationEntity createNotification(NotificationEntity notification) {
