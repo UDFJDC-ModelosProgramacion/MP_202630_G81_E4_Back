@@ -6,10 +6,14 @@ import lombok.Data;
  
 @Data
 public class TrialRequestDTO {
-    
 	private Long id;
 	private String trialId;
 	private Date date;
 	private String status;
 	private String description;
+ 
+	
+	private AdopterDTO adopter;
+	private ShelterDTO shelter;
+	private PetDTO pet;
 }
