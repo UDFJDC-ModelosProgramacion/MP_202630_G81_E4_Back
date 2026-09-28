@@ -11,5 +11,9 @@ public class AdoptionRequestDTO {
 	private Date dateRequest;
 	private String status;
 	private String description;
+ 
+	
+	private AdopterDTO adopter;
+	private PetDTO pet;
 }
  

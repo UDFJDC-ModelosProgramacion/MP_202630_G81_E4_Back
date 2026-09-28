@@ -11,4 +11,9 @@ public class FollowUpDTO {
 	private String notes;
 	private Date date;
 	private String petCondition;
+ 
+
+	private VeterinarianDTO veterinarian;
+	private AdoptionDTO adoption;
+	private PetDTO pet;
 }

@@ -10,4 +10,8 @@ public class AdoptionDTO {
 	private String adoptionId;
 	private String status;
 	private Date date;
+ 
+	
+	private AdopterDTO adopter;
+	private PetDTO pet;
 }
