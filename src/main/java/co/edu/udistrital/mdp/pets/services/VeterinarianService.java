@@ -22,6 +22,9 @@ public class VeterinarianService {
 
     private static final Logger log = LoggerFactory.getLogger(VeterinarianService.class);
 
+    private static final String VETERINARIAN_NOT_FOUND = "El veterinario con el id dado no fue encontrado";
+    private static final String SHELTER_NOT_FOUND = "El shelter con el id dado no fue encontrado";
+
     private final VeterinarianRepository veterinarianRepository;
     private final ShelterRepository shelterRepository;
 
@@ -32,7 +35,7 @@ public class VeterinarianService {
 
         Optional<ShelterEntity> shelterEntity = shelterRepository.findById(shelterId);
         if (shelterEntity.isEmpty()) {
-            throw new EntityNotFoundException("El shelter con el id dado no fue encontrado");
+            throw new EntityNotFoundException(SHELTER_NOT_FOUND);
         }
 
         if (veterinarianEntity.getVeterinarianId() == null) {
@@ -60,44 +63,44 @@ public class VeterinarianService {
 
     @Transactional(rollbackFor = { EntityNotFoundException.class })
     public VeterinarianEntity getVeterinarian(Long veterinarianId) throws EntityNotFoundException {
-        log.info("Inicia proceso de consultar el veterinario con id = " + veterinarianId);
+        log.info("Inicia proceso de consultar el veterinario con id = {}", veterinarianId);
         Optional<VeterinarianEntity> veterinarianEntity = veterinarianRepository.findById(veterinarianId);
         if (veterinarianEntity.isEmpty()) {
-            throw new EntityNotFoundException("El veterinario con el id dado no fue encontrado");
+            throw new EntityNotFoundException(VETERINARIAN_NOT_FOUND);
         }
-        log.info("Termina proceso de consultar el veterinario con id = " + veterinarianId);
+        log.info("Termina proceso de consultar el veterinario con id = {}", veterinarianId);
         return veterinarianEntity.get();
     }
 
     @Transactional(rollbackFor = { EntityNotFoundException.class, IllegalOperationException.class })
     public VeterinarianEntity updateVeterinarian(Long veterinarianId, VeterinarianEntity veterinarian)
             throws EntityNotFoundException, IllegalOperationException {
-        log.info("Inicia proceso de actualizar el veterinario con id = " + veterinarianId);
+        log.info("Inicia proceso de actualizar el veterinario con id = {}", veterinarianId);
         Optional<VeterinarianEntity> veterinarianEntity = veterinarianRepository.findById(veterinarianId);
         if (veterinarianEntity.isEmpty()) {
-            throw new EntityNotFoundException("El veterinario con el id dado no fue encontrado");
+            throw new EntityNotFoundException(VETERINARIAN_NOT_FOUND);
         }
 
         if (veterinarian.getShelter() != null) {
             Optional<ShelterEntity> shelterEntity = shelterRepository.findById(veterinarian.getShelter().getId());
             if (shelterEntity.isEmpty()) {
-                throw new IllegalOperationException("El shelter dado no fue encontrado");
+                throw new IllegalOperationException(SHELTER_NOT_FOUND);
             }
         }
 
         veterinarian.setId(veterinarianId);
-        log.info("Termina proceso de actualizar el veterinario con id = " + veterinarianId);
+        log.info("Termina proceso de actualizar el veterinario con id = {}", veterinarianId);
         return veterinarianRepository.save(veterinarian);
     }
 
     @Transactional(rollbackFor = { EntityNotFoundException.class })
     public void deleteVeterinarian(Long veterinarianId) throws EntityNotFoundException {
-        log.info("Inicia proceso de borrar el veterinario con id = " + veterinarianId);
+        log.info("Inicia proceso de borrar el veterinario con id = {}", veterinarianId);
         Optional<VeterinarianEntity> veterinarianEntity = veterinarianRepository.findById(veterinarianId);
         if (veterinarianEntity.isEmpty()) {
-            throw new EntityNotFoundException("El veterinario con el id dado no fue encontrado");
+            throw new EntityNotFoundException(VETERINARIAN_NOT_FOUND);
         }
         veterinarianRepository.deleteById(veterinarianId);
-        log.info("Termina proceso de borrar el veterinario con id = " + veterinarianId);
+        log.info("Termina proceso de borrar el veterinario con id = {}", veterinarianId);
     }
 }

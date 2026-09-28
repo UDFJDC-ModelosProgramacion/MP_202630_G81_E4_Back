@@ -1,4 +1,4 @@
-package co.edu.udistrital.mdp.pets.services.notification;
+package co.edu.udistrital.mdp.pets.services;
 
 import java.util.List;
 import java.util.Optional;

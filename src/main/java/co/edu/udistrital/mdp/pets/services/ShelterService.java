@@ -20,6 +20,8 @@ public class ShelterService {
 
     private static final Logger log = LoggerFactory.getLogger(ShelterService.class);
 
+    private static final String SHELTER_NOT_FOUND = "El shelter con el id dado no fue encontrado";
+
     private final ShelterRepository shelterRepository;
 
     @Transactional(rollbackFor = { IllegalOperationException.class })
@@ -50,22 +52,22 @@ public class ShelterService {
 
     @Transactional(rollbackFor = { EntityNotFoundException.class })
     public ShelterEntity getShelter(Long shelterId) throws EntityNotFoundException {
-        log.info("Inicia proceso de consultar el shelter con id = " + shelterId);
+        log.info("Inicia proceso de consultar el shelter con id = {}", shelterId);
         Optional<ShelterEntity> shelterEntity = shelterRepository.findById(shelterId);
         if (shelterEntity.isEmpty()) {
-            throw new EntityNotFoundException("El shelter con el id dado no fue encontrado");
+            throw new EntityNotFoundException(SHELTER_NOT_FOUND);
         }
-        log.info("Termina proceso de consultar el shelter con id = " + shelterId);
+        log.info("Termina proceso de consultar el shelter con id = {}", shelterId);
         return shelterEntity.get();
     }
 
     @Transactional(rollbackFor = { EntityNotFoundException.class, IllegalOperationException.class })
     public ShelterEntity updateShelter(Long shelterId, ShelterEntity shelter)
             throws EntityNotFoundException, IllegalOperationException {
-        log.info("Inicia proceso de actualizar el shelter con id = " + shelterId);
+        log.info("Inicia proceso de actualizar el shelter con id = {}", shelterId);
         Optional<ShelterEntity> shelterEntity = shelterRepository.findById(shelterId);
         if (shelterEntity.isEmpty()) {
-            throw new EntityNotFoundException("El shelter con el id dado no fue encontrado");
+            throw new EntityNotFoundException(SHELTER_NOT_FOUND);
         }
 
         Optional<ShelterEntity> shelterWithSameNit = shelterRepository.findByNit(shelter.getNit());
@@ -74,16 +76,16 @@ public class ShelterService {
         }
 
         shelter.setId(shelterId);
-        log.info("Termina proceso de actualizar el shelter con id = " + shelterId);
+        log.info("Termina proceso de actualizar el shelter con id = {}", shelterId);
         return shelterRepository.save(shelter);
     }
 
     @Transactional(rollbackFor = { EntityNotFoundException.class, IllegalOperationException.class })
     public void deleteShelter(Long shelterId) throws EntityNotFoundException, IllegalOperationException {
-        log.info("Inicia proceso de borrar el shelter con id = " + shelterId);
+        log.info("Inicia proceso de borrar el shelter con id = {}", shelterId);
         Optional<ShelterEntity> shelterEntityOptional = shelterRepository.findById(shelterId);
         if (shelterEntityOptional.isEmpty()) {
-            throw new EntityNotFoundException("El shelter con el id dado no fue encontrado");
+            throw new EntityNotFoundException(SHELTER_NOT_FOUND);
         }
 
         ShelterEntity shelterEntity = shelterEntityOptional.get();
@@ -101,6 +103,6 @@ public class ShelterService {
         }
 
         shelterRepository.deleteById(shelterId);
-        log.info("Termina proceso de borrar el shelter con id = " + shelterId);
+        log.info("Termina proceso de borrar el shelter con id = {}", shelterId);
     }
 }

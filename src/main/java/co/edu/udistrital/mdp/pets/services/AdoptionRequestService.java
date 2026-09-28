@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,28 +17,27 @@ import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class AdoptionRequestService {
 
 	public static final String PENDIENTE = "PENDIENTE";
 	public static final String APROBADO = "APROBADO";
 	public static final String CANCELADO = "CANCELADO";
+	public static final String ADOPTION_REQUEST_NOT_FOUND = "AdoptionRequest not found";
 
-	@Autowired
-	private AdoptionRequestRepository adoptionRequestRepository;
+	private final AdoptionRequestRepository adoptionRequestRepository;
 
-	@Autowired
-	private AdopterRepository adopterRepository;
+	private final AdopterRepository adopterRepository;
 
-	@Autowired
-	private PetRepository petRepository;
+	private final PetRepository petRepository;
 
-	@Autowired
-	private AdoptionRepository adoptionRepository;
+	private final AdoptionRepository adoptionRepository;
 
 	/**
 	 * Crea un nuevo AdoptionRequest.
@@ -98,7 +96,7 @@ public class AdoptionRequestService {
 		log.info("Inicia proceso de consultar la solicitud de adopción con id = {}", id);
 		Optional<AdoptionRequestEntity> adoptionRequest = adoptionRequestRepository.findById(id);
 		if (adoptionRequest.isEmpty())
-			throw new EntityNotFoundException("AdoptionRequest not found");
+			throw new EntityNotFoundException(ADOPTION_REQUEST_NOT_FOUND);
 		return adoptionRequest.get();
 	}
 
@@ -112,7 +110,7 @@ public class AdoptionRequestService {
 
 		Optional<AdoptionRequestEntity> current = adoptionRequestRepository.findById(id);
 		if (current.isEmpty())
-			throw new EntityNotFoundException("AdoptionRequest not found");
+			throw new EntityNotFoundException(ADOPTION_REQUEST_NOT_FOUND);
 
 		if (CANCELADO.equals(current.get().getStatus()))
 			throw new IllegalOperationException("Unable to update a cancelled AdoptionRequest");
@@ -141,7 +139,7 @@ public class AdoptionRequestService {
 
 		Optional<AdoptionRequestEntity> current = adoptionRequestRepository.findById(id);
 		if (current.isEmpty())
-			throw new EntityNotFoundException("AdoptionRequest not found");
+			throw new EntityNotFoundException(ADOPTION_REQUEST_NOT_FOUND);
 
 		if (APROBADO.equals(current.get().getStatus()))
 			throw new IllegalOperationException(

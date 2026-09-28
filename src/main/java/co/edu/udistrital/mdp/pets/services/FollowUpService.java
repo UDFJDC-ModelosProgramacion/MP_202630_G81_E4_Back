@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,24 +17,24 @@ import co.edu.udistrital.mdp.pets.repositories.FollowUpRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.VeterinarianRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class FollowUpService {
 
-	@Autowired
-	private FollowUpRepository followUpRepository;
+	public static final String FOLLOW_UP_NOT_FOUND = "FollowUp not found";
 
-	@Autowired
-	private AdoptionRepository adoptionRepository;
+	private final FollowUpRepository followUpRepository;
 
-	@Autowired
-	private VeterinarianRepository veterinarianRepository;
+	private final AdoptionRepository adoptionRepository;
 
-	@Autowired
-	private PetRepository petRepository;
+	private final VeterinarianRepository veterinarianRepository;
+
+	private final PetRepository petRepository;
 
 	/**
 	 * Crea un nuevo FollowUp.
@@ -101,7 +100,7 @@ public class FollowUpService {
 		log.info("Inicia proceso de consultar el seguimiento con id = {}", id);
 		Optional<FollowUpEntity> followUp = followUpRepository.findById(id);
 		if (followUp.isEmpty())
-			throw new EntityNotFoundException("FollowUp not found");
+			throw new EntityNotFoundException(FOLLOW_UP_NOT_FOUND);
 		return followUp.get();
 	}
 
@@ -115,7 +114,7 @@ public class FollowUpService {
 
 		Optional<FollowUpEntity> current = followUpRepository.findById(id);
 		if (current.isEmpty())
-			throw new EntityNotFoundException("FollowUp not found");
+			throw new EntityNotFoundException(FOLLOW_UP_NOT_FOUND);
 
 		boolean alreadyRegistered = current.get().getNotes() != null && !current.get().getNotes().isBlank();
 		boolean dateChanged = followUp.getDate() != null && !followUp.getDate().equals(current.get().getDate());
@@ -138,7 +137,7 @@ public class FollowUpService {
 
 		Optional<FollowUpEntity> current = followUpRepository.findById(id);
 		if (current.isEmpty())
-			throw new EntityNotFoundException("FollowUp not found");
+			throw new EntityNotFoundException(FOLLOW_UP_NOT_FOUND);
 
 		if (current.get().getNotes() != null && !current.get().getNotes().isBlank())
 			throw new IllegalOperationException(

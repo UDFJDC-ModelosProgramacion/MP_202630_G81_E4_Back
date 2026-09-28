@@ -7,15 +7,17 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.udistrital.mdp.pets.entities.ReviewEntity;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.ReviewRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service 
+@Service
+@RequiredArgsConstructor 
 public class ReviewService {
-    @Autowired
-    private ReviewRepository reviewRepository;
-    @Autowired
-    private PetRepository petRepository;
+    
+    private final ReviewRepository reviewRepository;
+    
+    private final PetRepository petRepository;
 
     @Transactional
     public ReviewEntity createReview(ReviewEntity review) {

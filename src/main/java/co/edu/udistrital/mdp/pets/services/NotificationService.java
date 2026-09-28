@@ -1,4 +1,4 @@
-package co.edu.udistrital.mdp.pets.services.notification;
+package co.edu.udistrital.mdp.pets.services;
 
 import java.util.Map;
 
@@ -7,32 +7,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.NotificationEntity;
-import co.edu.udistrital.mdp.pets.services.notification.NotificationStrategy;
+import co.edu.udistrital.mdp.pets.entities.NotificationStrategy;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.pets.repositories.NotificationRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class NotificationService {
-    @Autowired
-    private NotificationRepository notificationRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private AdoptionRepository adoptionRepository;
-    @Autowired
-    private PetRepository petRepository;
-
+    
+    private final NotificationRepository notificationRepository;
+    
+    private final UserRepository userRepository;
+   
+    private final AdoptionRepository adoptionRepository;
+    
+    private final PetRepository petRepository;
 
     private final Map<String, NotificationStrategy> strategies;
-
-    public NotificationService(Map<String, NotificationStrategy> strategies) {
-        this.strategies = strategies;
-    }
 
     
     @Transactional

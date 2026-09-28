@@ -1,12 +1,17 @@
 package co.edu.udistrital.mdp.pets.entities;
- 
 
+import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component("PUSH")
+@Slf4j 
 public class PushNotificationStrategy implements NotificationStrategy {
  
 	@Override
 	public void sendMessage(String content, UserEntity user) {
 		
-		System.out.println("Enviando PUSH a " + user.getId() + ": " + content);
+		log.info("Enviando PUSH a " + user.getId() + ": " + content);
 	}
  
 }
