@@ -84,6 +84,10 @@ public class ShelterEventService {
             }
         }
 
+        if (shelterEvent.getShelter() == null) {
+            shelterEvent.setShelter(shelterEventEntity.get().getShelter());
+        }
+        
         shelterEvent.setId(shelterEventId);
         log.info("Termina proceso de actualizar el evento con id = {}", shelterEventId);
         return shelterEventRepository.save(shelterEvent);

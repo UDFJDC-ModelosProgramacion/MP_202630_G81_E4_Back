@@ -8,4 +8,5 @@ public class VeterinarianDTO {
     private String veterinarianId;
     private String specialty;
     private String availability;
+    private ShelterDTO shelter;
 }

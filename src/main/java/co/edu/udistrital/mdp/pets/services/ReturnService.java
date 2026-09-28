@@ -1,9 +1,12 @@
 package co.edu.udistrital.mdp.pets.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.repositories.ReturnRepository;
 import co.edu.udistrital.mdp.pets.repositories.TrialRequestRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,19 @@ public class ReturnService {
 
     private final ReturnRepository returnRepository;
     private final TrialRequestRepository trialRequestRepository;
+
+    @Transactional(readOnly = true)
+    public List<ReturnEntity> getReturns() {
+        log.info("Inicia proceso de consulta de todas las devoluciones");
+        return returnRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public ReturnEntity getReturn(Long returnId) throws EntityNotFoundException {
+        log.info("Inicia proceso de consulta de la devolución con id = {}", returnId);
+        return returnRepository.findById(returnId)
+                .orElseThrow(() -> new EntityNotFoundException("Return does not exist"));
+    }
 
     @Transactional
     public ReturnEntity createReturn(ReturnEntity returnEntity) {

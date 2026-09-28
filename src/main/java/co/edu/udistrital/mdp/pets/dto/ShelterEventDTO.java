@@ -11,4 +11,5 @@ public class ShelterEventDTO {
     private String description;
     private Date date;
     private String type;
+    private ShelterDTO shelter;
 }
