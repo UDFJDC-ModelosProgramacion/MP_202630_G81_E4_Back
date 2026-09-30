@@ -102,38 +102,40 @@ class AdoptionRequestServiceTest {
 
 	@Test
 	void testCreateAdoptionRequestWithNoAdopter() {
-		AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-		newEntity.setAdopter(null);
-		newEntity.setPet(petList.get(0));
-		newEntity.setDateRequest(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
+			newEntity.setAdopter(null);
+			newEntity.setPet(petList.get(0));
+			newEntity.setDateRequest(new Date());
 			adoptionRequestService.createAdoptionRequest(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateAdoptionRequestWithInvalidAdopter() {
-		AdopterEntity invalidAdopter = new AdopterEntity();
-		invalidAdopter.setId(0L);
-		AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-		newEntity.setAdopter(invalidAdopter);
-		newEntity.setPet(petList.get(0));
-		newEntity.setDateRequest(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity invalidAdopter = new AdopterEntity();
+			invalidAdopter.setId(0L);
+
+			AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
+			newEntity.setAdopter(invalidAdopter);
+			newEntity.setPet(petList.get(0));
+			newEntity.setDateRequest(new Date());
 			adoptionRequestService.createAdoptionRequest(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateAdoptionRequestWithAdoptedPet() {
-		PetEntity adoptedPet = factory.manufacturePojo(PetEntity.class);
-		adoptedPet.setAdoptionStatus("ADOPTADA");
-		entityManager.persist(adoptedPet);
-		AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-		newEntity.setAdopter(adopterList.get(0));
-		newEntity.setPet(adoptedPet);
-		newEntity.setDateRequest(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			PetEntity adoptedPet = factory.manufacturePojo(PetEntity.class);
+			adoptedPet.setAdoptionStatus("ADOPTADA");
+			entityManager.persist(adoptedPet);
+
+			AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
+			newEntity.setAdopter(adopterList.get(0));
+			newEntity.setPet(adoptedPet);
+			newEntity.setDateRequest(new Date());
 			adoptionRequestService.createAdoptionRequest(newEntity);
 		});
 	}
@@ -150,22 +152,22 @@ class AdoptionRequestServiceTest {
 
 	@Test
 	void testCreateAdoptionRequestWithNullDate() {
-		AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-		newEntity.setAdopter(adopterList.get(0));
-		newEntity.setPet(petList.get(1));
-		newEntity.setDateRequest(null);
 		assertThrows(IllegalOperationException.class, () -> {
+			AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
+			newEntity.setAdopter(adopterList.get(0));
+			newEntity.setPet(petList.get(1));
+			newEntity.setDateRequest(null);
 			adoptionRequestService.createAdoptionRequest(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateAdoptionRequestWithDuplicatePending() {
-		AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-		newEntity.setAdopter(adoptionRequestList.get(0).getAdopter());
-		newEntity.setPet(adoptionRequestList.get(0).getPet());
-		newEntity.setDateRequest(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			AdoptionRequestEntity newEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
+			newEntity.setAdopter(adoptionRequestList.get(0).getAdopter());
+			newEntity.setPet(adoptionRequestList.get(0).getPet());
+			newEntity.setDateRequest(new Date());
 			adoptionRequestService.createAdoptionRequest(newEntity);
 		});
 	}
@@ -224,39 +226,42 @@ class AdoptionRequestServiceTest {
 
 	@Test
 	void testUpdateInvalidAdoptionRequest() {
-		AdoptionRequestEntity pojoEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-		pojoEntity.setId(0L);
 		assertThrows(EntityNotFoundException.class, () -> {
+			AdoptionRequestEntity pojoEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
+			pojoEntity.setId(0L);
 			adoptionRequestService.updateAdoptionRequest(0L, pojoEntity);
 		});
 	}
 
 	@Test
 	void testUpdateCancelledAdoptionRequest() {
-		AdoptionRequestEntity entity = adoptionRequestList.get(0);
-		entity.setStatus("CANCELADO");
-		entityManager.merge(entity);
-		AdoptionRequestEntity pojoEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-		pojoEntity.setId(entity.getId());
-		pojoEntity.setStatus("PENDIENTE");
 		assertThrows(IllegalOperationException.class, () -> {
+			AdoptionRequestEntity entity = adoptionRequestList.get(0);
+			entity.setStatus("CANCELADO");
+			entityManager.merge(entity);
+
+			AdoptionRequestEntity pojoEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setStatus("PENDIENTE");
 			adoptionRequestService.updateAdoptionRequest(entity.getId(), pojoEntity);
 		});
 	}
 
 	@Test
 	void testUpdateApproveWithActiveAdoption() {
-		AdoptionRequestEntity entity = adoptionRequestList.get(1);
-		AdoptionEntity activeAdoption = factory.manufacturePojo(AdoptionEntity.class);
-		activeAdoption.setAdopter(entity.getAdopter());
-		activeAdoption.setStatus("ACTIVA");
-		entityManager.persist(activeAdoption);
-		AdoptionRequestEntity pojoEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-		pojoEntity.setId(entity.getId());
-		pojoEntity.setAdopter(entity.getAdopter());
-		pojoEntity.setPet(entity.getPet());
-		pojoEntity.setStatus("APROBADO");
 		assertThrows(IllegalOperationException.class, () -> {
+			AdoptionRequestEntity entity = adoptionRequestList.get(1);
+
+			AdoptionEntity activeAdoption = factory.manufacturePojo(AdoptionEntity.class);
+			activeAdoption.setAdopter(entity.getAdopter());
+			activeAdoption.setStatus("ACTIVA");
+			entityManager.persist(activeAdoption);
+
+			AdoptionRequestEntity pojoEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setAdopter(entity.getAdopter());
+			pojoEntity.setPet(entity.getPet());
+			pojoEntity.setStatus("APROBADO");
 			adoptionRequestService.updateAdoptionRequest(entity.getId(), pojoEntity);
 		});
 	}
@@ -280,10 +285,10 @@ class AdoptionRequestServiceTest {
 
 	@Test
 	void testDeleteApprovedAdoptionRequest() {
-		AdoptionRequestEntity entity = adoptionRequestList.get(0);
-		entity.setStatus("APROBADO");
-		entityManager.merge(entity);
 		assertThrows(IllegalOperationException.class, () -> {
+			AdoptionRequestEntity entity = adoptionRequestList.get(0);
+			entity.setStatus("APROBADO");
+			entityManager.merge(entity);
 			adoptionRequestService.deleteAdoptionRequest(entity.getId());
 		});
 	}

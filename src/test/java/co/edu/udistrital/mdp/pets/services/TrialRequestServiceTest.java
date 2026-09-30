@@ -103,68 +103,69 @@ class TrialRequestServiceTest {
 
 	@Test
 	void testCreateTrialRequestWithNoAdopter() {
-		TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
-		newEntity.setAdopter(null);
-		newEntity.setPet(petList.get(1));
-		newEntity.setDate(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
+			newEntity.setAdopter(null);
+			newEntity.setPet(petList.get(1));
+			newEntity.setDate(new Date());
 			trialRequestService.createTrialRequest(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateTrialRequestWithInvalidAdopter() {
-		AdopterEntity invalid = new AdopterEntity();
-		invalid.setId(0L);
-		TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
-		newEntity.setAdopter(invalid);
-		newEntity.setPet(petList.get(1));
-		newEntity.setDate(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity invalid = new AdopterEntity();
+			invalid.setId(0L);
+
+			TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
+			newEntity.setAdopter(invalid);
+			newEntity.setPet(petList.get(1));
+			newEntity.setDate(new Date());
 			trialRequestService.createTrialRequest(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateTrialRequestWithAdopterAlreadyActive() {
-		TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
-		newEntity.setAdopter(adopterList.get(0));
-		newEntity.setPet(petList.get(3));
-		newEntity.setDate(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
+			newEntity.setAdopter(adopterList.get(0));
+			newEntity.setPet(petList.get(3));
+			newEntity.setDate(new Date());
 			trialRequestService.createTrialRequest(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateTrialRequestForPetAlreadyInTrial() {
-		TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
-		newEntity.setAdopter(adopterList.get(1));
-		newEntity.setPet(petList.get(0));
-		newEntity.setDate(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
+			newEntity.setAdopter(adopterList.get(1));
+			newEntity.setPet(petList.get(0));
+			newEntity.setDate(new Date());
 			trialRequestService.createTrialRequest(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateTrialRequestForAdoptedPet() {
-		TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
-		newEntity.setAdopter(adopterList.get(2));
-		newEntity.setPet(petList.get(2));
-		newEntity.setDate(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
+			TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
+			newEntity.setAdopter(adopterList.get(2));
+			newEntity.setPet(petList.get(2));
+			newEntity.setDate(new Date());
 			trialRequestService.createTrialRequest(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateTrialRequestWithNullDate() {
-		TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
-		newEntity.setAdopter(adopterList.get(3));
-		newEntity.setPet(petList.get(3));
-		newEntity.setDate(null);
 		assertThrows(IllegalOperationException.class, () -> {
+			TrialRequestEntity newEntity = factory.manufacturePojo(TrialRequestEntity.class);
+			newEntity.setAdopter(adopterList.get(3));
+			newEntity.setPet(petList.get(3));
+			newEntity.setDate(null);
 			trialRequestService.createTrialRequest(newEntity);
 		});
 	}
@@ -222,21 +223,22 @@ class TrialRequestServiceTest {
 
 	@Test
 	void testUpdateInvalidTrialRequest() {
-		TrialRequestEntity pojoEntity = factory.manufacturePojo(TrialRequestEntity.class);
-		pojoEntity.setId(0L);
 		assertThrows(EntityNotFoundException.class, () -> {
+			TrialRequestEntity pojoEntity = factory.manufacturePojo(TrialRequestEntity.class);
+			pojoEntity.setId(0L);
 			trialRequestService.updateTrialRequest(0L, pojoEntity);
 		});
 	}
 
 	@Test
 	void testUpdateFinishedTrialRequest() {
-		TrialRequestEntity entity = trialRequestList.get(0);
-		entity.setStatus("FINALIZADA");
-		entityManager.merge(entity);
-		TrialRequestEntity pojoEntity = factory.manufacturePojo(TrialRequestEntity.class);
-		pojoEntity.setId(entity.getId());
 		assertThrows(IllegalOperationException.class, () -> {
+			TrialRequestEntity entity = trialRequestList.get(0);
+			entity.setStatus("FINALIZADA");
+			entityManager.merge(entity);
+
+			TrialRequestEntity pojoEntity = factory.manufacturePojo(TrialRequestEntity.class);
+			pojoEntity.setId(entity.getId());
 			trialRequestService.updateTrialRequest(entity.getId(), pojoEntity);
 		});
 	}
@@ -260,11 +262,13 @@ class TrialRequestServiceTest {
 
 	@Test
 	void testDeleteTrialRequestWithAssociatedReturn() {
-		TrialRequestEntity entity = trialRequestList.get(0);
-		ReturnEntity returnEntity = factory.manufacturePojo(ReturnEntity.class);
-		returnEntity.setTrialRequest(entity);
-		entityManager.persist(returnEntity);
 		assertThrows(IllegalOperationException.class, () -> {
+			TrialRequestEntity entity = trialRequestList.get(0);
+
+			ReturnEntity returnEntity = factory.manufacturePojo(ReturnEntity.class);
+			returnEntity.setTrialRequest(entity);
+			entityManager.persist(returnEntity);
+
 			trialRequestService.deleteTrialRequest(entity.getId());
 		});
 	}
