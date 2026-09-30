@@ -128,90 +128,88 @@ class FollowUpServiceTest {
 
 	@Test
 	void testCreateFollowUpWithInactiveAdoption() {
+		FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
+		newEntity.setAdoption(inactiveAdoption);
+		newEntity.setPet(petList.get(1));
+		newEntity.setVeterinarian(veterinarianList.get(0));
+		newEntity.setDate(new Date());
 		assertThrows(IllegalOperationException.class, () -> {
-			FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
-			newEntity.setAdoption(inactiveAdoption);
-			newEntity.setPet(petList.get(1));
-			newEntity.setVeterinarian(veterinarianList.get(0));
-			newEntity.setDate(new Date());
 			followUpService.createFollowUp(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateFollowUpWithDuplicateDate() {
+		FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
+		newEntity.setAdoption(adoptionList.get(0));
+		newEntity.setPet(petList.get(0));
+		newEntity.setVeterinarian(veterinarianList.get(2));
+		newEntity.setDate(followUpList.get(0).getDate());
 		assertThrows(IllegalOperationException.class, () -> {
-			FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
-			newEntity.setAdoption(adoptionList.get(0));
-			newEntity.setPet(petList.get(0));
-			newEntity.setVeterinarian(veterinarianList.get(2));
-			newEntity.setDate(followUpList.get(0).getDate());
 			followUpService.createFollowUp(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateFollowUpWithNoVeterinarian() {
+		FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
+		newEntity.setAdoption(adoptionList.get(0));
+		newEntity.setPet(petList.get(0));
+		newEntity.setVeterinarian(null);
+		newEntity.setDate(new Date(followUpList.get(1).getDate().getTime() + 86400000L));
 		assertThrows(IllegalOperationException.class, () -> {
-			FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
-			newEntity.setAdoption(adoptionList.get(0));
-			newEntity.setPet(petList.get(0));
-			newEntity.setVeterinarian(null);
-			newEntity.setDate(new Date(followUpList.get(1).getDate().getTime() + 86400000L));
 			followUpService.createFollowUp(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateFollowUpWithInvalidVeterinarian() {
+		VeterinarianEntity invalid = new VeterinarianEntity();
+		invalid.setId(0L);
+		FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
+		newEntity.setAdoption(adoptionList.get(0));
+		newEntity.setPet(petList.get(0));
+		newEntity.setVeterinarian(invalid);
+		newEntity.setDate(new Date(followUpList.get(1).getDate().getTime() + 86400000L));
 		assertThrows(IllegalOperationException.class, () -> {
-			VeterinarianEntity invalid = new VeterinarianEntity();
-			invalid.setId(0L);
-
-			FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
-			newEntity.setAdoption(adoptionList.get(0));
-			newEntity.setPet(petList.get(0));
-			newEntity.setVeterinarian(invalid);
-			newEntity.setDate(new Date(followUpList.get(1).getDate().getTime() + 86400000L));
 			followUpService.createFollowUp(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateFollowUpWithNullDate() {
+		FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
+		newEntity.setAdoption(adoptionList.get(0));
+		newEntity.setPet(petList.get(0));
+		newEntity.setVeterinarian(veterinarianList.get(2));
+		newEntity.setDate(null);
 		assertThrows(IllegalOperationException.class, () -> {
-			FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
-			newEntity.setAdoption(adoptionList.get(0));
-			newEntity.setPet(petList.get(0));
-			newEntity.setVeterinarian(veterinarianList.get(2));
-			newEntity.setDate(null);
 			followUpService.createFollowUp(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateFollowUpWithNoPet() {
+		FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
+		newEntity.setAdoption(adoptionList.get(0));
+		newEntity.setPet(null);
+		newEntity.setVeterinarian(veterinarianList.get(2));
+		newEntity.setDate(new Date(followUpList.get(1).getDate().getTime() + 86400000L));
 		assertThrows(IllegalOperationException.class, () -> {
-			FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
-			newEntity.setAdoption(adoptionList.get(0));
-			newEntity.setPet(null);
-			newEntity.setVeterinarian(veterinarianList.get(2));
-			newEntity.setDate(new Date(followUpList.get(1).getDate().getTime() + 86400000L));
 			followUpService.createFollowUp(newEntity);
 		});
 	}
 
 	@Test
 	void testCreateFollowUpWithInvalidPet() {
+		PetEntity invalid = new PetEntity();
+		invalid.setId(0L);
+		FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
+		newEntity.setAdoption(adoptionList.get(0));
+		newEntity.setPet(invalid);
+		newEntity.setVeterinarian(veterinarianList.get(2));
+		newEntity.setDate(new Date(followUpList.get(1).getDate().getTime() + 86400000L));
 		assertThrows(IllegalOperationException.class, () -> {
-			PetEntity invalid = new PetEntity();
-			invalid.setId(0L);
-
-			FollowUpEntity newEntity = factory.manufacturePojo(FollowUpEntity.class);
-			newEntity.setAdoption(adoptionList.get(0));
-			newEntity.setPet(invalid);
-			newEntity.setVeterinarian(veterinarianList.get(2));
-			newEntity.setDate(new Date(followUpList.get(1).getDate().getTime() + 86400000L));
 			followUpService.createFollowUp(newEntity);
 		});
 	}
@@ -270,24 +268,24 @@ class FollowUpServiceTest {
 
 	@Test
 	void testUpdateInvalidFollowUp() {
+		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+		pojoEntity.setId(0L);
 		assertThrows(EntityNotFoundException.class, () -> {
-			FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
-			pojoEntity.setId(0L);
 			followUpService.updateFollowUp(0L, pojoEntity);
 		});
 	}
 
 	@Test
 	void testUpdateDateOfRegisteredFollowUp() {
+		FollowUpEntity entity = followUpList.get(1);
+		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+		pojoEntity.setId(entity.getId());
+		pojoEntity.setAdoption(entity.getAdoption());
+		pojoEntity.setPet(entity.getPet());
+		pojoEntity.setVeterinarian(entity.getVeterinarian());
+		pojoEntity.setNotes(entity.getNotes());
+		pojoEntity.setDate(new Date(entity.getDate().getTime() + 500000L));
 		assertThrows(IllegalOperationException.class, () -> {
-			FollowUpEntity entity = followUpList.get(1);
-			FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
-			pojoEntity.setId(entity.getId());
-			pojoEntity.setAdoption(entity.getAdoption());
-			pojoEntity.setPet(entity.getPet());
-			pojoEntity.setVeterinarian(entity.getVeterinarian());
-			pojoEntity.setNotes(entity.getNotes());
-			pojoEntity.setDate(new Date(entity.getDate().getTime() + 500000L));
 			followUpService.updateFollowUp(entity.getId(), pojoEntity);
 		});
 	}
@@ -311,8 +309,8 @@ class FollowUpServiceTest {
 
 	@Test
 	void testDeleteFollowUpWithRegisteredNotes() {
+		FollowUpEntity entity = followUpList.get(1);
 		assertThrows(IllegalOperationException.class, () -> {
-			FollowUpEntity entity = followUpList.get(1);
 			followUpService.deleteFollowUp(entity.getId());
 		});
 	}
