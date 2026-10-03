@@ -70,8 +70,7 @@ public class ReviewController {
      */
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ReviewDTO create(@RequestBody ReviewDTO reviewDTO)
-            throws EntityNotFoundException, IllegalOperationException {
+    public ReviewDTO create(@RequestBody ReviewDTO reviewDTO){
         ReviewEntity reviewEntity = reviewService.createReview(modelMapper.map(reviewDTO, ReviewEntity.class));
         return modelMapper.map(reviewEntity, ReviewDTO.class);
     }
@@ -88,7 +87,7 @@ public class ReviewController {
     @PutMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public ReviewDTO update(@PathVariable Long id, @RequestParam Long userId, @RequestBody ReviewDTO reviewDTO)
-            throws EntityNotFoundException, IllegalOperationException {
+            throws EntityNotFoundException{
         ReviewEntity existing = reviewService.getReview(id);
         ReviewEntity changes = modelMapper.map(reviewDTO, ReviewEntity.class);
         changes.setId(id);
@@ -107,8 +106,7 @@ public class ReviewController {
      */
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id, @RequestParam Long userId)
-            throws EntityNotFoundException, IllegalOperationException {
+    public void delete(@PathVariable Long id, @RequestParam Long userId){
         reviewService.deleteReview(id, userId);
     }
 }
