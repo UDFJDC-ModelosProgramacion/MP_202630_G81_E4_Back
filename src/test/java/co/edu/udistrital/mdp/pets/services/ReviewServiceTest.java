@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.entities.ReviewEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -74,6 +76,38 @@ class ReviewServiceTest {
         }
     }
 
+    // ---------- getReviews / getReview ----------
+
+    @Test
+    void testGetReviews() {
+        List<ReviewEntity> list = reviewService.getReviews();
+
+        assertEquals(reviewList.size(), list.size());
+        for (ReviewEntity entity : list) {
+            boolean found = reviewList.stream()
+                .anyMatch(item -> item.getId().equals(entity.getId()));
+            assertTrue(found);
+        }
+    }
+
+    @Test
+    void testGetReview() throws EntityNotFoundException {
+        ReviewEntity entity = reviewList.get(0);
+
+        ReviewEntity result = reviewService.getReview(entity.getId());
+
+        assertNotNull(result);
+        assertEquals(entity.getId(), result.getId());
+        assertEquals(entity.getRating(), result.getRating());
+        assertEquals(entity.getComment(), result.getComment());
+    }
+
+    @Test
+    void testGetInvalidReview() {
+        assertThrows(EntityNotFoundException.class,
+            () -> reviewService.getReview(0L));
+    }
+
     // ---------- createReview ----------
 
     @Test
@@ -95,70 +129,70 @@ class ReviewServiceTest {
 
     @Test
     void testCreateReviewWithNullRating() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-            newEntity.setRating(null);
-            newEntity.setComment("Great experience");
-            newEntity.setPet(pet);
-            reviewService.createReview(newEntity);
-        });
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setRating(null);
+        newEntity.setComment("Great experience");
+        newEntity.setPet(pet);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.createReview(newEntity));
     }
 
     @Test
     void testCreateReviewWithRatingOutOfRange() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-            newEntity.setRating(6);
-            newEntity.setComment("Great experience");
-            newEntity.setPet(pet);
-            reviewService.createReview(newEntity);
-        });
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setRating(6);
+        newEntity.setComment("Great experience");
+        newEntity.setPet(pet);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.createReview(newEntity));
     }
 
     @Test
     void testCreateReviewWithNullComment() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-            newEntity.setRating(5);
-            newEntity.setComment(null);
-            newEntity.setPet(pet);
-            reviewService.createReview(newEntity);
-        });
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setRating(5);
+        newEntity.setComment(null);
+        newEntity.setPet(pet);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.createReview(newEntity));
     }
 
     @Test
     void testCreateReviewWithEmptyComment() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-            newEntity.setRating(5);
-            newEntity.setComment("");
-            newEntity.setPet(pet);
-            reviewService.createReview(newEntity);
-        });
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setRating(5);
+        newEntity.setComment("");
+        newEntity.setPet(pet);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.createReview(newEntity));
     }
 
     @Test
     void testCreateReviewWithNullPet() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-            newEntity.setRating(5);
-            newEntity.setComment("Great experience");
-            newEntity.setPet(null);
-            reviewService.createReview(newEntity);
-        });
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setRating(5);
+        newEntity.setComment("Great experience");
+        newEntity.setPet(null);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.createReview(newEntity));
     }
 
     @Test
     void testCreateReviewWithInvalidPet() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-            newEntity.setRating(5);
-            newEntity.setComment("Great experience");
-            PetEntity invalidPet = new PetEntity();
-            invalidPet.setId(0L);
-            newEntity.setPet(invalidPet);
-            reviewService.createReview(newEntity);
-        });
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setRating(5);
+        newEntity.setComment("Great experience");
+        PetEntity invalidPet = new PetEntity();
+        invalidPet.setId(0L);
+        newEntity.setPet(invalidPet);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.createReview(newEntity));
     }
 
     // ---------- updateReview ----------
@@ -177,19 +211,21 @@ class ReviewServiceTest {
 
     @Test
     void testUpdateReviewInvalid() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-            newEntity.setId(0L);
-            reviewService.updateReview(newEntity, owner.getId());
-        });
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setId(0L);
+        Long ownerId = owner.getId();
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.updateReview(newEntity, ownerId));
     }
 
     @Test
     void testUpdateReviewNotAuthorized() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity entity = reviewList.get(0);
-            reviewService.updateReview(entity, otherAdopter.getId());
-        });
+        ReviewEntity entity = reviewList.get(0);
+        Long otherAdopterId = otherAdopter.getId();
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.updateReview(entity, otherAdopterId));
     }
 
     // ---------- deleteReview ----------
@@ -206,16 +242,18 @@ class ReviewServiceTest {
 
     @Test
     void testDeleteInvalidReview() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            reviewService.deleteReview(0L, owner.getId());
-        });
+        Long ownerId = owner.getId();
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.deleteReview(0L, ownerId));
     }
 
     @Test
     void testDeleteReviewNotAuthorized() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ReviewEntity entity = reviewList.get(0);
-            reviewService.deleteReview(entity.getId(), otherAdopter.getId());
-        });
+        Long reviewId = reviewList.get(0).getId();
+        Long otherAdopterId = otherAdopter.getId();
+
+        assertThrows(IllegalArgumentException.class,
+            () -> reviewService.deleteReview(reviewId, otherAdopterId));
     }
 }
