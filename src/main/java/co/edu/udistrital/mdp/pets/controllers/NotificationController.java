@@ -70,8 +70,7 @@ public class NotificationController {
      */
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public NotificationDTO create(@RequestBody NotificationDTO notificationDTO)
-            throws EntityNotFoundException, IllegalOperationException {
+    public NotificationDTO create(@RequestBody NotificationDTO notificationDTO){
         NotificationEntity notificationEntity = notificationService
                 .createNotification(modelMapper.map(notificationDTO, NotificationEntity.class));
         return modelMapper.map(notificationEntity, NotificationDTO.class);

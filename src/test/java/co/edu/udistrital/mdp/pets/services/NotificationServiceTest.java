@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.NotificationEntity;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.entities.EmailNotificationStrategy;
 import co.edu.udistrital.mdp.pets.entities.PushNotificationStrategy;
@@ -50,7 +51,7 @@ class NotificationServiceTest {
     private UserEntity owner;
     private UserEntity otherUser;
 
-    private static final String VALID_CHANNEL = "EMAIL";
+    private static final String VALID_CHANNEL = "email";
     private static final String INVALID_CHANNEL = "CARRIER_PIGEON";
 
     @BeforeEach
@@ -81,6 +82,38 @@ class NotificationServiceTest {
         }
     }
 
+    // ---------- getNotifications / getNotification ----------
+
+    @Test
+    void testGetNotifications() {
+        List<NotificationEntity> list = notificationService.getNotifications();
+
+        assertEquals(notificationList.size(), list.size());
+        for (NotificationEntity entity : list) {
+            boolean found = notificationList.stream()
+                .anyMatch(item -> item.getId().equals(entity.getId()));
+            assertTrue(found);
+        }
+    }
+
+    @Test
+    void testGetNotification() throws EntityNotFoundException {
+        NotificationEntity entity = notificationList.get(0);
+
+        NotificationEntity result = notificationService.getNotification(entity.getId());
+
+        assertNotNull(result);
+        assertEquals(entity.getId(), result.getId());
+        assertEquals(entity.getContent(), result.getContent());
+        assertEquals(entity.getChannel(), result.getChannel());
+    }
+
+    @Test
+    void testGetInvalidNotification() {
+        assertThrows(EntityNotFoundException.class,
+            () -> notificationService.getNotification(0L));
+    }
+
     // ---------- createNotification ----------
 
     @Test
@@ -100,44 +133,44 @@ class NotificationServiceTest {
 
     @Test
     void testCreateNotificationWithNullContent() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
-            newEntity.setUser(owner);
-            newEntity.setChannel(VALID_CHANNEL);
-            newEntity.setContent(null);
-            notificationService.createNotification(newEntity);
-        });
+        NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
+        newEntity.setUser(owner);
+        newEntity.setChannel(VALID_CHANNEL);
+        newEntity.setContent(null);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> notificationService.createNotification(newEntity));
     }
 
     @Test
     void testCreateNotificationWithEmptyContent() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
-            newEntity.setUser(owner);
-            newEntity.setChannel(VALID_CHANNEL);
-            newEntity.setContent("");
-            notificationService.createNotification(newEntity);
-        });
+        NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
+        newEntity.setUser(owner);
+        newEntity.setChannel(VALID_CHANNEL);
+        newEntity.setContent("");
+
+        assertThrows(IllegalArgumentException.class,
+            () -> notificationService.createNotification(newEntity));
     }
 
     @Test
     void testCreateNotificationWithInvalidChannel() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
-            newEntity.setUser(owner);
-            newEntity.setChannel(INVALID_CHANNEL);
-            notificationService.createNotification(newEntity);
-        });
+        NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
+        newEntity.setUser(owner);
+        newEntity.setChannel(INVALID_CHANNEL);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> notificationService.createNotification(newEntity));
     }
 
     @Test
     void testCreateNotificationWithNullChannel() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
-            newEntity.setUser(owner);
-            newEntity.setChannel(null);
-            notificationService.createNotification(newEntity);
-        });
+        NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
+        newEntity.setUser(owner);
+        newEntity.setChannel(null);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> notificationService.createNotification(newEntity));
     }
 
     // ---------- updateNotification ----------
@@ -156,19 +189,21 @@ class NotificationServiceTest {
 
     @Test
     void testUpdateNotificationInvalid() {
-        assertThrows(IllegalOperationException.class, () -> {
-            NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
-            newEntity.setId(0L);
-            notificationService.updateNotification(newEntity, owner.getId());
-        });
+        NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
+        newEntity.setId(0L);
+        Long ownerId = owner.getId();
+
+        assertThrows(IllegalOperationException.class,
+            () -> notificationService.updateNotification(newEntity, ownerId));
     }
 
     @Test
     void testUpdateNotificationNotAuthorized() {
-        assertThrows(IllegalOperationException.class, () -> {
-            NotificationEntity entity = notificationList.get(0);
-            notificationService.updateNotification(entity, otherUser.getId());
-        });
+        NotificationEntity entity = notificationList.get(0);
+        Long otherUserId = otherUser.getId();
+
+        assertThrows(IllegalOperationException.class,
+            () -> notificationService.updateNotification(entity, otherUserId));
     }
 
     // ---------- deleteNotification ----------
@@ -187,27 +222,30 @@ class NotificationServiceTest {
 
     @Test
     void testDeleteInvalidNotification() {
-        assertThrows(IllegalOperationException.class, () -> {
-            NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
-            newEntity.setId(0L);
-            notificationService.deleteNotification(newEntity, owner.getId());
-        });
+        NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
+        newEntity.setId(0L);
+        Long ownerId = owner.getId();
+
+        assertThrows(IllegalOperationException.class,
+            () -> notificationService.deleteNotification(newEntity, ownerId));
     }
 
     @Test
     void testDeleteNotificationNotAuthorized() {
-        assertThrows(IllegalOperationException.class, () -> {
-            NotificationEntity entity = notificationList.get(0);
-            notificationService.deleteNotification(entity, otherUser.getId());
-        });
+        NotificationEntity entity = notificationList.get(0);
+        Long otherUserId = otherUser.getId();
+
+        assertThrows(IllegalOperationException.class,
+            () -> notificationService.deleteNotification(entity, otherUserId));
     }
 
     @Test
     void testDeleteNotificationNotRead() {
-        assertThrows(IllegalOperationException.class, () -> {
-            NotificationEntity entity = notificationList.get(0);
-            entity.setRead(false);
-            notificationService.deleteNotification(entity, owner.getId());
-        });
+        NotificationEntity entity = notificationList.get(0);
+        entity.setRead(false);
+        Long ownerId = owner.getId();
+
+        assertThrows(IllegalOperationException.class,
+            () -> notificationService.deleteNotification(entity, ownerId));
     }
 }

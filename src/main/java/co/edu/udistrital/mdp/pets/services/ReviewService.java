@@ -21,6 +21,8 @@ public class ReviewService {
     
     private final PetRepository petRepository;
 
+    private String inexistentReviewMessage = "Review does not exist";
+
     @Transactional(readOnly = true)
     public List<ReviewEntity> getReviews() {
         log.info("Inicia proceso de consulta de todas las reseñas");
@@ -31,7 +33,7 @@ public class ReviewService {
     public ReviewEntity getReview(Long reviewId) throws EntityNotFoundException {
         log.info("Inicia proceso de consulta de la reseña con id = {}", reviewId);
         return reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new EntityNotFoundException("Review does not exist"));
+                .orElseThrow(() -> new EntityNotFoundException(inexistentReviewMessage));
     }
 
     @Transactional
@@ -53,7 +55,7 @@ public class ReviewService {
     public ReviewEntity updateReview(ReviewEntity review, Long requestingUserId) {
         log.info("Inicia proceso de actualización de la reseña");
         if (review.getId() == null || !reviewRepository.existsById(review.getId()))
-            throw new IllegalArgumentException("Review does not exist");
+            throw new IllegalArgumentException(inexistentReviewMessage);
 
         if(!review.getAdopter().getId().equals(requestingUserId))
             throw new IllegalArgumentException("User is not authorized to update this review");
@@ -65,7 +67,7 @@ public class ReviewService {
     public void deleteReview(Long reviewId, Long requestingUserId) {
         log.info("Inicia proceso de eliminación de la reseña");
         ReviewEntity review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("Review does not exist"));
+                .orElseThrow(() -> new IllegalArgumentException(inexistentReviewMessage));
 
         if(!review.getAdopter().getId().equals(requestingUserId))
             throw new IllegalArgumentException("User is not authorized to delete this review");
