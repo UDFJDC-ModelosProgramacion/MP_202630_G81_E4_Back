@@ -1,15 +1,45 @@
 {
   "info": {
-    "_postman_id": "ce6b2920-31ad-4fa9-b130-7852a11e3c05",
+    "_postman_id": "81b1db43-6f72-4ae2-8679-7a69fba7707f",
     "name": "AdoptionRequest",
-    "description": "Colección para el recurso AdoptionRequest. Representa las solicitudes de adopción (estados PENDIENTE, APROBADO, CANCELADO) hechas por un adoptante sobre una mascota.",
+    "description": "Colección para el recurso AdoptionRequest. Representa las solicitudes de adopción (estados PENDIENTE, APROBADO, CANCELADO) hechas por un adoptante sobre una mascota.\n\nPruebas corregidas: los datos previos que antes se creaban con pm.sendRequest en pre-request ahora son requests explícitos y secuenciales. Esto evita que la petición principal se ejecute antes de que existan sus datos de prueba.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "57861283",
-    "_collection_link": "https://go.postman.co/collection/57861283-ce6b2920-31ad-4fa9-b130-7852a11e3c05?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/57861283-81b1db43-6f72-4ae2-8679-7a69fba7707f?source=collection_link"
   },
   "item": [
     {
-      "name": "Crear una solicitud de adopción",
+      "name": "01 - Preparar adoptante",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const runId = Date.now().toString();",
+              "pm.collectionVariables.set(\"run_id\", runId);",
+              "pm.collectionVariables.set(\"adopter_phone\", runId.slice(-10));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Adopter creado - status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.id).to.exist;",
+              "    pm.collectionVariables.set(\"adopter_id\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
@@ -20,7 +50,106 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"requestId\": \"REQ-001\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"PENDIENTE\",\n    \"description\": \"Solicitud de adopción para Firulais\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}",
+          "raw": "{\n    \"address\": \"Calle 123 # 45-67\",\n    \"phone\": \"{{adopter_phone}}\",\n    \"occupation\": \"Ingeniero\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "02 - Preparar mascota",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Pet creado - status 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.id).to.exist;",
+              "    pm.collectionVariables.set(\"pet_id\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Firulais-{{run_id}}\",\n    \"specie\": \"Perro\",\n    \"breed\": \"Labrador\",\n    \"age\": 3,\n    \"weight\": 12.5,\n    \"adoptionStatus\": \"DISPONIBLE\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear una solicitud de adopción",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "   pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "   var data = pm.response.json();",
+              "   pm.collectionVariables.set(\"adoption_request_id\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"requestId\": \"REQ-001-{{run_id}}\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"PENDIENTE\",\n    \"description\": \"Solicitud de adopción para Firulais-{{run_id}}\",\n    \"adopter\": { \"id\": {{adopter_id}} },\n    \"pet\": { \"id\": {{pet_id}} }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -83,6 +212,24 @@
     },
     {
       "name": "Crear una solicitud con adoptante o mascota inválidos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "   pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"Adopter is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
@@ -93,7 +240,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"requestId\": \"REQ-002\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"PENDIENTE\",\n    \"description\": \"Solicitud con adoptante inexistente\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}",
+          "raw": "{\n    \"requestId\": \"REQ-002-{{run_id}}\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"PENDIENTE\",\n    \"description\": \"Solicitud con adoptante inexistente\",\n    \"adopter\": { \"id\": 0 },\n    \"pet\": { \"id\": {{pet_id}} }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -155,7 +302,74 @@
       ]
     },
     {
+      "name": "Probar regla: solicitud pendiente duplicada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The adopter already has a pending AdoptionRequest for this pet\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"requestId\": \"REQ-DUP-{{run_id}}\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"PENDIENTE\",\n    \"description\": \"Debe rechazar una solicitud pendiente duplicada\",\n    \"adopter\": { \"id\": {{adopter_id}} },\n    \"pet\": { \"id\": {{pet_id}} }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/adoption-requests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoption-requests"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Obtener todas las solicitudes de adopción",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Number of adoption requests > ' + 0, function () {",
+              "   var data = pm.response.json()",
+              "   pm.expect(data.length).to.greaterThan(0)",
+              "});",
+              "",
+              "pm.test(\"Status code is 200\", function () {",
+              "   pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -201,17 +415,28 @@
     },
     {
       "name": "Obtener una solicitud de adopción",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n   pm.response.to.have.status(200);\n});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/adoption-requests/{{adoption_request_id_1}}",
+          "raw": "{{baseUrl}}/adoption-requests/{{adoption_request_id}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "adoption-requests",
-            "{{adoption_request_id_1}}"
+            "{{adoption_request_id}}"
           ]
         }
       },
@@ -248,6 +473,24 @@
     },
     {
       "name": "Obtener una solicitud de adopción que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "   pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"AdoptionRequest not found\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -295,6 +538,17 @@
     },
     {
       "name": "Actualizar una solicitud de adopción",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n   pm.response.to.have.status(200);\n});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "PUT",
         "header": [
@@ -305,7 +559,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"requestId\": \"REQ-001\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"APROBADO\",\n    \"description\": \"Solicitud aprobada por el refugio\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}",
+          "raw": "{\n    \"requestId\": \"REQ-001-{{run_id}}\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"APROBADO\",\n    \"description\": \"Solicitud aprobada por el refugio\",\n    \"adopter\": { \"id\": {{adopter_id}} },\n    \"pet\": { \"id\": {{pet_id}} }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -313,13 +567,13 @@
           }
         },
         "url": {
-          "raw": "{{baseUrl}}/adoption-requests/{{adoption_request_id_1}}",
+          "raw": "{{baseUrl}}/adoption-requests/{{adoption_request_id}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "adoption-requests",
-            "{{adoption_request_id_1}}"
+            "{{adoption_request_id}}"
           ]
         }
       },
@@ -370,6 +624,24 @@
     },
     {
       "name": "Actualizar una solicitud de adopción que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "   pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"AdoptionRequest not found\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "PUT",
         "header": [
@@ -444,7 +716,68 @@
       ]
     },
     {
+      "name": "Preparar solicitud cancelada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "   pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "   var data = pm.response.json();",
+              "   pm.globals.set(\"cancelled_request_id\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"requestId\": \"REQ-003-{{run_id}}\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"CANCELADO\",\n    \"description\": \"Preparada para la prueba\",\n    \"adopter\": { \"id\": {{adopter_id}} },\n    \"pet\": { \"id\": {{pet_id}} }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Actualizar una solicitud de adopción ya cancelada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "   pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"Unable to update a cancelled AdoptionRequest\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "PUT",
         "header": [
@@ -455,7 +788,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"requestId\": \"REQ-003\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"APROBADO\",\n    \"description\": \"Intento de modificar una solicitud cancelada\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}",
+          "raw": "{\n    \"requestId\": \"REQ-003-{{run_id}}\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"APROBADO\",\n    \"description\": \"Intento de modificar una solicitud cancelada\",\n    \"adopter\": { \"id\": {{adopter_id}} },\n    \"pet\": { \"id\": {{pet_id}} }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -519,7 +852,63 @@
       ]
     },
     {
+      "name": "Preparar solicitud pendiente para borrar",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "   pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "   var data = pm.response.json();",
+              "   pm.globals.set(\"pending_delete_request_id\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"requestId\": \"REQ-005-{{run_id}}\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"PENDIENTE\",\n    \"description\": \"Preparada para la prueba\",\n    \"adopter\": { \"id\": {{adopter_id}} },\n    \"pet\": { \"id\": {{pet_id}} }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Borrar una solicitud de adopción",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "   pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
         "header": [],
@@ -567,6 +956,24 @@
     },
     {
       "name": "Borrar una solicitud de adopción que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "   pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"AdoptionRequest not found\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
         "header": [],
@@ -613,7 +1020,68 @@
       ]
     },
     {
+      "name": "Preparar solicitud aprobada para borrar",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "   pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "   var data = pm.response.json();",
+              "   pm.globals.set(\"approved_delete_request_id\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"requestId\": \"REQ-004-{{run_id}}\",\n    \"dateRequest\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"APROBADO\",\n    \"description\": \"Preparada para la prueba\",\n    \"adopter\": { \"id\": {{adopter_id}} },\n    \"pet\": { \"id\": {{pet_id}} }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Borrar una solicitud de adopción ya aprobada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "   pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"Unable to delete AdoptionRequest, it was already approved and generated an Adoption\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
         "header": [],
@@ -655,9 +1123,47 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"21-02-2026 10:00:00\",\n        \"message\": \"Unable to delete an already approved AdoptionRequest\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"21-02-2026 10:00:00\",\n        \"message\": \"Unable to delete AdoptionRequest, it was already approved and generated an Adoption\"\n    }\n}"
         }
       ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api"
+    },
+    {
+      "key": "run_id",
+      "value": ""
+    },
+    {
+      "key": "adopter_phone",
+      "value": ""
+    },
+    {
+      "key": "adopter_id",
+      "value": ""
+    },
+    {
+      "key": "pet_id",
+      "value": ""
+    },
+    {
+      "key": "adoption_request_id",
+      "value": ""
+    },
+    {
+      "key": "cancelled_request_id",
+      "value": ""
+    },
+    {
+      "key": "pending_delete_request_id",
+      "value": ""
+    },
+    {
+      "key": "approved_delete_request_id",
+      "value": ""
     }
   ]
 }

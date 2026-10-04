@@ -1,15 +1,33 @@
 {
   "info": {
-    "_postman_id": "61b773d3-1c95-48ff-a0d2-cbda5b0f4064",
+    "_postman_id": "4d6c11d1-6783-4b71-b228-6aeea17a8940",
     "name": "TrialRequest",
-    "description": "Colección para el recurso TrialRequest. Representa las solicitudes de periodo de prueba de un adoptante sobre una mascota en un refugio.",
+    "description": "Colección para el recurso TrialRequest. Representa las solicitudes de periodo de prueba de un adoptante sobre una mascota en un refugio.\n\nPruebas corregidas: los datos previos que antes se creaban con pm.sendRequest en pre-request ahora son requests explícitos y secuenciales. Esto evita que la petición principal se ejecute antes de que existan sus datos de prueba.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "57861283",
-    "_collection_link": "https://go.postman.co/collection/57861283-61b773d3-1c95-48ff-a0d2-cbda5b0f4064?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/57861283-4d6c11d1-6783-4b71-b228-6aeea17a8940?source=collection_link"
   },
   "item": [
     {
       "name": "Crear una solicitud de periodo de prueba",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "   pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "   var data = pm.response.json();",
+              "   pm.globals.set(\"trial_request_id_1\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
@@ -83,6 +101,24 @@
     },
     {
       "name": "Crear una solicitud de prueba con adoptante inválido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "   pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"Adopter is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
@@ -156,6 +192,24 @@
     },
     {
       "name": "Obtener todas las solicitudes de periodo de prueba",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Number of trial requests > ' + 0, function () {",
+              "   var data = pm.response.json()",
+              "   pm.expect(data.length).to.greaterThan(0)",
+              "});",
+              "",
+              "pm.test(\"Status code is 200\", function () {",
+              "   pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -201,6 +255,19 @@
     },
     {
       "name": "Obtener una solicitud de periodo de prueba",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "   pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -248,6 +315,24 @@
     },
     {
       "name": "Obtener una solicitud de periodo de prueba que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "   pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"TrialRequest not found\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -295,6 +380,19 @@
     },
     {
       "name": "Actualizar una solicitud de periodo de prueba",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "   pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "PUT",
         "header": [
@@ -370,6 +468,24 @@
     },
     {
       "name": "Actualizar una solicitud de periodo de prueba que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "   pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"TrialRequest not found\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "PUT",
         "header": [
@@ -444,7 +560,67 @@
       ]
     },
     {
+      "name": "Preparar solicitud de prueba finalizada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {\n   pm.response.to.have.status(201);\n});\n\nif (pm.response.code === 201) {\n   var data = pm.response.json();\n   pm.globals.set(\"trial_request_id_2\", data.id);\n}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"trialId\": \"TR-003\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"FINALIZADA\",\n    \"description\": \"Preparada para la prueba\",\n    \"adopter\": { \"id\": 1 },\n    \"shelter\": { \"id\": 1 },\n    \"pet\": { \"id\": 1 }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trial-requests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trial-requests"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Actualizar una solicitud de periodo de prueba ya finalizada",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "   pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"Unable to update a finished or cancelled TrialRequest\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "PUT",
         "header": [
@@ -514,12 +690,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"21-02-2026 10:00:00\",\n        \"message\": \"Unable to update a TrialRequest that is already finished or cancelled\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"21-02-2026 10:00:00\",\n        \"message\": \"Unable to update a finished or cancelled TrialRequest\"\n    }\n}"
         }
       ]
     },
     {
       "name": "Borrar una solicitud de periodo de prueba",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "   pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
         "header": [],
@@ -567,6 +756,24 @@
     },
     {
       "name": "Borrar una solicitud de periodo de prueba que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "   pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"TrialRequest not found\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
         "header": [],
@@ -613,7 +820,111 @@
       ]
     },
     {
+      "name": "Preparar solicitud de prueba para devolución",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {\n   pm.response.to.have.status(201);\n});\n\nif (pm.response.code === 201) {\n   var data = pm.response.json();\n   pm.globals.set(\"trial_request_id_3\", data.id);\n}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"trialId\": \"TR-004\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"FINALIZADA\",\n    \"description\": \"Preparada para la prueba\",\n    \"adopter\": { \"id\": 1 },\n    \"shelter\": { \"id\": 1 },\n    \"pet\": { \"id\": 1 }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trial-requests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trial-requests"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Preparar Return asociado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {\n   pm.response.to.have.status(201);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"returnType\": \"DEVOLUCION\",\n    \"description\": \"La mascota no se adaptó\",\n    \"date\": \"2026-09-20\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialrequests/{{trial_request_id_3}}/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialrequests",
+            "{{trial_request_id_3}}",
+            "return"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Borrar una solicitud de periodo de prueba con un Return asociado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "   pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "   var data = pm.response.json();",
+              "   pm.expect(data.apierror.message).to.eql(\"Unable to delete TrialRequest, it already has an associated Return\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
         "header": [],
@@ -655,7 +966,7 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"21-02-2026 10:00:00\",\n        \"message\": \"Unable to delete a TrialRequest that already has an associated Return\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"21-02-2026 10:00:00\",\n        \"message\": \"Unable to delete TrialRequest, it already has an associated Return\"\n    }\n}"
         }
       ]
     }
