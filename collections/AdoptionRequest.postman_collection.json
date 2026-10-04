@@ -723,14 +723,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Setup status code is 201\", function () {",
-              "   pm.response.to.have.status(201);",
-              "});",
-              "",
-              "if (pm.response.code === 201) {",
-              "   var data = pm.response.json();",
-              "   pm.globals.set(\"cancelled_request_id\", data.id);",
-              "}"
+              "pm.test(\"Setup status code is 201\", function () {\n   pm.response.to.have.status(201);\n});\n\nif (pm.response.code === 201) {\n   var data = pm.response.json();\n   pm.collectionVariables.set(\"adoption_request_id_2\", data.id);\n}"
             ]
           }
         }
@@ -753,7 +746,13 @@
           }
         },
         "url": {
-          "raw": ""
+          "raw": "{{baseUrl}}/adoption-requests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoption-requests"
+          ]
         }
       },
       "response": []
@@ -859,14 +858,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Setup status code is 201\", function () {",
-              "   pm.response.to.have.status(201);",
-              "});",
-              "",
-              "if (pm.response.code === 201) {",
-              "   var data = pm.response.json();",
-              "   pm.globals.set(\"pending_delete_request_id\", data.id);",
-              "}"
+              "pm.test(\"Setup status code is 201\", function () {\n   pm.response.to.have.status(201);\n});\n\nif (pm.response.code === 201) {\n   var data = pm.response.json();\n   pm.collectionVariables.set(\"adoption_request_id_1\", data.id);\n}"
             ]
           }
         }
@@ -889,7 +881,13 @@
           }
         },
         "url": {
-          "raw": ""
+          "raw": "{{baseUrl}}/adoption-requests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoption-requests"
+          ]
         }
       },
       "response": []
@@ -1027,14 +1025,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Setup status code is 201\", function () {",
-              "   pm.response.to.have.status(201);",
-              "});",
-              "",
-              "if (pm.response.code === 201) {",
-              "   var data = pm.response.json();",
-              "   pm.globals.set(\"approved_delete_request_id\", data.id);",
-              "}"
+              "pm.test(\"Setup status code is 201\", function () {\n   pm.response.to.have.status(201);\n});\n\nif (pm.response.code === 201) {\n   var data = pm.response.json();\n   pm.collectionVariables.set(\"adoption_request_id_3\", data.id);\n}"
             ]
           }
         }
@@ -1057,7 +1048,13 @@
           }
         },
         "url": {
-          "raw": ""
+          "raw": "{{baseUrl}}/adoption-requests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoption-requests"
+          ]
         }
       },
       "response": []
@@ -1163,6 +1160,18 @@
     },
     {
       "key": "approved_delete_request_id",
+      "value": ""
+    },
+    {
+      "key": "adoption_request_id_2",
+      "value": ""
+    },
+    {
+      "key": "adoption_request_id_1",
+      "value": ""
+    },
+    {
+      "key": "adoption_request_id_3",
       "value": ""
     }
   ]
