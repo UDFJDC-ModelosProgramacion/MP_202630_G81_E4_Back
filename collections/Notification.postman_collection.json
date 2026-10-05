@@ -1,10 +1,343 @@
 {
   "info": {
-    "_postman_id": "3f23521f-6875-47e2-9469-710f03fca505",
+    "_postman_id": "cbca6d29-10a7-49bd-8bed-6d04264bf516",
     "name": "Notification",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
+    {
+      "name": "00 - Preparar datos / Crear adoptante para la Adoption de prueba",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Diagonal 25 # 5-60, Bogotá\",\n    \"phone\": \"3101112233\",\n    \"occupation\": \"Diseñadora\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"ntf_adopter_id\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear mascota (pet_id_1)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Firulais\",\n    \"specie\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"weight\": 12.5,\n    \"healthStatus\": \"Sano\",\n    \"adoptionStatus\": \"DISPONIBLE\",\n    \"description\": \"Mascota de prueba para Notification\",\n    \"admissionDate\": \"2026-08-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"pet_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear usuario destinatario (user_id_1)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Laura Gómez\",\n    \"email\": \"laura.gomez@example.com\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 10 # 20-30, Bogotá\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"user_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear otro usuario (other_user_id)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Andrés Pardo\",\n    \"email\": \"andres.pardo@example.com\",\n    \"phone\": \"3007654321\",\n    \"address\": \"Carrera 7 # 45-10, Bogotá\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"other_user_id\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear AdoptionRequest pendiente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoption-requests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoption-requests"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"requestId\": \"REQ-NTF-0001\",\n    \"dateRequest\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"PENDIENTE\",\n    \"description\": \"Previa para poder crear la Adoption de pruebas\",\n    \"adopter\": {\n        \"id\": \"{{ntf_adopter_id}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"ntf_request_id\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00 - Preparar datos / Aprobar el AdoptionRequest",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoption-requests/{{ntf_request_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoption-requests",
+            "{{ntf_request_id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"requestId\": \"REQ-NTF-0001\",\n    \"dateRequest\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"APROBADO\",\n    \"description\": \"Aprobada para crear la Adoption de pruebas\",\n    \"adopter\": {\n        \"id\": \"{{ntf_adopter_id}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear la Adoption (adoption_id_1)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"adoptionId\": \"AD-NTF-0001\",\n    \"status\": \"ACTIVA\",\n    \"date\": \"2026-09-10T00:00:00-05:00\",\n    \"adopter\": {\n        \"id\": \"{{ntf_adopter_id}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"adoption_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
     {
       "name": "Crear una notificación",
       "request": {
@@ -26,7 +359,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -56,7 +389,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+              "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -74,6 +407,23 @@
             }
           ],
           "body": "{\n    \"id\": 1,\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"read\": false,\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"notification_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -98,7 +448,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+          "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -128,7 +478,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+              "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -146,6 +496,24 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification content cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Notification content cannot be null or empty\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -170,7 +538,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"FAX\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"FAX\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -200,7 +568,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"FAX\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}",
+              "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"FAX\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -218,6 +586,113 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification channel is not valid or not supported\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Notification channel is not valid or not supported\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear una segunda notificación (para prueba de borrado sin leer)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/notifications",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear una segunda notificación",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"read\": false,\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"notification_id_2\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -262,6 +737,24 @@
             }
           ],
           "body": "[\n    {\n        \"id\": 1,\n        \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n        \"date\": \"2026-09-20T10:00:00-05:00\",\n        \"read\": false,\n        \"channel\": \"EMAIL\",\n        \"user\": {\n            \"id\": 3,\n            \"name\": \"Laura Gómez\"\n        },\n        \"adoption\": {\n            \"id\": 5,\n            \"date\": \"2026-09-10\"\n        },\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        }\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Number of notifications > ' + 0, function () {",
+              "    var data = pm.response.json()",
+              "    pm.expect(data.length).to.greaterThan(0)",
+              "});",
+              "",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -309,6 +802,19 @@
           ],
           "body": "{\n    \"id\": 1,\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"read\": false,\n    \"channel\": \"EMAIL\",\n    \"user\": {\n        \"id\": 3,\n        \"name\": \"Laura Gómez\"\n    },\n    \"adoption\": {\n        \"id\": 5,\n        \"date\": \"2026-09-10\"\n    },\n    \"pet\": {\n        \"id\": 2,\n        \"name\": \"Firulais\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -353,7 +859,25 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The notification with the given id was not found\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification does not exist\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Notification does not exist\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -429,6 +953,19 @@
           ],
           "body": "{\n    \"id\": 1,\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"read\": true,\n    \"channel\": \"EMAIL\",\n    \"userId\": 3,\n    \"adoptionId\": 5,\n    \"petId\": 2\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -502,6 +1039,24 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification does not exist\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Notification does not exist\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -577,97 +1132,23 @@
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"User is not authorized to update this notification\"\n    }\n}"
         }
-      ]
-    },
-    {
-      "name": "Borrar una notificación leída",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{user_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "notifications",
-            "{{notification_id_1}}"
-          ]
-        }
-      },
-      "response": [
+      ],
+      "event": [
         {
-          "name": "Borrar una notificación leída",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{user_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "notifications",
-                "{{notification_id_1}}"
-              ]
-            }
-          },
-          "status": "No Content",
-          "code": 204,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "body": "null"
-        }
-      ]
-    },
-    {
-      "name": "Borrar una notificación que no existe",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/notifications/0?userId={{user_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "notifications",
-            "0"
-          ]
-        }
-      },
-      "response": [
-        {
-          "name": "Borrar una notificación que no existe",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/notifications/0?userId={{user_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "notifications",
-                "0"
-              ]
-            }
-          },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification does not exist\"\n    }\n}"
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"User is not authorized to update this notification\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -715,6 +1196,24 @@
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"User is not authorized to delete this notification\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"User is not authorized to delete this notification\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -760,6 +1259,147 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification must be read before deletion\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Notification must be read before deletion\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrar una notificación leída",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{user_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "{{notification_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una notificación leída",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/{{notification_id_1}}?userId={{user_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notification_id_1}}"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "null"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrar una notificación que no existe",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/notifications/0?userId={{user_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "notifications",
+            "0"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una notificación que no existe",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/0?userId={{user_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Notification does not exist\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Notification does not exist\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -812,6 +1452,24 @@
               ],
               "body": "[\n    {\n        \"id\": 1,\n        \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n        \"date\": \"2026-09-20T10:00:00-05:00\",\n        \"read\": false,\n        \"channel\": \"EMAIL\",\n        \"user\": {\n            \"id\": 3,\n            \"name\": \"Laura Gómez\"\n        },\n        \"adoption\": {\n            \"id\": 5,\n            \"date\": \"2026-09-10\"\n        },\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        }\n    }\n]"
             }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Number of notifications > ' + 0, function () {",
+                  "    var data = pm.response.json()",
+                  "    pm.expect(data.length).to.greaterThan(0)",
+                  "});",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
           ]
         },
         {
@@ -859,6 +1517,24 @@
                 }
               ],
               "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The user with the given id was not found\"\n    }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.apierror.message).to.eql(\"The user with the given id was not found\");",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -908,6 +1584,24 @@
               ],
               "body": "[\n    {\n        \"id\": 1,\n        \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n        \"date\": \"2026-09-20T10:00:00-05:00\",\n        \"read\": false,\n        \"channel\": \"EMAIL\",\n        \"user\": {\n            \"id\": 3,\n            \"name\": \"Laura Gómez\"\n        },\n        \"adoption\": {\n            \"id\": 5,\n            \"date\": \"2026-09-10\"\n        },\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        }\n    }\n]"
             }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Number of notifications > ' + 0, function () {",
+                  "    var data = pm.response.json()",
+                  "    pm.expect(data.length).to.greaterThan(0)",
+                  "});",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
           ]
         },
         {
@@ -955,6 +1649,24 @@
                 }
               ],
               "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The adoption with the given id was not found\"\n    }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.apierror.message).to.eql(\"The adoption with the given id was not found\");",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -1004,6 +1716,24 @@
               ],
               "body": "[\n    {\n        \"id\": 1,\n        \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n        \"date\": \"2026-09-20T10:00:00-05:00\",\n        \"read\": false,\n        \"channel\": \"EMAIL\",\n        \"user\": {\n            \"id\": 3,\n            \"name\": \"Laura Gómez\"\n        },\n        \"adoption\": {\n            \"id\": 5,\n            \"date\": \"2026-09-10\"\n        },\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        }\n    }\n]"
             }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Number of notifications > ' + 0, function () {",
+                  "    var data = pm.response.json()",
+                  "    pm.expect(data.length).to.greaterThan(0)",
+                  "});",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
           ]
         },
         {
@@ -1052,9 +1782,33 @@
               ],
               "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
             }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+                  "});"
+                ]
+              }
+            }
           ]
         }
       ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api"
     }
   ]
 }

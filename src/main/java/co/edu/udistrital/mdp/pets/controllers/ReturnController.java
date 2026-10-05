@@ -68,7 +68,8 @@ public class ReturnController {
      */
     @PostMapping("/trialrequests/{trialRequestId}/return")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ReturnDTO create(@PathVariable Long trialRequestId, @RequestBody ReturnDTO returnDTO){
+    public ReturnDTO create(@PathVariable Long trialRequestId, @RequestBody ReturnDTO returnDTO)
+            throws EntityNotFoundException, IllegalOperationException {
         ReturnEntity returnEntity = modelMapper.map(returnDTO, ReturnEntity.class);
         TrialRequestEntity trialRequest = new TrialRequestEntity();
         trialRequest.setId(trialRequestId);
