@@ -1,10 +1,154 @@
 {
   "info": {
-    "_postman_id": "5dd7ea61-cf5e-4c0f-ae1b-c8293456b7f2",
+    "_postman_id": "15c1c207-1a84-4a40-9fce-f9a58ceeac66",
     "name": "Review",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
+    {
+      "name": "00 - Preparar datos / Crear mascota (pet_id_1)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Luna\",\n    \"specie\": \"Gato\",\n    \"breed\": \"Criollo\",\n    \"age\": 2,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"weight\": 4.2,\n    \"healthStatus\": \"Sano\",\n    \"adoptionStatus\": \"DISPONIBLE\",\n    \"description\": \"Mascota de prueba para Review\",\n    \"admissionDate\": \"2026-08-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"pet_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear adoptante (adopter_id_1)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Diagonal 25 # 5-60, Bogotá\",\n    \"phone\": \"3101112233\",\n    \"occupation\": \"Diseñadora\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"adopter_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear otro adoptante (other_adopter_id)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Avenida 68 # 30-15, Bogotá\",\n    \"phone\": \"3109998877\",\n    \"occupation\": \"Contador\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"other_adopter_id\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
     {
       "name": "Crear una reseña",
       "request": {
@@ -26,7 +170,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -56,7 +200,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -74,6 +218,23 @@
             }
           ],
           "body": "{\n    \"id\": 1,\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json()",
+              "",
+              "pm.globals.set(\"review_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -98,7 +259,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 0,\n    \"adopterId\": 4\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 0,\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -128,7 +289,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 0,\n    \"adopterId\": 4\n}",
+              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 0,\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -146,6 +307,24 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Pet does not exist\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Pet does not exist\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -170,7 +349,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 0\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": 0\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -200,7 +379,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 0\n}",
+              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": 0\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -218,6 +397,24 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Adopter does not exist\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Adopter does not exist\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -242,7 +439,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+          "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -272,7 +469,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+              "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -290,6 +487,24 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Rating must be between 1 and 5\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Rating must be between 1 and 5\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -314,7 +529,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -344,7 +559,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}",
+              "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -362,6 +577,24 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Comment cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Comment cannot be null or empty\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -406,6 +639,24 @@
             }
           ],
           "body": "[\n    {\n        \"id\": 1,\n        \"rating\": 5,\n        \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n        \"date\": \"2026-09-15\",\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        },\n        \"adopter\": {\n            \"id\": 4,\n            \"name\": \"Carlos Ruiz\"\n        }\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Number of reviews > ' + 0, function () {",
+              "    var data = pm.response.json()",
+              "    pm.expect(data.length).to.greaterThan(0)",
+              "});",
+              "",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -453,6 +704,19 @@
           ],
           "body": "{\n    \"id\": 1,\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": 2,\n        \"name\": \"Firulais\"\n    },\n    \"adopter\": {\n        \"id\": 4,\n        \"name\": \"Carlos Ruiz\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -497,81 +761,25 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The review with the given id was not found\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Review does not exist\"\n    }\n}"
         }
-      ]
-    },
-    {
-      "name": "Actualizar una reseña",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "reviews",
-            "{{review_id_1}}"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
+      ],
+      "event": [
         {
-          "name": "Actualizar una reseña",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "reviews",
-                "{{review_id_1}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "body": "{\n    \"id\": 1,\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}"
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Review does not exist\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -647,6 +855,24 @@
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Review does not exist\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Review does not exist\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -721,13 +947,36 @@
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"User is not authorized to update this review\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"User is not authorized to update this review\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
-      "name": "Borrar una reseña",
+      "name": "Actualizar una reseña",
       "request": {
-        "method": "DELETE",
-        "header": [],
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "url": {
           "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
           "host": [
@@ -737,14 +986,28 @@
             "reviews",
             "{{review_id_1}}"
           ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         }
       },
       "response": [
         {
-          "name": "Borrar una reseña",
+          "name": "Actualizar una reseña",
           "originalRequest": {
-            "method": "DELETE",
-            "header": [],
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
               "host": [
@@ -754,10 +1017,19 @@
                 "reviews",
                 "{{review_id_1}}"
               ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           },
-          "status": "No Content",
-          "code": 204,
+          "status": "OK",
+          "code": 200,
           "_postman_previewlanguage": "json",
           "header": [
             {
@@ -765,7 +1037,20 @@
               "value": "application/json"
             }
           ],
-          "body": "null"
+          "body": "{\n    \"id\": 1,\n    \"rating\": 4,\n    \"comment\": \"Todo bien, aunque tardó un poco el papeleo\",\n    \"date\": \"2026-09-16\",\n    \"petId\": 2,\n    \"adopterId\": 4\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -813,6 +1098,24 @@
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Review does not exist\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Review does not exist\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -858,6 +1161,83 @@
             }
           ],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"User is not authorized to delete this review\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"User is not authorized to delete this review\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrar una reseña",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews",
+            "{{review_id_1}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar una reseña",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/{{review_id_1}}?userId={{adopter_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reviews",
+                "{{review_id_1}}"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "null"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -910,6 +1290,24 @@
               ],
               "body": "[\n    {\n        \"id\": 1,\n        \"rating\": 5,\n        \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n        \"date\": \"2026-09-15\",\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        },\n        \"adopter\": {\n            \"id\": 4,\n            \"name\": \"Carlos Ruiz\"\n        }\n    }\n]"
             }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Number of reviews > ' + 0, function () {",
+                  "    var data = pm.response.json()",
+                  "    pm.expect(data.length).to.greaterThan(0)",
+                  "});",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
           ]
         },
         {
@@ -957,6 +1355,24 @@
                 }
               ],
               "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -1006,6 +1422,24 @@
               ],
               "body": "[\n    {\n        \"id\": 1,\n        \"rating\": 5,\n        \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n        \"date\": \"2026-09-15\",\n        \"pet\": {\n            \"id\": 2,\n            \"name\": \"Firulais\"\n        },\n        \"adopter\": {\n            \"id\": 4,\n            \"name\": \"Carlos Ruiz\"\n        }\n    }\n]"
             }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Number of reviews > ' + 0, function () {",
+                  "    var data = pm.response.json()",
+                  "    pm.expect(data.length).to.greaterThan(0)",
+                  "});",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
           ]
         },
         {
@@ -1054,9 +1488,33 @@
               ],
               "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"The adopter with the given id was not found\"\n    }\n}"
             }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.apierror.message).to.eql(\"The adopter with the given id was not found\");",
+                  "});"
+                ]
+              }
+            }
           ]
         }
       ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api"
     }
   ]
 }
