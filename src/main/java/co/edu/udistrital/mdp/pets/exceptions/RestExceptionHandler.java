@@ -2,6 +2,7 @@ package co.edu.udistrital.mdp.pets.exceptions;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -45,6 +46,30 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
+
+        /**
+     * Maneja jakarta.persistence.EntityNotFoundException, usada por
+     * PetService y por los services de User/Adopter/Message.
+     */
+    @ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
+    protected ResponseEntity<Object> handleJpaEntityNotFound(
+            jakarta.persistence.EntityNotFoundException ex) {
+        ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    /**
+     * Maneja BusinessLogicException, usada por PetService y por los
+     * services de User/Adopter/Message.
+     */
+    @ExceptionHandler(BusinessLogicException.class)
+    protected ResponseEntity<Object> handleBusinessLogic(
+            BusinessLogicException ex) {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
     }
 
 }
