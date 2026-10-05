@@ -32,6 +32,9 @@ public class NotificationService {
 
     private final Map<String, NotificationStrategy> strategies;
 
+    private String inexistentNotificationMessage = "Notification does not exist";
+
+
     @Transactional(readOnly = true)
     public List<NotificationEntity> getNotifications() {
         log.info("Inicia proceso de consulta de todas las notificaciones");
@@ -42,7 +45,7 @@ public class NotificationService {
     public NotificationEntity getNotification(Long notificationId) throws EntityNotFoundException {
         log.info("Inicia proceso de consulta de la notificación con id = {}", notificationId);
         return notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new EntityNotFoundException("Notification does not exist"));
+                .orElseThrow(() -> new EntityNotFoundException(inexistentNotificationMessage));
     }
     
     @Transactional
@@ -64,7 +67,7 @@ public class NotificationService {
     public NotificationEntity updateNotification(NotificationEntity notification, Long requestingUserId) throws IllegalOperationException {
         log.info("Inicia proceso de actualización de la notificación");
         if (notification.getId() == null || !notificationRepository.existsById(notification.getId()))
-            throw new IllegalOperationException("Notification does not exist");
+            throw new IllegalOperationException(inexistentNotificationMessage);
 
         if(!requestingUserId.equals(notification.getUser().getId()))
             throw new IllegalOperationException("User is not authorized to update this notification");
@@ -78,7 +81,7 @@ public class NotificationService {
         log.info("Inicia proceso de eliminación de la notificación");
         
         if (!notificationRepository.existsById(notification.getId()))
-            throw new IllegalOperationException("Notification does not exist");
+            throw new IllegalOperationException(inexistentNotificationMessage);
 
         if(!requestingUserId.equals(notification.getUser().getId()))
             throw new IllegalOperationException("User is not authorized to delete this notification");

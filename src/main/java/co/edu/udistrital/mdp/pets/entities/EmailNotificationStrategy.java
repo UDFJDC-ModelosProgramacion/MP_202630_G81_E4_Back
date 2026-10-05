@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Component("EMAIL")
+@Component("email")
 @Slf4j 
 public class EmailNotificationStrategy implements NotificationStrategy {
  
