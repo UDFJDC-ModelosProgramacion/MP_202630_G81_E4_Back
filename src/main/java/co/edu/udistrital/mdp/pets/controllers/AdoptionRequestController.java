@@ -52,7 +52,7 @@ public class AdoptionRequestController {
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public AdoptionRequestDTO create(@RequestBody AdoptionRequestDTO dto)
-			throws EntityNotFoundException, IllegalOperationException {
+			throws IllegalOperationException {
 		AdoptionRequestEntity entity = adoptionRequestService.createAdoptionRequest(modelMapper.map(dto, AdoptionRequestEntity.class));
 		return modelMapper.map(entity, AdoptionRequestDTO.class);
 	}

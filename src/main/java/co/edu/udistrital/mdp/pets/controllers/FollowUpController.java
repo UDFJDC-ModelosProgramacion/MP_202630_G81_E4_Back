@@ -56,7 +56,7 @@ public class FollowUpController {
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public FollowUpDTO create(@RequestBody FollowUpDTO dto)
-			throws EntityNotFoundException, IllegalOperationException {
+			throws IllegalOperationException {
 		FollowUpEntity entity = followUpService.createFollowUp(modelMapper.map(dto, FollowUpEntity.class));
 		return modelMapper.map(entity, FollowUpDTO.class);
 	}
