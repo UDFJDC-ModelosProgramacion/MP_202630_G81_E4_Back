@@ -5,21 +5,20 @@ import co.edu.udistrital.mdp.pets.entities.PetEventEntity;
 import co.edu.udistrital.mdp.pets.services.PetEventService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class PetEventController {
 
-    @Autowired
-    private PetEventService eventService;
+    private final PetEventService eventService;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @PostMapping("/pets/{petId}/events")
     @ResponseStatus(HttpStatus.CREATED)

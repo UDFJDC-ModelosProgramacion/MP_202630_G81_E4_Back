@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.udistrital.mdp.pets.dto.MessageDTO;
 import co.edu.udistrital.mdp.pets.entities.MessageEntity;
 import co.edu.udistrital.mdp.pets.services.MessageService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/messages")
+@RequiredArgsConstructor
 public class MessageController {
 
-    @Autowired
-    private MessageService messageService;
+    private final MessageService messageService;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
