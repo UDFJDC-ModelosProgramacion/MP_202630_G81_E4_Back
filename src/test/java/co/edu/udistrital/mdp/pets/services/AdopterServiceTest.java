@@ -26,7 +26,7 @@ import co.edu.udistrital.mdp.pets.repositories.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
-public class AdopterServiceTest {
+class AdopterServiceTest {
 
     @Mock
     private AdopterRepository adopterRepository;
