@@ -8,9 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -127,44 +131,20 @@ class ReviewServiceTest {
         assertEquals(pet.getId(), stored.getPet().getId());
     }
 
-    @Test
-    void testCreateReviewWithNullRating() {
-        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-        newEntity.setRating(null);
-        newEntity.setComment("Great experience");
-        newEntity.setPet(pet);
-
-        assertThrows(IllegalArgumentException.class,
-            () -> reviewService.createReview(newEntity));
+    static Stream<Arguments> invalidRatingOrComment() {
+        return Stream.of(
+            Arguments.of(null, "Great experience"),
+            Arguments.of(6, "Great experience"),
+            Arguments.of(5, null),
+            Arguments.of(5, ""));
     }
 
-    @Test
-    void testCreateReviewWithRatingOutOfRange() {
+    @ParameterizedTest
+    @MethodSource("invalidRatingOrComment")
+    void testCreateReviewWithInvalidRatingOrComment(Integer rating, String comment) {
         ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-        newEntity.setRating(6);
-        newEntity.setComment("Great experience");
-        newEntity.setPet(pet);
-
-        assertThrows(IllegalArgumentException.class,
-            () -> reviewService.createReview(newEntity));
-    }
-
-    @Test
-    void testCreateReviewWithNullComment() {
-        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-        newEntity.setRating(5);
-        newEntity.setComment(null);
-        newEntity.setPet(pet);
-
-        assertThrows(IllegalArgumentException.class,
-            () -> reviewService.createReview(newEntity));
-    }
-
-    @Test
-    void testCreateReviewWithEmptyComment() {
-        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
-        newEntity.setRating(5);
-        newEntity.setComment("");
+        newEntity.setRating(rating);
+        newEntity.setComment(comment);
         newEntity.setPet(pet);
 
         assertThrows(IllegalArgumentException.class,
