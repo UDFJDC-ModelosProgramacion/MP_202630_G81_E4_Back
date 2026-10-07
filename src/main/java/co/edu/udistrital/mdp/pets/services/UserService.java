@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,15 +11,15 @@ import co.edu.udistrital.mdp.pets.exceptions.BusinessLogicException;
 import co.edu.udistrital.mdp.pets.repositories.NotificationRepository;
 import co.edu.udistrital.mdp.pets.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private NotificationRepository notificationRepository;
+    private final NotificationRepository notificationRepository;
 
     @Transactional
     public UserEntity createUser(UserEntity user) {

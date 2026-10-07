@@ -6,20 +6,19 @@ import co.edu.udistrital.mdp.pets.exceptions.BusinessLogicException;
 import co.edu.udistrital.mdp.pets.repositories.MedicalHistoryRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MedicalHistoryService {
 
-    @Autowired
-    private MedicalHistoryRepository historyRepository;
+    private final MedicalHistoryRepository historyRepository;
 
-    @Autowired
-    private PetRepository petRepository;
+    private final PetRepository petRepository;
 
     @Transactional
     public MedicalHistoryEntity createMedicalHistory(Long petId, MedicalHistoryEntity history) {
