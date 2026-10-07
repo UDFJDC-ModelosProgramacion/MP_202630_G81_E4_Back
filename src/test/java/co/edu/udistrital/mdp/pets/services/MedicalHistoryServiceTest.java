@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
-public class MedicalHistoryServiceTest {
+class MedicalHistoryServiceTest {
 
     @Mock
     private MedicalHistoryRepository historyRepository;
