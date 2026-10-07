@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
-class PetEventServiceTest {
+public class PetEventServiceTest {
 
     @Mock
     private PetEventRepository eventRepository;
