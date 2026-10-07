@@ -6,21 +6,21 @@ import co.edu.udistrital.mdp.pets.exceptions.BusinessLogicException;
 import co.edu.udistrital.mdp.pets.repositories.PetEventRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class PetEventService {
 
-    private final PetEventRepository eventRepository;
+    @Autowired
+    private PetEventRepository eventRepository;
 
-    private final PetRepository petRepository;
+    @Autowired
+    private PetRepository petRepository;
 
     @Transactional
     public PetEventEntity createPetEvent(Long petId, PetEventEntity event) {
@@ -68,15 +68,14 @@ public class PetEventService {
         }
 
         if ("Reporte Médico".equalsIgnoreCase(event.getType()) || "Incidente".equalsIgnoreCase(event.getType())) {
-            LocalDate date;
             try {
-                date = LocalDate.parse(event.getDate());
-            } catch (DateTimeParseException e) {
+                LocalDate date = LocalDate.parse(event.getDate());
+                if (date.isAfter(LocalDate.now())) {
+                    throw new BusinessLogicException("La fecha de un reporte médico o incidente no puede ser futura.");
+                }
+            } catch (Exception e) {
+                if (e instanceof BusinessLogicException) throw e;
                 throw new BusinessLogicException("Formato de fecha inválido. Use YYYY-MM-DD.");
-            }
-
-            if (date.isAfter(LocalDate.now())) {
-                throw new BusinessLogicException("La fecha de un reporte médico o incidente no puede ser futura.");
             }
         }
     }

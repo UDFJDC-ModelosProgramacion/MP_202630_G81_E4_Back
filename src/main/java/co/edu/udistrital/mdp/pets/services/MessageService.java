@@ -3,6 +3,7 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,17 +12,15 @@ import co.edu.udistrital.mdp.pets.exceptions.BusinessLogicException;
 import co.edu.udistrital.mdp.pets.repositories.MessageRepository;
 import co.edu.udistrital.mdp.pets.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class MessageService {
 
-    private static final String NOT_EXISTS_SUFFIX = " no existe.";
+    @Autowired
+    private MessageRepository messageRepository;
 
-    private final MessageRepository messageRepository;
-
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     public MessageEntity createMessage(MessageEntity message) {
@@ -34,10 +33,10 @@ public class MessageService {
             throw new BusinessLogicException("Un usuario no puede enviarse un mensaje a sí mismo.");
         }
         if (userRepository.findById(senderId).isEmpty()) {
-            throw new EntityNotFoundException("El usuario remitente con ID " + senderId + NOT_EXISTS_SUFFIX);
+            throw new EntityNotFoundException("El usuario remitente con ID " + senderId + " no existe.");
         }
         if (userRepository.findById(receiverId).isEmpty()) {
-            throw new EntityNotFoundException("El usuario destinatario con ID " + receiverId + NOT_EXISTS_SUFFIX);
+            throw new EntityNotFoundException("El usuario destinatario con ID " + receiverId + " no existe.");
         }
 
         return messageRepository.save(message);
@@ -50,7 +49,7 @@ public class MessageService {
     public MessageEntity getMessage(Long id) {
         Optional<MessageEntity> message = messageRepository.findById(id);
         if (message.isEmpty()) {
-            throw new EntityNotFoundException("El mensaje con ID " + id + NOT_EXISTS_SUFFIX);
+            throw new EntityNotFoundException("El mensaje con ID " + id + " no existe.");
         }
         return message.get();
     }
