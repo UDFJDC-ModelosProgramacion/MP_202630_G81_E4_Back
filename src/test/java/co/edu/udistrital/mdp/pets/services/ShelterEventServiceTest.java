@@ -164,4 +164,18 @@ class ShelterEventServiceTest {
             shelterEventService.deleteShelterEvent(0L);
         });
     }
+
+    @Test
+    void testUpdateShelterEventWithoutShelter() throws EntityNotFoundException, IllegalOperationException {
+        ShelterEventEntity updated = factory.manufacturePojo(ShelterEventEntity.class);
+        updated.setId(shelterEvent.getId());
+        updated.setShelter(null); // No enviamos shelter
+
+        shelterEventService.updateShelterEvent(shelterEvent.getId(), updated);
+
+        ShelterEventEntity stored = entityManager.find(ShelterEventEntity.class, shelterEvent.getId());
+        // Debe conservar el shelter original
+        assertEquals(shelter.getId(), stored.getShelter().getId());
+        assertEquals(updated.getName(), stored.getName());
+    }
 }
