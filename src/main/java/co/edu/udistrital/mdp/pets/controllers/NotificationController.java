@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.udistrital.mdp.pets.dto.NotificationDTO;
 import co.edu.udistrital.mdp.pets.dto.NotificationDetailDTO;
+import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
 import co.edu.udistrital.mdp.pets.entities.NotificationEntity;
+import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.entities.UserEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.services.NotificationService;
@@ -64,16 +67,35 @@ public class NotificationController {
 
     /**
      * Creates a new notification with the information received in the body.
+     * The nested user/adoption/pet are built explicitly from
+     * userId/adoptionId/petId instead of relying on ModelMapper's implicit
+     * flat-to-nested mapping, which does not reliably populate them.
      *
      * @param notificationDTO {@link NotificationDTO} The notification to be saved.
      * @return JSON {@link NotificationDTO} The saved notification with its ID.
      */
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public NotificationDTO create(@RequestBody NotificationDTO notificationDTO){
-        NotificationEntity notificationEntity = notificationService
-                .createNotification(modelMapper.map(notificationDTO, NotificationEntity.class));
-        return modelMapper.map(notificationEntity, NotificationDTO.class);
+    public NotificationDTO create(@RequestBody NotificationDTO notificationDTO)
+            throws EntityNotFoundException, IllegalOperationException {
+        NotificationEntity notificationEntity = modelMapper.map(notificationDTO, NotificationEntity.class);
+
+        UserEntity user = new UserEntity();
+        user.setId(notificationDTO.getUserId());
+        notificationEntity.setUser(user);
+
+        AdoptionEntity adoption = new AdoptionEntity();
+        adoption.setId(notificationDTO.getAdoptionId());
+        notificationEntity.setAdoption(adoption);
+
+        if (notificationDTO.getPetId() != null) {
+            PetEntity pet = new PetEntity();
+            pet.setId(notificationDTO.getPetId());
+            notificationEntity.setPet(pet);
+        }
+
+        NotificationEntity saved = notificationService.createNotification(notificationEntity);
+        return modelMapper.map(saved, NotificationDTO.class);
     }
 
     /**

@@ -41,13 +41,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"pet_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"pet_id_1\", data.id);",
+              "}"
             ]
           }
         }
@@ -89,13 +90,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"adopter_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"adopter_id_1\", data.id);",
+              "}"
             ]
           }
         }
@@ -137,13 +139,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"other_adopter_id\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"other_adopter_id\", data.id);",
+              "}"
             ]
           }
         }
@@ -226,13 +229,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"review_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"review_id_1\", data.id);",
+              "}"
             ]
           }
         }

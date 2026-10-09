@@ -41,13 +41,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"adopter_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"adopter_id_1\", data.id);",
+              "}"
             ]
           }
         }
@@ -89,13 +90,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"pet_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"pet_id_1\", data.id);",
+              "}"
             ]
           }
         }
@@ -137,13 +139,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"shelter_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"shelter_id_1\", data.id);",
+              "}"
             ]
           }
         }
@@ -185,17 +188,116 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"trial_request_return_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"trial_request_return_1\", data.id);",
+              "}"
             ]
           }
         }
       ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear mascota 2, exclusiva para el TrialRequest 2 (pet_id_2)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"pet_id_2\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Nube\",\n    \"specie\": \"Gato\",\n    \"breed\": \"Criollo\",\n    \"age\": 1,\n    \"sex\": \"Hembra\",\n    \"size\": \"Pequeño\",\n    \"weight\": 3.5,\n    \"healthStatus\": \"Sano\",\n    \"adoptionStatus\": \"DISPONIBLE\",\n    \"description\": \"Mascota exclusiva para probar el segundo TrialRequest\",\n    \"admissionDate\": \"2026-08-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "00 - Preparar datos / Crear adoptante 2, exclusivo para el TrialRequest 2 (adopter_id_2)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"adopter_id_2\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Calle 80 # 15-40, Bogotá\",\n    \"phone\": \"3112223344\",\n    \"occupation\": \"Arquitecto\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        }
+      },
+      "response": []
     },
     {
       "name": "00 - Preparar datos / Crear TrialRequest 2, sin devolución (trial_request_return_2)",
@@ -218,7 +320,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"trialId\": \"TR-RTN-0002\",\n    \"date\": \"2026-09-20T00:00:00-05:00\",\n    \"status\": \"ACTIVA\",\n    \"description\": \"Segunda convivencia, se deja sin devolución a propósito\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"trialId\": \"TR-RTN-0002\",\n    \"date\": \"2026-09-20T00:00:00-05:00\",\n    \"status\": \"ACTIVA\",\n    \"description\": \"Segunda convivencia, con su propio adoptante y mascota para no chocar con la primera\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_2}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_2}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -233,13 +335,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"trial_request_return_2\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"trial_request_return_2\", data.id);",
+              "}"
             ]
           }
         }
@@ -326,13 +429,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"return_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"return_id_1\", data.id);",
+              "}"
             ]
           }
         }

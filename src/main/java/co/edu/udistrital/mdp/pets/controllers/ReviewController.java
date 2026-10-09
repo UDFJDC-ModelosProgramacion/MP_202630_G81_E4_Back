@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.udistrital.mdp.pets.dto.ReviewDTO;
 import co.edu.udistrital.mdp.pets.dto.ReviewDetailDTO;
+import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
+import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.entities.ReviewEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
@@ -64,15 +66,29 @@ public class ReviewController {
 
     /**
      * Creates a new review with the information received in the body.
+     * The nested pet/adopter are built explicitly from petId/adopterId
+     * instead of relying on ModelMapper's implicit flat-to-nested mapping,
+     * which does not reliably populate them.
      *
      * @param reviewDTO {@link ReviewDTO} The review to be saved.
      * @return JSON {@link ReviewDTO} The saved review with its ID.
      */
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ReviewDTO create(@RequestBody ReviewDTO reviewDTO){
-        ReviewEntity reviewEntity = reviewService.createReview(modelMapper.map(reviewDTO, ReviewEntity.class));
-        return modelMapper.map(reviewEntity, ReviewDTO.class);
+    public ReviewDTO create(@RequestBody ReviewDTO reviewDTO)
+            throws EntityNotFoundException, IllegalOperationException {
+        ReviewEntity reviewEntity = modelMapper.map(reviewDTO, ReviewEntity.class);
+
+        PetEntity pet = new PetEntity();
+        pet.setId(reviewDTO.getPetId());
+        reviewEntity.setPet(pet);
+
+        AdopterEntity adopter = new AdopterEntity();
+        adopter.setId(reviewDTO.getAdopterId());
+        reviewEntity.setAdopter(adopter);
+
+        ReviewEntity saved = reviewService.createReview(reviewEntity);
+        return modelMapper.map(saved, ReviewDTO.class);
     }
 
     /**
@@ -87,7 +103,7 @@ public class ReviewController {
     @PutMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public ReviewDTO update(@PathVariable Long id, @RequestParam Long userId, @RequestBody ReviewDTO reviewDTO)
-            throws EntityNotFoundException{
+            throws EntityNotFoundException, IllegalOperationException {
         ReviewEntity existing = reviewService.getReview(id);
         ReviewEntity changes = modelMapper.map(reviewDTO, ReviewEntity.class);
         changes.setId(id);
@@ -106,7 +122,8 @@ public class ReviewController {
      */
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id, @RequestParam Long userId){
+    public void delete(@PathVariable Long id, @RequestParam Long userId)
+            throws EntityNotFoundException, IllegalOperationException {
         reviewService.deleteReview(id, userId);
     }
 }
