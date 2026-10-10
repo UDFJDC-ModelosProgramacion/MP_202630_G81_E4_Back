@@ -11,5 +11,5 @@ import co.edu.udistrital.mdp.pets.entities.ReviewEntity;
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
     List<ReviewEntity> findByAdopterId(Long adopterId);
-
+    List<ReviewEntity> findByPetId(Long petId);
 }

@@ -349,194 +349,6 @@
       ]
     },
     {
-      "name": "Registrar la devolución de una convivencia de prueba",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/trialrequests/{{trial_request_return_1}}/return",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "trialrequests",
-            "{{trial_request_return_1}}",
-            "return"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
-        {
-          "name": "Registrar la devolución de una convivencia de prueba",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/trialrequests/{{trial_request_return_1}}/return",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "trialrequests",
-                "{{trial_request_return_1}}",
-                "return"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "status": "Created",
-          "code": 201,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "body": "{\n    \"id\": 1,\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\",\n    \"trialRequestId\": 7\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});",
-              "",
-              "if (pm.response.code === 201) {",
-              "    var data = pm.response.json();",
-              "    pm.globals.set(\"return_id_1\", data.id);",
-              "}"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Registrar una devolución sobre una convivencia que no existe",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/trialrequests/0/return",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "trialrequests",
-            "0",
-            "return"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
-        {
-          "name": "Registrar una devolución sobre una convivencia que no existe",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/trialrequests/0/return",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "trialrequests",
-                "0",
-                "return"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Trial request does not exist\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 404\", function () {",
-              "    pm.response.to.have.status(404);",
-              "});",
-              "",
-              "pm.test(\"Get expected error message\", function () {",
-              "    var data = pm.response.json();",
-              "    pm.expect(data.apierror.message).to.eql(\"Trial request does not exist\");",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
       "name": "Registrar una devolución sin descripción",
       "request": {
         "method": "POST",
@@ -719,6 +531,194 @@
               "    var data = pm.response.json();",
               "    pm.expect(data.apierror.message).to.eql(\"Return type cannot be null or empty\");",
               "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Registrar una devolución sobre una convivencia que no existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialrequests/0/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialrequests",
+            "0",
+            "return"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Registrar una devolución sobre una convivencia que no existe",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/0/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "0",
+                "return"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:00:00\",\n        \"message\": \"Trial request does not exist\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Trial request does not exist\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Registrar la devolución de una convivencia de prueba",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialrequests/{{trial_request_return_1}}/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialrequests",
+            "{{trial_request_return_1}}",
+            "return"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Registrar la devolución de una convivencia de prueba",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/trialrequests/{{trial_request_return_1}}/return",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialrequests",
+                "{{trial_request_return_1}}",
+                "return"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"id\": 1,\n    \"returnType\": \"INCOMPATIBILIDAD\",\n    \"description\": \"El adoptante indicó incompatibilidad con otra mascota del hogar\",\n    \"date\": \"2026-09-18\",\n    \"trialRequestId\": 7\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"return_id_1\", data.id);",
+              "}"
             ]
           }
         }

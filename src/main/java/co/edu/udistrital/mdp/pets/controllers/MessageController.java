@@ -21,7 +21,7 @@ import co.edu.udistrital.mdp.pets.services.MessageService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/messages")
+@RequestMapping("/messages")
 @RequiredArgsConstructor
 public class MessageController {
 

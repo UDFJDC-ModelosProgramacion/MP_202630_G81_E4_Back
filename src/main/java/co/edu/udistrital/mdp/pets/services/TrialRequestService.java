@@ -148,7 +148,7 @@ public class TrialRequestService {
 		if (current.isEmpty())
 			throw new EntityNotFoundException(TRIAL_REQUEST_NOT_FOUND);
 
-		List<ReturnEntity> returns = returnRepository.findByTrialRequestId(id);
+		Optional<ReturnEntity> returns = returnRepository.findByTrialRequestId(id);
 		if (!returns.isEmpty())
 			throw new IllegalOperationException(
 					"Unable to delete TrialRequest, it already has an associated Return");

@@ -25,7 +25,7 @@ import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.entities.ReviewEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
-
+import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -115,7 +115,7 @@ class ReviewServiceTest {
     // ---------- createReview ----------
 
     @Test
-    void testCreateReview() {
+    void testCreateReview() throws EntityNotFoundException, IllegalOperationException {
         ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
         newEntity.setRating(5);
         newEntity.setComment("Great experience");
@@ -147,7 +147,7 @@ class ReviewServiceTest {
         newEntity.setComment(comment);
         newEntity.setPet(pet);
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalOperationException.class,
             () -> reviewService.createReview(newEntity));
     }
 
@@ -158,7 +158,7 @@ class ReviewServiceTest {
         newEntity.setComment("Great experience");
         newEntity.setPet(null);
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> reviewService.createReview(newEntity));
     }
 
@@ -171,14 +171,14 @@ class ReviewServiceTest {
         invalidPet.setId(0L);
         newEntity.setPet(invalidPet);
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> reviewService.createReview(newEntity));
     }
 
     // ---------- updateReview ----------
 
     @Test
-    void testUpdateReview() {
+    void testUpdateReview() throws EntityNotFoundException, IllegalOperationException {
         ReviewEntity entity = reviewList.get(0);
         entity.setComment("Updated comment");
 
@@ -195,7 +195,7 @@ class ReviewServiceTest {
         newEntity.setId(0L);
         Long ownerId = owner.getId();
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> reviewService.updateReview(newEntity, ownerId));
     }
 
@@ -204,14 +204,14 @@ class ReviewServiceTest {
         ReviewEntity entity = reviewList.get(0);
         Long otherAdopterId = otherAdopter.getId();
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalOperationException.class,
             () -> reviewService.updateReview(entity, otherAdopterId));
     }
 
     // ---------- deleteReview ----------
 
     @Test
-    void testDeleteReview() {
+    void testDeleteReview() throws EntityNotFoundException, IllegalOperationException {
         ReviewEntity entity = reviewList.get(0);
 
         reviewService.deleteReview(entity.getId(), owner.getId());
@@ -224,7 +224,7 @@ class ReviewServiceTest {
     void testDeleteInvalidReview() {
         Long ownerId = owner.getId();
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> reviewService.deleteReview(0L, ownerId));
     }
 
@@ -233,7 +233,7 @@ class ReviewServiceTest {
         Long reviewId = reviewList.get(0).getId();
         Long otherAdopterId = otherAdopter.getId();
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalOperationException.class,
             () -> reviewService.deleteReview(reviewId, otherAdopterId));
     }
 }

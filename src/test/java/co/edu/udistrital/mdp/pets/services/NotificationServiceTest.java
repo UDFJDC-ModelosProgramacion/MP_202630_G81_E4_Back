@@ -117,7 +117,7 @@ class NotificationServiceTest {
     // ---------- createNotification ----------
 
     @Test
-    void testCreateNotification() {
+    void testCreateNotification() throws IllegalOperationException {
         NotificationEntity newEntity = factory.manufacturePojo(NotificationEntity.class);
         newEntity.setUser(owner);
         newEntity.setChannel(VALID_CHANNEL);
@@ -176,7 +176,7 @@ class NotificationServiceTest {
     // ---------- updateNotification ----------
 
     @Test
-    void testUpdateNotification() throws IllegalOperationException {
+    void testUpdateNotification() throws IllegalOperationException, EntityNotFoundException {
         NotificationEntity entity = notificationList.get(0);
 
         NotificationEntity result = notificationService.updateNotification(entity, owner.getId());
@@ -193,7 +193,7 @@ class NotificationServiceTest {
         newEntity.setId(0L);
         Long ownerId = owner.getId();
 
-        assertThrows(IllegalOperationException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> notificationService.updateNotification(newEntity, ownerId));
     }
 
@@ -209,7 +209,7 @@ class NotificationServiceTest {
     // ---------- deleteNotification ----------
 
     @Test
-    void testDeleteNotification() throws IllegalOperationException {
+    void testDeleteNotification() throws IllegalOperationException, EntityNotFoundException {
         NotificationEntity entity = notificationList.get(0);
         entity.setRead(true);
         entityManager.persist(entity);
@@ -226,7 +226,7 @@ class NotificationServiceTest {
         newEntity.setId(0L);
         Long ownerId = owner.getId();
 
-        assertThrows(IllegalOperationException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> notificationService.deleteNotification(newEntity, ownerId));
     }
 

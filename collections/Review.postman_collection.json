@@ -173,7 +173,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -263,7 +263,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 0,\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": 0\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -353,7 +353,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": 0\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": 0\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -443,7 +443,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
+          "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -533,7 +533,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -805,6 +805,12 @@
           "path": [
             "reviews",
             "0"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{adopter_id_1}}"
+            }
           ]
         },
         "body": {
@@ -897,6 +903,12 @@
           "path": [
             "reviews",
             "{{review_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{other_adopter_id}}"
+            }
           ]
         },
         "body": {
@@ -989,6 +1001,12 @@
           "path": [
             "reviews",
             "{{review_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{adopter_id_1}}"
+            }
           ]
         },
         "body": {
@@ -1071,6 +1089,12 @@
           "path": [
             "reviews",
             "0"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{adopter_id_1}}"
+            }
           ]
         }
       },
@@ -1135,6 +1159,12 @@
           "path": [
             "reviews",
             "{{review_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{other_adopter_id}}"
+            }
           ]
         }
       },
@@ -1199,6 +1229,12 @@
           "path": [
             "reviews",
             "{{review_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{adopter_id_1}}"
+            }
           ]
         }
       },

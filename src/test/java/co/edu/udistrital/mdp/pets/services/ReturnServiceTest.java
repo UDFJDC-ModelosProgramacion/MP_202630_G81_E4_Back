@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialRequestEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
-
+import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -107,7 +107,7 @@ class ReturnServiceTest {
     // ---------- createReturn ----------
 
     @Test
-    void testCreateReturn() {
+    void testCreateReturn() throws EntityNotFoundException, IllegalOperationException {
         ReturnEntity newEntity = factory.manufacturePojo(ReturnEntity.class);
         newEntity.setTrialRequest(trialRequest);
         newEntity.setDescription("Pet returned due to allergies");
@@ -129,7 +129,7 @@ class ReturnServiceTest {
         newEntity.setDescription("Pet returned due to allergies");
         newEntity.setReturnType("VOLUNTARY");
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> returnService.createReturn(newEntity));
     }
 
@@ -142,7 +142,7 @@ class ReturnServiceTest {
         newEntity.setDescription("Pet returned due to allergies");
         newEntity.setReturnType("VOLUNTARY");
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> returnService.createReturn(newEntity));
     }
 
@@ -162,7 +162,7 @@ class ReturnServiceTest {
         newEntity.setDescription(description);
         newEntity.setReturnType(returnType);
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalOperationException.class,
             () -> returnService.createReturn(newEntity));
     }
 }

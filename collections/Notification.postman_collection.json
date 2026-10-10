@@ -365,7 +365,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
+          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"email\",\n    \"user\": {\n        \"id\": \"{{user_id_1}}\"\n    },\n    \"adoption\": {\n        \"id\": \"{{adoption_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -455,7 +455,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
+          "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"email\",\n    \"user\": {\n        \"id\": \"{{user_id_1}}\"\n    },\n    \"adoption\": {\n        \"id\": \"{{adoption_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -545,7 +545,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"FAX\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
+          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"FAX\",\n    \"user\": {\n        \"id\": \"{{user_id_1}}\"\n    },\n    \"adoption\": {\n        \"id\": \"{{adoption_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -635,7 +635,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"EMAIL\",\n    \"userId\": \"{{user_id_1}}\",\n    \"adoptionId\": \"{{adoption_id_1}}\",\n    \"petId\": \"{{pet_id_1}}\"\n}",
+          "raw": "{\n    \"content\": \"Su cita de convivencia de prueba ha sido confirmada para el 15 de octubre\",\n    \"date\": \"2026-09-20T10:00:00-05:00\",\n    \"channel\": \"email\",\n    \"user\": {\n        \"id\": \"{{user_id_1}}\"\n    },\n    \"adoption\": {\n        \"id\": \"{{adoption_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -907,6 +907,12 @@
           "path": [
             "notifications",
             "{{notification_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{user_id_1}}"
+            }
           ]
         },
         "body": {
@@ -994,6 +1000,12 @@
           "path": [
             "notifications",
             "0"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{user_id_1}}"
+            }
           ]
         },
         "body": {
@@ -1086,6 +1098,12 @@
           "path": [
             "notifications",
             "{{notification_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{other_user_id}}"
+            }
           ]
         },
         "body": {
@@ -1173,6 +1191,12 @@
           "path": [
             "notifications",
             "{{notification_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{other_user_id}}"
+            }
           ]
         }
       },
@@ -1237,6 +1261,12 @@
           "path": [
             "notifications",
             "{{notification_id_2}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{user_id_1}}"
+            }
           ]
         }
       },
@@ -1301,6 +1331,12 @@
           "path": [
             "notifications",
             "{{notification_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{user_id_1}}"
+            }
           ]
         }
       },
@@ -1360,6 +1396,12 @@
           "path": [
             "notifications",
             "0"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{user_id_1}}"
+            }
           ]
         }
       },
