@@ -33,11 +33,6 @@ public class ReturnController {
 
     private final ModelMapper modelMapper;
 
-    /**
-     * Returns all returns existing in the application.
-     *
-     * @return JSONArray {@link ReturnDetailDTO}. Empty list if none exist.
-     */
     @GetMapping("/returns")
     @ResponseStatus(code = HttpStatus.OK)
     public List<ReturnDetailDTO> findAll() {
@@ -46,12 +41,6 @@ public class ReturnController {
         }.getType());
     }
 
-    /**
-     * Returns the return with the ID received in the URL.
-     *
-     * @param id Identifier of the return.
-     * @return JSON {@link ReturnDetailDTO}
-     */
     @GetMapping("/returns/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public ReturnDetailDTO findOne(@PathVariable Long id) throws EntityNotFoundException {
@@ -59,13 +48,6 @@ public class ReturnController {
         return modelMapper.map(returnEntity, ReturnDetailDTO.class);
     }
 
-    /**
-     * Registers the return of the trial request received in the URL.
-     *
-     * @param trialRequestId Identifier of the trial request being returned.
-     * @param returnDTO      {@link ReturnDTO} The return to be saved.
-     * @return JSON {@link ReturnDTO} The saved return with its ID.
-     */
     @PostMapping("/trialrequests/{trialRequestId}/return")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ReturnDTO create(@PathVariable Long trialRequestId, @RequestBody ReturnDTO returnDTO)
@@ -75,5 +57,19 @@ public class ReturnController {
         trialRequest.setId(trialRequestId);
         returnEntity.setTrialRequest(trialRequest);
         return modelMapper.map(returnService.createReturn(returnEntity), ReturnDTO.class);
+    }
+
+    /**
+     * Association endpoint: returns the Return registered for a given
+     * TrialRequest. 404 if the trial request itself doesn't exist, 412 if it
+     * exists but has no Return yet (same precondition-style rule as
+     * createReturn's "already has a return" check, just the inverse case).
+     */
+    @GetMapping("/trialrequests/{trialRequestId}/return")
+    @ResponseStatus(code = HttpStatus.OK)
+    public ReturnDetailDTO findByTrialRequest(@PathVariable Long trialRequestId)
+            throws EntityNotFoundException, IllegalOperationException {
+        ReturnEntity returnEntity = returnService.getReturnByTrialRequest(trialRequestId);
+        return modelMapper.map(returnEntity, ReturnDetailDTO.class);
     }
 }

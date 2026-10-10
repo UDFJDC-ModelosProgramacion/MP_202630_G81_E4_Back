@@ -56,7 +56,7 @@ public class TrialRequestController {
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public TrialRequestDTO create(@RequestBody TrialRequestDTO dto)
-			throws EntityNotFoundException, IllegalOperationException {
+			throws IllegalOperationException {
 		TrialRequestEntity entity = trialRequestService.createTrialRequest(modelMapper.map(dto, TrialRequestEntity.class));
 		return modelMapper.map(entity, TrialRequestDTO.class);
 	}

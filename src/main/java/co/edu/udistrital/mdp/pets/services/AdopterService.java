@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,21 +13,19 @@ import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
 import co.edu.udistrital.mdp.pets.repositories.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AdopterService {
 
-    @Autowired
-    private AdopterRepository adopterRepository;
+    private final AdopterRepository adopterRepository;
 
-    @Autowired
-    private AdoptionRepository adoptionRepository;
+    private final AdoptionRepository adoptionRepository;
 
-    @Autowired
-    private AdoptionRequestRepository adoptionRequestRepository;
+    private final AdoptionRequestRepository adoptionRequestRepository;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
 
     @Transactional
     public AdopterEntity createAdopter(AdopterEntity adopter) {

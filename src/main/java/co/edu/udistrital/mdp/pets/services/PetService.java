@@ -4,18 +4,19 @@ import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.exceptions.BusinessLogicException;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class PetService {
 
-    @Autowired
-    private PetRepository petRepository;
+    private final PetRepository petRepository;
 
     @Transactional
     public PetEntity createPet(PetEntity pet) {
@@ -73,16 +74,19 @@ public class PetService {
     }
 
     private void validateAdmissionDate(String admissionDateStr) {
-        if (admissionDateStr != null && !admissionDateStr.isEmpty()) {
-            try {
-                LocalDate date = LocalDate.parse(admissionDateStr);
-                if (date.isAfter(LocalDate.now())) {
-                    throw new BusinessLogicException("La fecha de ingreso no puede ser una fecha futura.");
-                }
-            } catch (Exception e) {
-                if (e instanceof BusinessLogicException) throw e;
-                throw new BusinessLogicException("Formato de fecha inválido. Use YYYY-MM-DD.");
-            }
+        if (admissionDateStr == null || admissionDateStr.isEmpty()) {
+            return;
+        }
+
+        LocalDate date;
+        try {
+            date = LocalDate.parse(admissionDateStr);
+        } catch (DateTimeParseException e) {
+            throw new BusinessLogicException("Formato de fecha inválido. Use YYYY-MM-DD.");
+        }
+
+        if (date.isAfter(LocalDate.now())) {
+            throw new BusinessLogicException("La fecha de ingreso no puede ser una fecha futura.");
         }
     }
 }

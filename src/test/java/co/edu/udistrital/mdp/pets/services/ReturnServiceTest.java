@@ -7,9 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -19,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialRequestEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
-
+import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -100,10 +104,50 @@ class ReturnServiceTest {
             () -> returnService.getReturn(0L));
     }
 
+        // ---------- getReturnByTrialRequest ----------
+
+    @Test
+    void testGetReturnByTrialRequest() throws EntityNotFoundException, IllegalOperationException {
+        ReturnEntity entity = returnList.get(0);
+
+        ReturnEntity result = returnService.getReturnByTrialRequest(entity.getTrialRequest().getId());
+
+        assertNotNull(result);
+        assertEquals(entity.getId(), result.getId());
+    }
+
+    @Test
+    void testGetReturnByInvalidTrialRequest() {
+        assertThrows(EntityNotFoundException.class,
+            () -> returnService.getReturnByTrialRequest(0L));
+    }
+
+    @Test
+    void testGetReturnByTrialRequestWithoutReturn() {
+        // "trialRequest" existe pero no tiene devolución asociada
+        Long trialRequestId = trialRequest.getId();
+
+        assertThrows(IllegalOperationException.class,
+            () -> returnService.getReturnByTrialRequest(trialRequestId));
+    }
+
+    // ---------- createReturn con devolución duplicada ----------
+
+    @Test
+    void testCreateReturnAlreadyRegistered() {
+        ReturnEntity newEntity = factory.manufacturePojo(ReturnEntity.class);
+        newEntity.setTrialRequest(returnList.get(0).getTrialRequest());
+        newEntity.setDescription("Pet returned due to allergies");
+        newEntity.setReturnType("VOLUNTARY");
+
+        assertThrows(IllegalOperationException.class,
+            () -> returnService.createReturn(newEntity));
+    }
+
     // ---------- createReturn ----------
 
     @Test
-    void testCreateReturn() {
+    void testCreateReturn() throws EntityNotFoundException, IllegalOperationException {
         ReturnEntity newEntity = factory.manufacturePojo(ReturnEntity.class);
         newEntity.setTrialRequest(trialRequest);
         newEntity.setDescription("Pet returned due to allergies");
@@ -125,7 +169,7 @@ class ReturnServiceTest {
         newEntity.setDescription("Pet returned due to allergies");
         newEntity.setReturnType("VOLUNTARY");
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> returnService.createReturn(newEntity));
     }
 
@@ -138,51 +182,27 @@ class ReturnServiceTest {
         newEntity.setDescription("Pet returned due to allergies");
         newEntity.setReturnType("VOLUNTARY");
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(EntityNotFoundException.class,
             () -> returnService.createReturn(newEntity));
     }
 
-    @Test
-    void testCreateReturnWithNullDescription() {
-        ReturnEntity newEntity = factory.manufacturePojo(ReturnEntity.class);
-        newEntity.setTrialRequest(trialRequest);
-        newEntity.setDescription(null);
-        newEntity.setReturnType("VOLUNTARY");
-
-        assertThrows(IllegalArgumentException.class,
-            () -> returnService.createReturn(newEntity));
+    static Stream<Arguments> invalidDescriptionAndReturnType() {
+        return Stream.of(
+            Arguments.of(null, "VOLUNTARY"),
+            Arguments.of("", "VOLUNTARY"),
+            Arguments.of("Pet returned due to allergies", null),
+            Arguments.of("Pet returned due to allergies", ""));
     }
 
-    @Test
-    void testCreateReturnWithEmptyDescription() {
+    @ParameterizedTest
+    @MethodSource("invalidDescriptionAndReturnType")
+    void testCreateReturnWithInvalidDescriptionOrReturnType(String description, String returnType) {
         ReturnEntity newEntity = factory.manufacturePojo(ReturnEntity.class);
         newEntity.setTrialRequest(trialRequest);
-        newEntity.setDescription("");
-        newEntity.setReturnType("VOLUNTARY");
+        newEntity.setDescription(description);
+        newEntity.setReturnType(returnType);
 
-        assertThrows(IllegalArgumentException.class,
-            () -> returnService.createReturn(newEntity));
-    }
-
-    @Test
-    void testCreateReturnWithNullReturnType() {
-        ReturnEntity newEntity = factory.manufacturePojo(ReturnEntity.class);
-        newEntity.setTrialRequest(trialRequest);
-        newEntity.setDescription("Pet returned due to allergies");
-        newEntity.setReturnType(null);
-
-        assertThrows(IllegalArgumentException.class,
-            () -> returnService.createReturn(newEntity));
-    }
-
-    @Test
-    void testCreateReturnWithEmptyReturnType() {
-        ReturnEntity newEntity = factory.manufacturePojo(ReturnEntity.class);
-        newEntity.setTrialRequest(trialRequest);
-        newEntity.setDescription("Pet returned due to allergies");
-        newEntity.setReturnType("");
-
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalOperationException.class,
             () -> returnService.createReturn(newEntity));
     }
 }
