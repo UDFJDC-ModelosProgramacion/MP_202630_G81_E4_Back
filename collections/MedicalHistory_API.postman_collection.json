@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "MedicalHistory_API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Obtener Historiales Médicos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/medical-histories",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "medical-histories"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Historial Médico",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"vaccine\": \"Rabia, Parvovirus\",\n  \"diseases\": \"Gastroenteritis\",\n  \"treatment\": \"Antibióticos y suero\",\n  \"sterilized\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/pets/1/medical-histories",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "pets", "1", "medical-histories"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Historial Médico por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/medical-histories/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "medical-histories", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar Historial Médico",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/medical-histories/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "medical-histories", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar Historial Médico",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/medical-histories/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "medical-histories", "1"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

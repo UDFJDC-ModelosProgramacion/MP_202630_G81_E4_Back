@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "Pet_API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Obtener Mascotas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/pets",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "pets"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Mascota",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Firulais\",\n  \"specie\": \"Perro\",\n  \"breed\": \"Criollo\",\n  \"age\": 2,\n  \"sex\": \"Macho\",\n  \"size\": \"Mediano\",\n  \"weight\": 15.5,\n  \"healthStatus\": \"Sano\",\n  \"adoptionStatus\": \"Disponible\",\n  \"description\": \"Juguetón\",\n  \"admissionDate\": \"2023-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/pets",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "pets"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Mascota por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/pets/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "pets", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar Mascota",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/pets/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "pets", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar Mascota",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/pets/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "pets", "1"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

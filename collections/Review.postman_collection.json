@@ -41,13 +41,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"pet_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"pet_id_1\", data.id);",
+              "}"
             ]
           }
         }
@@ -89,13 +90,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"adopter_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"adopter_id_1\", data.id);",
+              "}"
             ]
           }
         }
@@ -137,17 +139,67 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"other_adopter_id\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"other_adopter_id\", data.id);",
+              "}"
             ]
           }
         }
       ]
+    },
+    {
+      "name": "00 - Preparar datos / Crear una reseña adicional (para las pruebas de asociación, nunca se borra)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"review_id_for_assoc\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 4,\n    \"comment\": \"Reseña fija usada solo para probar las asociaciones\",\n    \"date\": \"2026-09-16\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reviews"
+          ]
+        }
+      },
+      "response": []
     },
     {
       "name": "Crear una reseña",
@@ -170,7 +222,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -226,13 +278,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "var data = pm.response.json()",
-              "",
-              "pm.globals.set(\"review_id_1\", data.id);",
-              "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
-              "});"
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var data = pm.response.json();",
+              "    pm.globals.set(\"review_id_1\", data.id);",
+              "}"
             ]
           }
         }
@@ -259,7 +312,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": 0,\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": 0\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -349,7 +402,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": 0\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": 0\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -439,7 +492,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
+          "raw": "{\n    \"rating\": 7,\n    \"comment\": \"Excelente proceso de adopción, el equipo estuvo muy pendiente\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -529,7 +582,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"petId\": \"{{pet_id_1}}\",\n    \"adopterId\": \"{{adopter_id_1}}\"\n}",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"\",\n    \"date\": \"2026-09-15\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -801,6 +854,12 @@
           "path": [
             "reviews",
             "0"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{adopter_id_1}}"
+            }
           ]
         },
         "body": {
@@ -893,6 +952,12 @@
           "path": [
             "reviews",
             "{{review_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{other_adopter_id}}"
+            }
           ]
         },
         "body": {
@@ -985,6 +1050,12 @@
           "path": [
             "reviews",
             "{{review_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{adopter_id_1}}"
+            }
           ]
         },
         "body": {
@@ -1067,6 +1138,12 @@
           "path": [
             "reviews",
             "0"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{adopter_id_1}}"
+            }
           ]
         }
       },
@@ -1131,6 +1208,12 @@
           "path": [
             "reviews",
             "{{review_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{other_adopter_id}}"
+            }
           ]
         }
       },
@@ -1195,6 +1278,12 @@
           "path": [
             "reviews",
             "{{review_id_1}}"
+          ],
+          "query": [
+            {
+              "key": "userId",
+              "value": "{{adopter_id_1}}"
+            }
           ]
         }
       },
@@ -1369,7 +1458,7 @@
                   "",
                   "pm.test(\"Get expected error message\", function () {",
                   "    var data = pm.response.json();",
-                  "    pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+                  "    pm.expect(data.apierror.message).to.eql(\"Pet does not exist\");",
                   "});"
                 ]
               }
@@ -1501,7 +1590,7 @@
                   "",
                   "pm.test(\"Get expected error message\", function () {",
                   "    var data = pm.response.json();",
-                  "    pm.expect(data.apierror.message).to.eql(\"The adopter with the given id was not found\");",
+                  "    pm.expect(data.apierror.message).to.eql(\"Adopter does not exist\");",
                   "});"
                 ]
               }

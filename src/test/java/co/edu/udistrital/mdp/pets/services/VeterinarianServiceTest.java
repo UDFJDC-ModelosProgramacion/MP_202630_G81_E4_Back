@@ -172,4 +172,19 @@ class VeterinarianServiceTest {
             veterinarianService.deleteVeterinarian(0L);
         });
     }
+
+    @Test
+    void testUpdateVeterinarianWithoutShelter() throws EntityNotFoundException, IllegalOperationException {
+        VeterinarianEntity updated = factory.manufacturePojo(VeterinarianEntity.class);
+        updated.setId(veterinarian.getId());
+        updated.setShelter(null); // No enviamos shelter
+
+        veterinarianService.updateVeterinarian(veterinarian.getId(), updated);
+
+        VeterinarianEntity stored = entityManager.find(VeterinarianEntity.class, veterinarian.getId());
+        // Debe conservar el shelter original
+        assertEquals(shelter.getId(), stored.getShelter().getId());
+        assertEquals(updated.getSpecialty(), stored.getSpecialty());
+    }
+
 }
