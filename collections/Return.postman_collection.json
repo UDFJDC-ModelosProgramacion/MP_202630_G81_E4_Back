@@ -1126,7 +1126,7 @@
                   "",
                   "pm.test(\"Get expected error message\", function () {",
                   "    var data = pm.response.json();",
-                  "    pm.expect(data.apierror.message).to.eql(\"The trial request with the given id was not found\");",
+                  "    pm.expect(data.apierror.message).to.eql(\"Trial request does not exist\");",
                   "});"
                 ]
               }

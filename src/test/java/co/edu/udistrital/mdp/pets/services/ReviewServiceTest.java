@@ -112,6 +112,80 @@ class ReviewServiceTest {
             () -> reviewService.getReview(0L));
     }
 
+        // ---------- getReviewsByPet / getReviewsByAdopter ----------
+
+    @Test
+    void testGetReviewsByPet() throws EntityNotFoundException {
+        List<ReviewEntity> list = reviewService.getReviewsByPet(pet.getId());
+
+        assertEquals(reviewList.size(), list.size());
+        for (ReviewEntity entity : list) {
+            assertEquals(pet.getId(), entity.getPet().getId());
+        }
+    }
+
+    @Test
+    void testGetReviewsByInvalidPet() {
+        assertThrows(EntityNotFoundException.class,
+            () -> reviewService.getReviewsByPet(0L));
+    }
+
+    @Test
+    void testGetReviewsByAdopter() throws EntityNotFoundException {
+        List<ReviewEntity> list = reviewService.getReviewsByAdopter(owner.getId());
+
+        assertEquals(reviewList.size(), list.size());
+        for (ReviewEntity entity : list) {
+            assertEquals(owner.getId(), entity.getAdopter().getId());
+        }
+    }
+
+    @Test
+    void testGetReviewsByInvalidAdopter() {
+        assertThrows(EntityNotFoundException.class,
+            () -> reviewService.getReviewsByAdopter(0L));
+    }
+
+    // ---------- createReview: adopter null / inexistente ----------
+
+    @Test
+    void testCreateReviewWithNullAdopter() {
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setRating(5);
+        newEntity.setComment("Great experience");
+        newEntity.setPet(pet);
+        newEntity.setAdopter(null);
+
+        assertThrows(EntityNotFoundException.class,
+            () -> reviewService.createReview(newEntity));
+    }
+
+    @Test
+    void testCreateReviewWithInvalidAdopter() {
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setRating(5);
+        newEntity.setComment("Great experience");
+        newEntity.setPet(pet);
+        AdopterEntity invalidAdopter = new AdopterEntity();
+        invalidAdopter.setId(0L);
+        newEntity.setAdopter(invalidAdopter);
+
+        assertThrows(EntityNotFoundException.class,
+            () -> reviewService.createReview(newEntity));
+    }
+
+    // ---------- updateReview con id null ----------
+
+    @Test
+    void testUpdateReviewWithNullId() {
+        ReviewEntity newEntity = factory.manufacturePojo(ReviewEntity.class);
+        newEntity.setId(null);
+        Long ownerId = owner.getId();
+
+        assertThrows(EntityNotFoundException.class,
+            () -> reviewService.updateReview(newEntity, ownerId));
+    }
+
     // ---------- createReview ----------
 
     @Test
@@ -136,6 +210,7 @@ class ReviewServiceTest {
             Arguments.of(null, "Great experience"),
             Arguments.of(6, "Great experience"),
             Arguments.of(5, null),
+            Arguments.of(0, "Great experience"),
             Arguments.of(5, ""));
     }
 

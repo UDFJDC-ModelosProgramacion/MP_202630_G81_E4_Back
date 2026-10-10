@@ -1581,7 +1581,7 @@
                   "",
                   "pm.test(\"Get expected error message\", function () {",
                   "    var data = pm.response.json();",
-                  "    pm.expect(data.apierror.message).to.eql(\"The user with the given id was not found\");",
+                  "    pm.expect(data.apierror.message).to.eql(\"User does not exist\");",
                   "});"
                 ]
               }
@@ -1713,7 +1713,7 @@
                   "",
                   "pm.test(\"Get expected error message\", function () {",
                   "    var data = pm.response.json();",
-                  "    pm.expect(data.apierror.message).to.eql(\"The adoption with the given id was not found\");",
+                  "    pm.expect(data.apierror.message).to.eql(\"Adoption does not exist\");",
                   "});"
                 ]
               }
@@ -1845,7 +1845,7 @@
                   "",
                   "pm.test(\"Get expected error message\", function () {",
                   "    var data = pm.response.json();",
-                  "    pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+                  "    pm.expect(data.apierror.message).to.eql(\"Pet does not exist\");",
                   "});"
                 ]
               }

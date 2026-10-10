@@ -104,6 +104,46 @@ class ReturnServiceTest {
             () -> returnService.getReturn(0L));
     }
 
+        // ---------- getReturnByTrialRequest ----------
+
+    @Test
+    void testGetReturnByTrialRequest() throws EntityNotFoundException, IllegalOperationException {
+        ReturnEntity entity = returnList.get(0);
+
+        ReturnEntity result = returnService.getReturnByTrialRequest(entity.getTrialRequest().getId());
+
+        assertNotNull(result);
+        assertEquals(entity.getId(), result.getId());
+    }
+
+    @Test
+    void testGetReturnByInvalidTrialRequest() {
+        assertThrows(EntityNotFoundException.class,
+            () -> returnService.getReturnByTrialRequest(0L));
+    }
+
+    @Test
+    void testGetReturnByTrialRequestWithoutReturn() {
+        // "trialRequest" existe pero no tiene devolución asociada
+        Long trialRequestId = trialRequest.getId();
+
+        assertThrows(IllegalOperationException.class,
+            () -> returnService.getReturnByTrialRequest(trialRequestId));
+    }
+
+    // ---------- createReturn con devolución duplicada ----------
+
+    @Test
+    void testCreateReturnAlreadyRegistered() {
+        ReturnEntity newEntity = factory.manufacturePojo(ReturnEntity.class);
+        newEntity.setTrialRequest(returnList.get(0).getTrialRequest());
+        newEntity.setDescription("Pet returned due to allergies");
+        newEntity.setReturnType("VOLUNTARY");
+
+        assertThrows(IllegalOperationException.class,
+            () -> returnService.createReturn(newEntity));
+    }
+
     // ---------- createReturn ----------
 
     @Test
