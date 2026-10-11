@@ -152,7 +152,7 @@
 							</commandlineArgs>
 						</configuration>
 					</execution>
-					<!-- Remover esta línea
+					
 					<execution>
 						<id>integration-tests-composed-collection</id>
 						<phase>integration-test</phase>
@@ -168,7 +168,7 @@
 							</commandlineArgs>
 						</configuration>
 					</execution>
-					-->
+				
 				</executions>
 			</plugin>
 		</plugins>
