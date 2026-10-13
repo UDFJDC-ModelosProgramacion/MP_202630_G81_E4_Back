@@ -1,0 +1,854 @@
+{
+  "info": {
+    "_postman_id": "27a96824-948c-4f1e-a612-70151e947888",
+    "name": "Message",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Crear el usuario remitente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.globals.set(\"msg_sender_id\", data.id);",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Remitente Mensajes\",\n    \"email\": \"msg.remitente@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear el usuario destinatario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.globals.set(\"msg_receiver_id\", data.id);",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Destinatario Mensajes\",\n    \"email\": \"msg.destinatario@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un mensaje",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.globals.set(\"msg_id_1\", data.id);",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Devuelve remitente y destinatario\", function () {",
+              "    pm.expect(data.sender.id).to.eql(parseInt(pm.globals.get(\"msg_sender_id\")));",
+              "    pm.expect(data.receiver.id).to.eql(parseInt(pm.globals.get(\"msg_receiver_id\")));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Hola, ¿cómo va la solicitud de adopción?\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"sender\": {\n        \"id\": {{msg_sender_id}}\n    },\n    \"receiver\": {\n        \"id\": {{msg_receiver_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un mensaje sin contenido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El contenido del mensaje es obligatorio.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"sender\": {\n        \"id\": {{msg_sender_id}}\n    },\n    \"receiver\": {\n        \"id\": {{msg_receiver_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un mensaje sin remitente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El mensaje debe tener un remitente.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Hola\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"receiver\": {\n        \"id\": {{msg_receiver_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un mensaje sin destinatario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El mensaje debe tener un destinatario.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Hola\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"sender\": {\n        \"id\": {{msg_sender_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un mensaje a si mismo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Un usuario no puede enviarse un mensaje a sí mismo.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Hola, ¿cómo va la solicitud de adopción?\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"sender\": {\n        \"id\": {{msg_sender_id}}\n    },\n    \"receiver\": {\n        \"id\": {{msg_sender_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un mensaje con un remitente que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El usuario remitente con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Hola, ¿cómo va la solicitud de adopción?\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"sender\": {\n        \"id\": 0\n    },\n    \"receiver\": {\n        \"id\": {{msg_receiver_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un mensaje con un destinatario que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El usuario destinatario con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Hola, ¿cómo va la solicitud de adopción?\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"sender\": {\n        \"id\": {{msg_sender_id}}\n    },\n    \"receiver\": {\n        \"id\": 0\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener todos los mensajes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Hay al menos un mensaje\", function () {",
+              "    pm.expect(data.length).to.be.at.least(1);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener un mensaje",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Devuelve el mensaje pedido\", function () {",
+              "    pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"msg_id_1\")));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/messages/{{msg_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "{{msg_id_1}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener un mensaje que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El mensaje con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/messages/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "0"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar un mensaje que aun no ha sido leido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"No se puede eliminar un mensaje que aún no ha sido leído por el destinatario.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/messages/{{msg_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "{{msg_id_1}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un mensaje",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"El contenido quedó actualizado y el mensaje marcado como leído\", function () {",
+              "    pm.expect(data.content).to.eql(\"Mensaje editado\");",
+              "    pm.expect(data.read).to.eql(true);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages/{{msg_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "{{msg_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Mensaje editado\",\n    \"date\": \"2026-10-10\",\n    \"read\": true,\n    \"sender\": {\n        \"id\": {{msg_sender_id}}\n    },\n    \"receiver\": {\n        \"id\": {{msg_receiver_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un mensaje que ya fue leido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"No se puede modificar un mensaje que ya fue leído.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages/{{msg_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "{{msg_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Otro cambio\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"sender\": {\n        \"id\": {{msg_sender_id}}\n    },\n    \"receiver\": {\n        \"id\": {{msg_receiver_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un mensaje que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El mensaje con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/messages/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "0"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Hola, ¿cómo va la solicitud de adopción?\",\n    \"date\": \"2026-10-10\",\n    \"read\": false,\n    \"sender\": {\n        \"id\": {{msg_sender_id}}\n    },\n    \"receiver\": {\n        \"id\": {{msg_receiver_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar un mensaje leido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/messages/{{msg_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "{{msg_id_1}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar un mensaje que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El mensaje con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/messages/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "messages",
+            "0"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar el usuario remitente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{msg_sender_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{msg_sender_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar el usuario destinatario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{msg_receiver_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{msg_receiver_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
