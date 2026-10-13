@@ -1,0 +1,647 @@
+{
+  "info": {
+    "_postman_id": "f820b8ca-4bdd-4c09-b553-00eb65e05f67",
+    "name": "User",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Crear un usuario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.globals.set(\"usr_id_1\", data.id);",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"La contraseña no se devuelve en la respuesta\", function () {",
+              "    pm.expect(data.password).to.be.undefined;",
+              "});",
+              "pm.test(\"Devuelve los datos del usuario creado\", function () {",
+              "    pm.expect(data.email).to.eql(\"ana.torres@example.com\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Ana Torres\",\n    \"email\": \"ana.torres@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un segundo usuario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.globals.set(\"usr_id_2\", data.id);",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Luis Rojas\",\n    \"email\": \"luis.rojas@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un usuario sin nombre",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El nombre del usuario es obligatorio.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"\",\n    \"email\": \"ana.torres@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un usuario con email invalido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El email no tiene un formato válido.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Ana Torres\",\n    \"email\": \"no-es-un-email\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un usuario sin contraseña",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"La contraseña del usuario es obligatoria.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Ana Torres\",\n    \"email\": \"sin.clave@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un usuario con email repetido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Ya existe un usuario registrado con ese email.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Ana Torres\",\n    \"email\": \"ana.torres@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener todos los usuarios",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Hay al menos dos usuarios\", function () {",
+              "    pm.expect(data.length).to.be.at.least(2);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener un usuario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Devuelve el usuario pedido\", function () {",
+              "    pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"usr_id_1\")));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{usr_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{usr_id_1}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener un usuario que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El usuario con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "0"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un usuario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"El nombre quedó actualizado\", function () {",
+              "    pm.expect(data.name).to.eql(\"Ana Torres Actualizada\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{usr_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{usr_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Ana Torres Actualizada\",\n    \"email\": \"ana.torres@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un usuario con el email de otro usuario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Ya existe otro usuario registrado con ese email.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{usr_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{usr_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Ana Torres\",\n    \"email\": \"luis.rojas@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un usuario que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El usuario con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "0"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Ana Torres\",\n    \"email\": \"ana.torres@example.com\",\n    \"phone\": \"3001112233\",\n    \"address\": \"Calle 10 # 5-20\",\n    \"password\": \"clave123\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar un usuario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{usr_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{usr_id_1}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar el segundo usuario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/{{usr_id_2}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "{{usr_id_2}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar un usuario que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El usuario con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "0"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
