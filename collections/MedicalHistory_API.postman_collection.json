@@ -5,6 +5,50 @@
   },
   "item": [
     {
+      "name": "00 Preparar Mascota para Historial",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201 Created\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "if (pm.response.code === 201) {",
+              "    var jsonData = pm.response.json();",
+              "    pm.collectionVariables.set(\"mh_pet_id\", jsonData.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mascota Historial\",\n  \"specie\": \"Perro\",\n  \"breed\": \"Criollo\",\n  \"age\": 2,\n  \"sex\": \"Macho\",\n  \"size\": \"Mediano\",\n  \"weight\": 12.0,\n  \"healthStatus\": \"Sano\",\n  \"adoptionStatus\": \"Disponible\",\n  \"description\": \"Mascota para MedicalHistory\",\n  \"admissionDate\": \"2023-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets"]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Obtener Historiales Médicos",
       "event": [
         {
@@ -26,11 +70,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/medical-histories",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "medical-histories"]
+          "raw": "{{baseUrl}}/medical-histories",
+          "host": ["{{baseUrl}}"],
+          "path": ["medical-histories"]
         }
       },
       "response": []
@@ -48,6 +90,7 @@
               "pm.test(\"Response contains an ID\", function () {",
               "    var jsonData = pm.response.json();",
               "    pm.expect(jsonData.id).to.not.be.undefined;",
+              "    pm.collectionVariables.set(\"mh_id\", jsonData.id);",
               "});"
             ],
             "type": "text/javascript"
@@ -56,7 +99,12 @@
       ],
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"vaccine\": \"Rabia, Parvovirus\",\n  \"diseases\": \"Gastroenteritis\",\n  \"treatment\": \"Antibióticos y suero\",\n  \"sterilized\": true\n}",
@@ -67,11 +115,9 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/pets/1/medical-histories",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "pets", "1", "medical-histories"]
+          "raw": "{{baseUrl}}/pets/{{mh_pet_id}}/medical-histories",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets", "{{mh_pet_id}}", "medical-histories"]
         }
       },
       "response": []
@@ -95,11 +141,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/medical-histories/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "medical-histories", "1"]
+          "raw": "{{baseUrl}}/medical-histories/{{mh_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["medical-histories", "{{mh_id}}"]
         }
       },
       "response": []
@@ -125,13 +169,25 @@
       ],
       "request": {
         "method": "PUT",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"vaccine\": \"Rabia, Parvovirus, Moquillo\",\n  \"diseases\": \"Gastroenteritis\",\n  \"treatment\": \"Tratamiento finalizado\",\n  \"sterilized\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "http://localhost:8080/api/medical-histories/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "medical-histories", "1"]
+          "raw": "{{baseUrl}}/medical-histories/{{mh_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["medical-histories", "{{mh_id}}"]
         }
       },
       "response": []
@@ -155,11 +211,9 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/medical-histories/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "medical-histories", "1"]
+          "raw": "{{baseUrl}}/medical-histories/{{mh_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["medical-histories", "{{mh_id}}"]
         }
       },
       "response": []

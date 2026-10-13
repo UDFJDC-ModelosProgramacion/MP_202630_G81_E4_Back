@@ -47,7 +47,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"pet_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"pet_id_1\", data.id);",
               "}"
             ]
           }
@@ -96,7 +96,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"adopter_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"adopter_id_1\", data.id);",
               "}"
             ]
           }
@@ -145,7 +145,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"other_adopter_id\", data.id);",
+              "    pm.collectionVariables.set(\"other_adopter_id\", data.id);",
               "}"
             ]
           }
@@ -166,7 +166,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"review_id_for_assoc\", data.id);",
+              "    pm.collectionVariables.set(\"review_id_for_assoc\", data.id);",
               "}"
             ]
           }
@@ -284,7 +284,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"review_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"review_id_1\", data.id);",
               "}"
             ]
           }

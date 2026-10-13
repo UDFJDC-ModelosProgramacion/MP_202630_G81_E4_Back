@@ -5,6 +5,50 @@
   },
   "item": [
     {
+      "name": "00 Preparar Mascota para Evento",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201 Created\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "if (pm.response.code === 201) {",
+              "    var jsonData = pm.response.json();",
+              "    pm.collectionVariables.set(\"pe_pet_id\", jsonData.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mascota Evento\",\n  \"specie\": \"Perro\",\n  \"breed\": \"Criollo\",\n  \"age\": 2,\n  \"sex\": \"Macho\",\n  \"size\": \"Mediano\",\n  \"weight\": 14.0,\n  \"healthStatus\": \"Sano\",\n  \"adoptionStatus\": \"Disponible\",\n  \"description\": \"Mascota para PetEvent\",\n  \"admissionDate\": \"2023-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets"]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Obtener Eventos",
       "event": [
         {
@@ -26,11 +70,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/events",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "events"]
+          "raw": "{{baseUrl}}/pet-events",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet-events"]
         }
       },
       "response": []
@@ -48,6 +90,7 @@
               "pm.test(\"Response contains an ID\", function () {",
               "    var jsonData = pm.response.json();",
               "    pm.expect(jsonData.id).to.not.be.undefined;",
+              "    pm.collectionVariables.set(\"pe_event_id\", jsonData.id);",
               "});"
             ],
             "type": "text/javascript"
@@ -56,7 +99,12 @@
       ],
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"type\": \"Reporte Médico\",\n  \"date\": \"2023-05-10\",\n  \"description\": \"Desparasitación realizada exitosamente.\"\n}",
@@ -67,11 +115,9 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/pets/1/events",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "pets", "1", "events"]
+          "raw": "{{baseUrl}}/pets/{{pe_pet_id}}/events",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets", "{{pe_pet_id}}", "events"]
         }
       },
       "response": []
@@ -95,11 +141,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/events/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "events", "1"]
+          "raw": "{{baseUrl}}/pet-events/{{pe_event_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet-events", "{{pe_event_id}}"]
         }
       },
       "response": []
@@ -125,13 +169,25 @@
       ],
       "request": {
         "method": "PUT",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"Reporte Médico\",\n  \"date\": \"2023-05-11\",\n  \"description\": \"Control general actualizado.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "http://localhost:8080/api/events/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "events", "1"]
+          "raw": "{{baseUrl}}/pet-events/{{pe_event_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet-events", "{{pe_event_id}}"]
         }
       },
       "response": []
@@ -155,11 +211,9 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/events/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "events", "1"]
+          "raw": "{{baseUrl}}/pet-events/{{pe_event_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pet-events", "{{pe_event_id}}"]
         }
       },
       "response": []

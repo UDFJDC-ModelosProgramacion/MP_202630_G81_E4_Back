@@ -47,7 +47,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"adopter_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"adopter_id_1\", data.id);",
               "}"
             ]
           }
@@ -96,7 +96,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"pet_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"pet_id_1\", data.id);",
               "}"
             ]
           }
@@ -145,7 +145,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"shelter_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"shelter_id_1\", data.id);",
               "}"
             ]
           }
@@ -194,7 +194,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"trial_request_return_1\", data.id);",
+              "    pm.collectionVariables.set(\"trial_request_return_1\", data.id);",
               "}"
             ]
           }
@@ -215,7 +215,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"pet_id_2\", data.id);",
+              "    pm.collectionVariables.set(\"pet_id_2\", data.id);",
               "}"
             ]
           }
@@ -264,7 +264,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"adopter_id_2\", data.id);",
+              "    pm.collectionVariables.set(\"adopter_id_2\", data.id);",
               "}"
             ]
           }
@@ -341,7 +341,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"trial_request_return_2\", data.id);",
+              "    pm.collectionVariables.set(\"trial_request_return_2\", data.id);",
               "}"
             ]
           }
@@ -717,7 +717,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"return_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"return_id_1\", data.id);",
               "}"
             ]
           }

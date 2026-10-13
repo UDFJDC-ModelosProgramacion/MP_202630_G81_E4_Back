@@ -76,7 +76,7 @@
             "exec": [
               "var data = pm.response.json()",
               "",
-              "pm.globals.set(\"veterinarian_id_1\", data.id);",
+              "pm.collectionVariables.set(\"veterinarian_id_1\", data.id);",
               "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
