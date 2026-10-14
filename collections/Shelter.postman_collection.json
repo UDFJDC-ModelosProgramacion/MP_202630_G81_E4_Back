@@ -72,7 +72,7 @@
             "exec": [
               "var data = pm.response.json()",
               "",
-              "pm.globals.set(\"shelter_id_1\", data.id);",
+              "pm.collectionVariables.set(\"shelter_id_1\", data.id);",
               "",
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
@@ -527,6 +527,99 @@
             "exec": [
               "pm.test(\"Status code is 204\", function () {",
               "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar shelter con dependencias",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nit\": 654321,\n    \"description\": \"Refugio con veterinario para pruebas\",\n    \"capacity\": \"60\",\n    \"city\": \"Bogotá\",\n    \"photo\": \"https://ejemplo.com/foto.jpg\",\n    \"video\": \"https://ejemplo.com/video.mp4\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/shelters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "shelters"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"shelter_id_con_vets\", data.id);",
+              "pm.collectionVariables.set(\"shelter_id_1\", data.id);",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar veterinario en shelter con dependencias",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"veterinarianId\": \"V-DEP-001\",\n    \"specialty\": \"General\",\n    \"availability\": \"Lunes a viernes\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/shelters/{{shelter_id_con_vets}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "shelters",
+            "{{shelter_id_con_vets}}",
+            "veterinarians"
+          ]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
               "});"
             ]
           }

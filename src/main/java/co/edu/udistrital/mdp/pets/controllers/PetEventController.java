@@ -12,7 +12,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class PetEventController {
 
@@ -28,21 +27,21 @@ public class PetEventController {
         return modelMapper.map(created, PetEventDTO.class);
     }
 
-    @GetMapping("/events")
+    @GetMapping("/pet-events")
     @ResponseStatus(HttpStatus.OK)
     public List<PetEventDTO> findAll() {
         List<PetEventEntity> events = eventService.getPetEvents();
         return modelMapper.map(events, new TypeToken<List<PetEventDTO>>() {}.getType());
     }
 
-    @GetMapping("/events/{id}")
+    @GetMapping("/pet-events/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PetEventDTO findOne(@PathVariable Long id) {
         PetEventEntity event = eventService.getPetEvent(id);
         return modelMapper.map(event, PetEventDTO.class);
     }
 
-    @PutMapping("/events/{id}")
+    @PutMapping("/pet-events/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PetEventDTO update(@PathVariable Long id, @RequestBody PetEventDTO dto) {
         PetEventEntity entity = modelMapper.map(dto, PetEventEntity.class);
@@ -50,7 +49,7 @@ public class PetEventController {
         return modelMapper.map(updated, PetEventDTO.class);
     }
 
-    @DeleteMapping("/events/{id}")
+    @DeleteMapping("/pet-events/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         eventService.deletePetEvent(id);

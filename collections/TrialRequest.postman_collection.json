@@ -9,6 +9,102 @@
   },
   "item": [
     {
+      "name": "Preparar adoptante 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"address\": \"Calle de prueba 1, Bogotá\",\n  \"phone\": \"3105550101\",\n  \"occupation\": \"Pruebas automatizadas\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_adopter_1\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mascota Trial 1\",\n  \"specie\": \"Perro\",\n  \"breed\": \"Criollo\",\n  \"age\": 3,\n  \"sex\": \"Macho\",\n  \"size\": \"Mediano\",\n  \"weight\": 9.5,\n  \"healthStatus\": \"Sano\",\n  \"adoptionStatus\": \"DISPONIBLE\",\n  \"description\": \"Mascota creada por la colección Newman\",\n  \"admissionDate\": \"2026-01-10\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_pet_1\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Crear una solicitud de periodo de prueba",
       "event": [
         {
@@ -16,13 +112,13 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 201\", function () {",
-              "   pm.response.to.have.status(201);",
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
               "});",
               "",
               "if (pm.response.code === 201) {",
-              "   var data = pm.response.json();",
-              "   pm.globals.set(\"trial_request_id_1\", data.id);",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_request_id_1\", data.id);",
               "}"
             ]
           }
@@ -38,7 +134,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"trialId\": \"TR-001\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"ACTIVA\",\n    \"description\": \"Periodo de prueba de 15 días\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"shelter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}",
+          "raw": "{\n    \"trialId\": \"TR-001\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"ACTIVA\",\n    \"description\": \"Periodo de prueba activo creado por Newman\",\n    \"adopter\": {\n        \"id\": \"{{trial_adopter_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": \"{{trial_pet_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -403,7 +499,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"trialId\": \"TR-001\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"FINALIZADA\",\n    \"description\": \"Periodo de prueba finalizado exitosamente\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"shelter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}",
+          "raw": "{\n    \"trialId\": \"TR-001\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"FINALIZADA\",\n    \"description\": \"Periodo de prueba finalizado exitosamente\",\n    \"adopter\": {\n        \"id\": \"{{trial_adopter_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": \"{{trial_pet_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -560,6 +656,102 @@
       ]
     },
     {
+      "name": "Preparar adoptante 2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"address\": \"Calle de prueba 2, Bogotá\",\n  \"phone\": \"3105550102\",\n  \"occupation\": \"Pruebas automatizadas\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_adopter_2\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota 2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mascota Trial 2\",\n  \"specie\": \"Perro\",\n  \"breed\": \"Criollo\",\n  \"age\": 4,\n  \"sex\": \"Macho\",\n  \"size\": \"Mediano\",\n  \"weight\": 10.5,\n  \"healthStatus\": \"Sano\",\n  \"adoptionStatus\": \"DISPONIBLE\",\n  \"description\": \"Mascota creada por la colección Newman\",\n  \"admissionDate\": \"2026-01-10\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_pet_2\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Preparar solicitud de prueba finalizada",
       "event": [
         {
@@ -567,7 +759,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Setup status code is 201\", function () {\n   pm.response.to.have.status(201);\n});\n\nif (pm.response.code === 201) {\n   var data = pm.response.json();\n   pm.globals.set(\"trial_request_id_2\", data.id);\n}"
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_request_id_2\", data.id);",
+              "}"
             ]
           }
         }
@@ -582,7 +781,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"trialId\": \"TR-003\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"FINALIZADA\",\n    \"description\": \"Preparada para la prueba\",\n    \"adopter\": { \"id\": 1 },\n    \"shelter\": { \"id\": 1 },\n    \"pet\": { \"id\": 1 }\n}",
+          "raw": "{\n    \"trialId\": \"TR-003\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"FINALIZADA\",\n    \"description\": \"Solicitud finalizada preparada por Newman\",\n    \"adopter\": {\n        \"id\": \"{{trial_adopter_2}}\"\n    },\n    \"shelter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": \"{{trial_pet_2}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -631,7 +830,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"trialId\": \"TR-003\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"ACTIVA\",\n    \"description\": \"Intento de reabrir una solicitud finalizada\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"shelter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}",
+          "raw": "{\n    \"trialId\": \"TR-003\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"ACTIVA\",\n    \"description\": \"Intento de reabrir una solicitud finalizada\",\n    \"adopter\": {\n        \"id\": \"{{trial_adopter_2}}\"\n    },\n    \"shelter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": \"{{trial_pet_2}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -820,6 +1019,102 @@
       ]
     },
     {
+      "name": "Preparar adoptante 3",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"address\": \"Calle de prueba 3, Bogotá\",\n  \"phone\": \"3105550103\",\n  \"occupation\": \"Pruebas automatizadas\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_adopter_3\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota 3",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mascota Trial 3\",\n  \"specie\": \"Perro\",\n  \"breed\": \"Criollo\",\n  \"age\": 5,\n  \"sex\": \"Macho\",\n  \"size\": \"Mediano\",\n  \"weight\": 11.5,\n  \"healthStatus\": \"Sano\",\n  \"adoptionStatus\": \"DISPONIBLE\",\n  \"description\": \"Mascota creada por la colección Newman\",\n  \"admissionDate\": \"2026-01-10\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_pet_3\", data.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Preparar solicitud de prueba para devolución",
       "event": [
         {
@@ -827,7 +1122,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Setup status code is 201\", function () {\n   pm.response.to.have.status(201);\n});\n\nif (pm.response.code === 201) {\n   var data = pm.response.json();\n   pm.globals.set(\"trial_request_id_3\", data.id);\n}"
+              "pm.test(\"Setup status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    pm.collectionVariables.set(\"trial_request_id_3\", data.id);",
+              "}"
             ]
           }
         }
@@ -842,7 +1144,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"trialId\": \"TR-004\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"FINALIZADA\",\n    \"description\": \"Preparada para la prueba\",\n    \"adopter\": { \"id\": 1 },\n    \"shelter\": { \"id\": 1 },\n    \"pet\": { \"id\": 1 }\n}",
+          "raw": "{\n    \"trialId\": \"TR-004\",\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"status\": \"FINALIZADA\",\n    \"description\": \"Solicitud finalizada preparada para devolución\",\n    \"adopter\": {\n        \"id\": \"{{trial_adopter_3}}\"\n    },\n    \"shelter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": \"{{trial_pet_3}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
