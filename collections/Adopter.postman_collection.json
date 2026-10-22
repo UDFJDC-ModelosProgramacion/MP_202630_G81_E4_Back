@@ -1,0 +1,471 @@
+{
+  "info": {
+    "_postman_id": "cd086ef0-c6dc-4002-9472-af031103d4fd",
+    "name": "Adopter",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Crear un adoptante",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.globals.set(\"adp_coll_id_1\", data.id);",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "pm.test(\"Devuelve los datos del adoptante creado\", function () {",
+              "    pm.expect(data.address).to.eql(\"Carrera 7 # 40-10\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Carrera 7 # 40-10\",\n    \"phone\": \"3105556677\",\n    \"occupation\": \"Ingeniera\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un adoptante sin dirección",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"La dirección del adoptante es obligatoria.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"\",\n    \"phone\": \"3105556677\",\n    \"occupation\": \"Ingeniera\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear un adoptante sin teléfono",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El teléfono del adoptante es obligatorio.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Carrera 7 # 40-10\",\n    \"occupation\": \"Ingeniera\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener todos los adoptantes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Hay al menos un adoptante\", function () {",
+              "    pm.expect(data.length).to.be.at.least(1);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener un adoptante",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Devuelve el adoptante pedido\", function () {",
+              "    pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"adp_coll_id_1\")));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adopters/{{adp_coll_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters",
+            "{{adp_coll_id_1}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener un adoptante que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El adoptante con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adopters/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters",
+            "0"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un adoptante",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"La ocupación quedó actualizada\", function () {",
+              "    pm.expect(data.occupation).to.eql(\"Médica\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters/{{adp_coll_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters",
+            "{{adp_coll_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Carrera 7 # 40-10\",\n    \"phone\": \"3105556677\",\n    \"occupation\": \"Médica\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un adoptante sin teléfono",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El teléfono del adoptante es obligatorio.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters/{{adp_coll_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters",
+            "{{adp_coll_id_1}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Carrera 7 # 40-10\",\n    \"phone\": \"\",\n    \"occupation\": \"Ingeniera\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar un adoptante que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El adoptante con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adopters/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters",
+            "0"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"address\": \"Carrera 7 # 40-10\",\n    \"phone\": \"3105556677\",\n    \"occupation\": \"Ingeniera\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar un adoptante",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adopters/{{adp_coll_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters",
+            "{{adp_coll_id_1}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Borrar un adoptante que no existe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"El adoptante con ID 0 no existe.\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adopters/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters",
+            "0"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

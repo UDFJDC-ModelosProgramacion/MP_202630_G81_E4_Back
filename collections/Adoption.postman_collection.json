@@ -1825,24 +1825,26 @@
     },
     {
       "name": "40 Borrar Adoption inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Expected business error message\", function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Adoption not found\");",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "DELETE",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "\"pm.test(\\\"Status code is 404\\\", function () {\\n    pm.response.to.have.status(404);\\n});\\npm.test(\\\"Expected business error message\\\", function () {\\n    const data = pm.response.json();\\n    pm.expect(data.message || \\\"\\\").to.include(\\\"Adoption not found\\\");\\n});\\n\"",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
+        "header": [],
         "url": {
           "raw": "{{baseUrl}}/adoptions/0",
           "host": [

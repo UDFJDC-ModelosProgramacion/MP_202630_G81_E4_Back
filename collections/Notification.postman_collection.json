@@ -47,7 +47,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"ntf_adopter_id\", data.id);",
+              "    pm.collectionVariables.set(\"ntf_adopter_id\", data.id);",
               "}"
             ]
           }
@@ -96,7 +96,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"pet_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"pet_id_1\", data.id);",
               "}"
             ]
           }
@@ -145,7 +145,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"user_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"user_id_1\", data.id);",
               "}"
             ]
           }
@@ -194,7 +194,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"other_user_id\", data.id);",
+              "    pm.collectionVariables.set(\"other_user_id\", data.id);",
               "}"
             ]
           }
@@ -243,7 +243,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"ntf_request_id\", data.id);",
+              "    pm.collectionVariables.set(\"ntf_request_id\", data.id);",
               "}"
             ]
           }
@@ -337,7 +337,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"adoption_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"adoption_id_1\", data.id);",
               "}"
             ]
           }
@@ -427,7 +427,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"notification_id_1\", data.id);",
+              "    pm.collectionVariables.set(\"notification_id_1\", data.id);",
               "}"
             ]
           }
@@ -697,7 +697,7 @@
               "",
               "if (pm.response.code === 201) {",
               "    var data = pm.response.json();",
-              "    pm.globals.set(\"notification_id_2\", data.id);",
+              "    pm.collectionVariables.set(\"notification_id_2\", data.id);",
               "}"
             ]
           }

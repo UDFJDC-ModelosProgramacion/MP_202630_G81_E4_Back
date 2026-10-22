@@ -26,11 +26,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/pets",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "pets"]
+          "raw": "{{baseUrl}}/pets",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets"]
         }
       },
       "response": []
@@ -48,6 +46,7 @@
               "pm.test(\"Response contains an ID\", function () {",
               "    var jsonData = pm.response.json();",
               "    pm.expect(jsonData.id).to.not.be.undefined;",
+              "    pm.collectionVariables.set(\"pet_api_id\", jsonData.id);",
               "});"
             ],
             "type": "text/javascript"
@@ -56,7 +55,12 @@
       ],
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"name\": \"Firulais\",\n  \"specie\": \"Perro\",\n  \"breed\": \"Criollo\",\n  \"age\": 2,\n  \"sex\": \"Macho\",\n  \"size\": \"Mediano\",\n  \"weight\": 15.5,\n  \"healthStatus\": \"Sano\",\n  \"adoptionStatus\": \"Disponible\",\n  \"description\": \"Juguetón\",\n  \"admissionDate\": \"2023-01-01\"\n}",
@@ -67,11 +71,9 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/pets",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "pets"]
+          "raw": "{{baseUrl}}/pets",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets"]
         }
       },
       "response": []
@@ -95,11 +97,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/pets/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "pets", "1"]
+          "raw": "{{baseUrl}}/pets/{{pet_api_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets", "{{pet_api_id}}"]
         }
       },
       "response": []
@@ -125,13 +125,25 @@
       ],
       "request": {
         "method": "PUT",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Firulais Actualizado\",\n  \"specie\": \"Perro\",\n  \"breed\": \"Criollo\",\n  \"age\": 3,\n  \"sex\": \"Macho\",\n  \"size\": \"Mediano\",\n  \"weight\": 16.0,\n  \"healthStatus\": \"Sano\",\n  \"adoptionStatus\": \"Disponible\",\n  \"description\": \"Juguetón actualizado\",\n  \"admissionDate\": \"2023-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "http://localhost:8080/api/pets/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "pets", "1"]
+          "raw": "{{baseUrl}}/pets/{{pet_api_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets", "{{pet_api_id}}"]
         }
       },
       "response": []
@@ -155,11 +167,9 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/pets/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["api", "pets", "1"]
+          "raw": "{{baseUrl}}/pets/{{pet_api_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["pets", "{{pet_api_id}}"]
         }
       },
       "response": []
