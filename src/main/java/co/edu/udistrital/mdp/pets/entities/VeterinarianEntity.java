@@ -7,7 +7,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 
 @Data
 @Entity
-public class VeterinarianEntity extends BaseEntity {
+public class VeterinarianEntity extends UserEntity {
 
     private String veterinarianId;
     private String specialty;

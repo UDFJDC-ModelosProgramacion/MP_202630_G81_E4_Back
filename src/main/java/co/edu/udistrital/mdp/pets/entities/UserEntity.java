@@ -1,11 +1,14 @@
 package co.edu.udistrital.mdp.pets.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 public class UserEntity extends BaseEntity {
     private String name;

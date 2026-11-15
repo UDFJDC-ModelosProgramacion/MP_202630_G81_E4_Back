@@ -91,7 +91,13 @@ public class VeterinarianService {
         if (veterinarian.getShelter() == null) {
             veterinarian.setShelter(veterinarianEntity.get().getShelter());
         }
-        
+        VeterinarianEntity current = veterinarianEntity.get();
+        if (veterinarian.getSpecialty() == null) {
+            veterinarian.setSpecialty(current.getSpecialty());
+        }
+        if (veterinarian.getAvailability() == null) {
+            veterinarian.setAvailability(current.getAvailability());
+}
         veterinarian.setId(veterinarianId);
         log.info("Termina proceso de actualizar el veterinario con id = {}", veterinarianId);
         return veterinarianRepository.save(veterinarian);
